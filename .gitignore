@@ -1,4 +1,3 @@
 .venv/
-.txt
+**objetivo.txt
 **__pycache__
-service_email/
