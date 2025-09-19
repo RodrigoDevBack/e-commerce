@@ -1,0 +1,59 @@
+Criar uma tela de login com verificação de email
+
+Tela de cadastro: Email e senha + validação de email
+Tela de validação de email
+
+
+Se der tempo:
+Integrar com a SDK do mercado pago
+
+Lógica de cadastro:
+
+Entidade do usuário:
+    id: int
+    nome: str
+    #                   imagem: byte | null
+    e-mail: str
+    senha: str (HASH)
+    status_email: bool
+    status: bool
+                    ##carrinho: list
+
+Envio ao client http:
+    id: int
+    nome: str
+    e-mail: str
+    imagem: byte | null
+    status_email: bool
+
+
+Endpoints:
+login Público
+cadastro Público
+Recuperação de senha Público
+Validar Email Privado (Depende de login)
+Trocar Email Privado (Depende de login)
+
+Usuário cadastro:
+front:
+    Escreve o e-mail,
+    Confirma reescrevendo o e-mail,
+    Escreve a senha,
+    Confirma reescrevendo a senha,
+api:
+    A api recebe o e-mail e a senha,
+    A api valida se a sintaxe do e-mail é válido e salva,
+    A api gera um e-mail de validação com uma sequecência de número e letra que são guardados no perfil do usuário,
+    A api envia o e-mail ao gmail descrito pelo usuário,
+    E no perfil do usuário ele digita o código que recebeu no email
+    se for válido o status_email = True
+
+
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_app
+    ports:
+      - "8000:80"
+    volumes:
+      - ./frontend/:/bin/www/html

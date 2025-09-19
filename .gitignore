@@ -1,0 +1,4 @@
+.venv/
+.txt
+**__pycache__
+service_email/

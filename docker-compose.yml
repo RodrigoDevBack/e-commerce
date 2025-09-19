@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: ./backend/app
+    container_name: backend_app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=postgres
+      - DB_PASSWORD=titan
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PORT=5432
+    volumes: 
+      - ./backend/app:/app
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: titan
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
