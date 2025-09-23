@@ -2,19 +2,28 @@ from typing import Union, Any
 from datetime import datetime, timedelta, timezone
 from jose import jws, jwt
 from jose import JWSError
-import os
+import os, dotenv
 
-SECRET_KEY = os.getenv("SECRET_KEY", "eumeremejomuito")
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS512")
-ACESS_TOKEN_EXPIRE_HOURS = 24
+dotenv.load_dotenv()
 
 def hash_token_user(subject: Union[str, Any]):
-    expire = datetime.now(timezone.utc) + timedelta(hours=ACESS_TOKEN_EXPIRE_HOURS)
+    expire = datetime.now(timezone.utc) + timedelta(hours = int(os.getenv('ACESS_TOKEN_EXPIRE_HOURS')))
     to_encode = {"exp" : expire, "sub" : str(subject)}
     encoded_jwt = jwt.encode(
         to_encode, 
-        SECRET_KEY, 
-        algorithm = JWT_ALGORITHM
+        os.getenv('SECRET_KEY'), 
+        algorithm = os.getenv('JWT_ALGORITHM')
+        )
+    
+    return encoded_jwt
+
+def hash_token_admin(subject: Union[str, Any]):
+    expire = datetime.now(timezone.utc) + timedelta(hours = int(os.getenv('ACESS_TOKEN_EXPIRE_HOURS')))
+    to_encode = {"exp" : expire, "sub" : str(subject)}
+    encoded_jwt = jwt.encode(
+        to_encode, 
+        os.getenv('SECRET_KEY_ADMIN'), 
+        algorithm = os.getenv('JWT_ALGORITHM')
         )
     
     return encoded_jwt
@@ -24,14 +33,14 @@ def hash_token_user(subject: Union[str, Any]):
 def to_hash_password(password):
     password_hash = jws.sign(
         {"key" : password}, 
-        "security", 
-        algorithm="HS256"
+        os.getenv("SECRET_KEY_PASSWORD"), 
+        algorithm = os.getenv('JWT_ALGORITHM_PASSWORD')
         )
     return password_hash
 
 def verify_password(hash_password):
     try:
-        if jws.verify(hash_password, "security", algorithms="HS256"):
+        if jws.verify(hash_password, os.getenv("SECRET_KEY_PASSWORD"), algorithms = os.getenv('JWT_ALGORITHM_PASSWORD')):
             return True
     except JWSError:
         return False

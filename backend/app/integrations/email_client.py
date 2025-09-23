@@ -12,13 +12,13 @@ password_email = os.getenv('PASSWORD')
 class Email_Client():
     
     def create_code(self, gmail: str):
-        os.makedirs(f'/integrations/code_validate_email/{gmail}', exist_ok=True)
-        with open(f'/integrations/code_validate_email/{gmail}/{gmail}.txt', 'w') as txt:
+        os.makedirs(f'/app/integrations/code_validate_email/{gmail}', exist_ok=True)
+        with open(f'/app/integrations/code_validate_email/{gmail}/{gmail}.txt', 'w') as txt:
             txt.write(str(randint(100000, 999999)))
             txt.close
 
     def get_code(self, gmail: str) -> int:
-        with open(f'/integrations/code_validate_email/{gmail}/{gmail}.txt', 'r') as txt:
+        with open(f'/app/integrations/code_validate_email/{gmail}/{gmail}.txt', 'r') as txt:
             code = txt.read()
             return int(code)
     

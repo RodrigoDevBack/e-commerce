@@ -35,6 +35,7 @@ class UserValidateEmail(BaseModel):
 class UserResponseDTO(BaseModel):
     id: int
     name: str
+    gmail: str
     status_email: bool
     status: bool
     admin: bool

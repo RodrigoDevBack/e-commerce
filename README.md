@@ -5,28 +5,42 @@ Estrutura de pastas:
 ```shell
 .
 ├── backend
-│   └── src
-│       ├── app
-│       │   ├── app.py
-│       │   ├── db
-│       │   │   ├── config_db.py
-│       │   │   └── model_user_db.py
-│       │   ├── dto
-│       │   │   └── user_dto.py
-│       │   ├── security
-│       │   │   └── encrypter_password.py
-│       │   └── services
-│       │       └── email_service.py
+│   └── app
+│       ├── db
+│       │   └── config_db.py
 │       ├── dockerfile
-│       └── requirements.txt
+│       ├── integrations
+│       │   ├── code_validate_email
+│       │   ├── email_client.py
+│       │   ├── image_save.py
+│       │   └── images_products
+│       ├── main.py
+│       ├── pydantic_models
+│       │   ├── admin_dto.py
+│       │   ├── cart_dto.py
+│       │   ├── product_dto.py
+│       │   └── user_dto.py
+│       ├── requirements.txt
+│       ├── routers
+│       │   ├── admin_routes.py
+│       │   ├── cart_routes.py
+│       │   ├── client_app_routes.py
+│       │   └── user_routes.py
+│       ├── security
+│       │   ├── encrypter_password.py
+│       │   └── user_depends.py
+│       └── tortoise_models
+│           ├── model_cart_db.py
+│           ├── model_history_order_db.py
+│           ├── model_order_db.py
+│           ├── model_product_db.py
+│           └── model_user_db.py
 ├── docker-compose.yml
 ├── frontend
-│   └── dockerfile
+│   ├── controler
+│   ├── dockerfile
+│   ├── services
+│   └── views
 ├── LICENSE
-├── objetivo.txt
-├── README.md
-└── service_email
-    ├── email_attach.py
-    ├── email_service.py
-    └── index.html
+└── README.md
 ```

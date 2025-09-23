@@ -10,7 +10,7 @@ class User(Model):
     status = fields.BooleanField(default = True) # (status == True) == Usuário ativo (status == False) == Usuário inativo
     admin = fields.BooleanField(default = False) # (admin == True) == Usuário é admin se False, então não é.
     
-    cart: fields.ReverseRelation['Cart']
+    carts = fields.ReverseRelation['Cart']
     
     def __str__(self):
         return self.gmail, self.password, self.name

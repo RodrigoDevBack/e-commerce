@@ -3,8 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from pydantic_models import user_dto
 from tortoise_models.model_user_db import User
-from security.encrypter_password import to_hash_password, hash_token_user
-from security.user_depends import get_user_logon
+from security.encrypter_password import to_hash_password, hash_token_user, hash_token_admin
+from security.user_depends import combine_verify
 from email_validator import EmailNotValidError, validate_email
 from integrations.email_client import Email_Client
 
@@ -53,9 +53,15 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
     
     if (user != None and user.status == True):
         if (user.password == to_hash_password(credentials.password)):
-            return {
-                "access_token" : hash_token_user(user.id), 
-                "token_type" : "bearer"
+            if user.admin == True:
+                return {
+                    "access_token" : hash_token_admin(user.id), 
+                    "token_type" : "bearer"
+                }
+            else:
+                return {
+                    "access_token" : hash_token_user(user.id), 
+                    "token_type" : "bearer"
                 }
         else:
             raise HTTPException(
@@ -70,10 +76,10 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
 
 
 @router_user.post('/validate_email')
-async def validate_emai(user: user_dto.UserValidateEmail, depends: Annotated[str, Depends(get_user_logon)]):
+async def validate_emai(user: user_dto.UserValidateEmail, depends: Annotated[str, Depends(combine_verify)]):
     use = await User.get_or_none(gmail = user.email)
     code = email.get_code(user.email)
-    if use.status_email == False:
+    if use.status != False:
         if int(user.secret_code) == code:
             update = await User.get(gmail = user.email)
             update.status_email = True
@@ -82,14 +88,9 @@ async def validate_emai(user: user_dto.UserValidateEmail, depends: Annotated[str
         else:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail= 'Invalid code')
     else:
-        return {'Response' : 'You have already been validated.'}
+        return HTTPException(status.HTTP_400_BAD_REQUEST, detail = 'User not exists')
 
 
-@router_user.post('/update_email')
-async def update_email(depends: Annotated[str, Depends(get_user_logon)]):
-    pass
-
-
-@router_user.post('recover_password')
-async def recover_password(depends: Annotated[str, Depends(get_user_logon)]):
+@router_user.post('/recover_password')
+async def recover_password(depends: Annotated[str, Depends(combine_verify)]):
     pass
