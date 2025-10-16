@@ -1,6 +1,15 @@
 services:
+  frontend:
+    build: ./src/frontend/
+    container_name: frontend_app
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./src/frontend:/frontend
   backend:
-    build: ./backend/app
+    build: ./src/backend/app
     container_name: backend_app
     ports:
       - "5000:5000"
@@ -13,7 +22,7 @@ services:
       - DB_USER=postgres
       - DB_PORT=5432
     volumes: 
-      - ./backend/app:/app
+      - ./src/backend/app:/app
   db:
     image: postgres:latest
     restart: always

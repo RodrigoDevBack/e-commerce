@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Loja Virtual Minimalista — Protótipo</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <a href="#home" class="logo">MERCADO ONLINE</a>
+    </div>
+
+    <!-- Links da esquerda: Home e Produtos -->
+    <nav class="main-nav main-nav-left">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#produtos" class="nav-link">Produtos</a>
+    </nav>
+
+    <!-- Separador e Login à direita -->
+    <div class="main-nav-right">
+      <a href="#login" class="nav-link">Login</a>
+    </div>
+    <div class="main-nav-right-right">
+      <a href="#register" class="nav-link-cadastrar">Cadastra-se</a>
+    </div>
+  </div>
+</header>
+  <main>
+    <div id="app"></div> <!-- SPA injeta conteúdo aqui -->
+  </main>
+<div id="cart" class="cart">
+  <h3>Carrinho</h3>
+  <hr />
+    <ul id="cart-items"></ul>
+  <p>Total: R$ <span id="cart-total">0.00</span></p>
+  <div class="cart-actions">
+      <button id="close-cart" class="btn">Continua comprando</button>
+      <button id="clear-cart" class="btn-clear">Limpar Carrinho</button>
+      <button id="checkout" class="btn-close">Fechar o pedido</button>
+    </div>
+</div>
+
+<button id="open-cart" class="btn" style="position:fixed;top:80px;right:20px;">Carrinho</button>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Mercado Online, Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+- Modularizar o projeto do front em SPA. (teste)
+- Modularizar o CSS para escala ainda mais o projeto sem bagunça excessiva.
+- Incrementa o restante no testes o que está descrito na documentação:
+   Frontend:
+    > Tela de usuário
+    > Ir para o pagamento
+    > Continuar comprando
+    > Tela de pagamento
+    > Tela de conclusão de comprar
+- Conectar o backend com frontend dos testes.
+
+- Colocar para fecha o pedido, é exigido o login de usuário. 

@@ -1,0 +1,49 @@
+.register {
+  max-width: 400px;        /* largura agradável para leitura */
+  margin: 2rem auto;       /* centraliza na tela e dá espaço em cima/baixo */
+  padding: 1.5rem 2rem;   /* espaçamento interno */
+  border: 1px solid #ddd; 
+  border-radius: 12px;
+  background: #fff;        /* fundo branco */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.register h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.register input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+}
+
+.register button {
+  width: 100%;
+  padding: 0.65rem;
+  background: #28a745;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.register button:hover {
+  background: #218838;
+}

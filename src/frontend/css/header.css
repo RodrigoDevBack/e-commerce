@@ -1,0 +1,91 @@
+/* Estilos para o cabeçalho do site */
+
+.site-header { 
+  background: #fff; 
+  border-bottom: 1px solid #e6e6e6; 
+  position: sticky; 
+  top: 0; 
+  z-index: 50; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 0 1rem;
+}
+.header-inner { 
+  display:flex; 
+  align-items:center; 
+  justify-content: space-between;
+  padding: 0.75rem 0; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+/* Estilos para a marca (logo) */
+
+.brand .logo { 
+  font-weight:700; 
+  text-decoration:none; 
+  color:#007bff; 
+  font-size:1.125rem; 
+}
+
+/* Estilos para a navegação principal */
+
+.main-nav { display:flex; 
+  gap: 1rem; 
+  margin-left: 1rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+.main-nav .nav-link { 
+  text-decoration:none; 
+  color:#444; padding:0.5rem; 
+  border-radius:6px;
+  transition: background 0.2s, color 0.2s;
+}
+.main-nav .nav-link.active, .main-nav .nav-link:hover { 
+  background:#f0f0f0; 
+  color:#007bff;
+}
+
+/* Estilos para a seção à direita (Login e Cadastrar) */
+.main-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.main-nav-right .nav-link {
+  background: none;
+  color: #007bff;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.main-nav-right .nav-link:hover,
+.main-nav-right .nav-link.active {
+  background: #f0f0f0;
+  color: #007bff;
+}
+.main-nav-right-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-left: 1px solid #ddd;
+  padding-left: 1rem;
+  margin-left: 1rem;
+}
+.main-nav-right-right .nav-link-cadastrar {
+  background: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.main-nav-right-right .nav-link-cadastrar:hover,
+.main-nav-right-right .nav-link-cadastrar:active {
+  background: #0056b3;
+  color: #fff;
+}

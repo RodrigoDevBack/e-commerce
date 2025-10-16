@@ -1,0 +1,119 @@
+/* --- Monitores ultra wide (mínimo 1600px) --- */
+@media (min-width: 1600px) {
+  .header-inner,
+  .checkout,
+  .carousel-track {
+    max-width: 1400px;
+    margin: 0 auto; /* centraliza conteúdo */
+  }
+
+  .carousel-slide {
+    min-width: 320px;
+  }
+
+  .thumb {
+    height: 240px;
+  }
+}
+
+/* --- Laptops grandes e desktops comuns (mínimo 1200px) --- */
+@media (min-width: 1200px) {
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .carousel-slide {
+    min-width: 280px;
+  }
+
+  .thumb {
+    height: 200px;
+  }
+}
+
+/* --- Tablets grandes e laptops pequenos (até 1200px) --- */
+@media (max-width: 1200px) {
+  .header-inner {
+    padding: 0.5rem 1rem;
+  }
+
+  .carousel-slide {
+    min-width: 260px;
+  }
+
+  .thumb {
+    height: 180px;
+  }
+}
+
+/* --- Tablets médios (até 992px) --- */
+@media (max-width: 992px) {
+  .main-nav {
+    gap: 0.5rem;
+  }
+
+  .carousel-slide {
+    min-width: 240px;
+  }
+
+  .thumb {
+    height: 160px;
+  }
+}
+
+/* --- Tablets pequenos (até 880px) --- */
+@media (max-width: 880px) {
+  .main-nav {
+    display: none; /* esconde menu */
+  }
+
+  .carousel-slide {
+    min-width: 220px;
+  }
+
+  .thumb {
+    height: 140px;
+  }
+}
+
+/* --- Smartphones grandes (até 600px) --- */
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .carousel-slide {
+    min-width: 210px;
+  }
+
+  .thumb {
+    height: 130px;
+  }
+
+  .checkout-cart {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+/* --- Smartphones pequenos (até 420px) --- */
+@media (max-width: 420px) {
+  .carousel-slide {
+    min-width: 200px;
+  }
+
+  .thumb {
+    height: 120px;
+  }
+
+  .site-header {
+    padding: 0.5rem;
+  }
+
+  .brand .logo {
+    font-size: 1rem;
+  }
+}

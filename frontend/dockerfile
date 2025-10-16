@@ -1,7 +1,0 @@
-FROM php:8.2-apache
-
-COPY . /var/www/html
-
-EXPOSE 8000
-
-# O apache inicia automaticamente :)

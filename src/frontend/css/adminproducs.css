@@ -1,0 +1,98 @@
+/* Container da página de admin */
+.admin-products {
+  padding: 2rem;
+  background: #f9f9f9;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Título da página */
+.admin-products h2 {
+  color: #007bff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Tabela de produtos */
+.admin-products table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Cabeçalho da tabela */
+.admin-products table thead th {
+  background: #f0f0f0;
+  color: #333;
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Corpo da tabela */
+.admin-products table tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  color: #444;
+}
+
+/* Botões de ação dentro da tabela */
+.admin-products .btn {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-right: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s;
+}
+
+/* Botão Editar */
+.admin-products .btn-edit {
+  background: #007bff; /* Azul do site */
+  color: #fff;
+}
+
+.admin-products .btn-edit:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Botão Excluir */
+.admin-products .btn-delete {
+  background: #dc3545; /* Vermelho */
+  color: #fff;
+}
+
+.admin-products .btn-delete:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+/* Botão de adicionar produto */
+#add-product-btn {
+  align-self: flex-start;
+  background: #28a745;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#add-product-btn:hover {
+  background: #218838;
+}
