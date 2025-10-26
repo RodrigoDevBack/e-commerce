@@ -1,10 +1,7 @@
-FROM nginx:alpine
+FROM php:latest
 
-# Apagar a config padrão
-RUN rm /etc/nginx/conf.d/default.conf
+WORKDIR /frontend
 
-# Copiar config customizada
-COPY nginx.conf /etc/nginx/conf.d
+COPY . .
 
-# Copiar os arquivos do seu projeto
-COPY . /usr/share/nginx/html
+CMD [ "php", "-S", "0.0.0.0:8000"]

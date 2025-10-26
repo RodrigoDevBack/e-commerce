@@ -3,7 +3,9 @@ services:
     build: ./src/frontend/
     container_name: frontend_app
     ports:
-      - "8000:80"
+      - "8000:8000"
+    networks:
+      - default
     depends_on:
       - backend
     volumes:
@@ -11,6 +13,8 @@ services:
   backend:
     build: ./src/backend/app
     container_name: backend_app
+    networks:
+      - default
     ports:
       - "5000:5000"
     depends_on:
@@ -32,8 +36,14 @@ services:
       POSTGRES_DB: postgres
     ports:
       - "5433:5432"
+    networks:
+      - default
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    driver: bridge

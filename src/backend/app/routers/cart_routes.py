@@ -56,7 +56,7 @@ async def remove_product_cart(delete: Delete_Product_Cart, depends: Annotated[st
     cart = await Cart.filter(user = user).first()
     order = await Order.filter(cart = cart, product = product).first()
     if order:
-        order.delete()
+        await order.delete()
         return order
     else:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, detail = 'Product not exists')

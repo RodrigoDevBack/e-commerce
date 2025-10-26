@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 class TokenPayload(BaseModel):
     sub: Optional[int] = None
     
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/user/login")
 
 async def combine_verify(hash_token: Annotated[str, Depends(reusable_oauth2)]):
     try:
@@ -56,4 +56,3 @@ async def combine_verify(hash_token: Annotated[str, Depends(reusable_oauth2)]):
         combine_verify
     except:
         get_user_admin
-   

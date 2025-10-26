@@ -7,8 +7,10 @@ from security.encrypter_password import to_hash_password, hash_token_user, hash_
 from security.user_depends import combine_verify
 from email_validator import EmailNotValidError, validate_email
 from integrations.email_client import Email_Client
+from integrations.recover_password_client import Password_Recover_Email
 
 email = Email_Client()
+recover_password_email = Password_Recover_Email()
 
 router_user = APIRouter(
     tags = ['User'],
@@ -20,7 +22,7 @@ async def register_user(user: user_dto.RegisterUserDTO):
     try:
         validate_email(user.email, check_deliverability = False)
     except EmailNotValidError as e:
-        raise HTTPException(status.HTTP_400_BAD_REQUEST)
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=e)
     
     if await User.get_or_none(id = 1) == None:
         email.create_code(user.email)
@@ -56,12 +58,16 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
             if user.admin == True:
                 return {
                     "access_token" : hash_token_admin(user.id), 
-                    "token_type" : "bearer"
+                    "token_type" : "bearer",
+                    "name" : user.name,
+                    "role" : 'admin'
                 }
             else:
                 return {
                     "access_token" : hash_token_user(user.id), 
-                    "token_type" : "bearer"
+                    "token_type" : "bearer",
+                    "name" : user.name,
+                    "role" : 'user'
                 }
         else:
             raise HTTPException(
@@ -88,9 +94,39 @@ async def validate_emai(user: user_dto.UserValidateEmail, depends: Annotated[str
         else:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail= 'Invalid code')
     else:
-        return HTTPException(status.HTTP_400_BAD_REQUEST, detail = 'User not exists')
+        return HTTPException(status.HTTP_404_NOT_FOUND, detail = 'User not exists')
+
+
+@router_user.post('/request_recover_password')
+async def request_recover_password(user: user_dto.UserRequestRecoverPassword):
+    try:
+        validate_email(user.email, check_deliverability = False)
+    except EmailNotValidError as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=e)
+    
+    use = await User.get_or_none(gmail=user.email)
+    
+    if not use:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+    
+    email.create_code(user.email)
+    recover_password_email.send_email(use.name, user.email, recover_password_email.create_code(user.email))
 
 
 @router_user.post('/recover_password')
-async def recover_password(depends: Annotated[str, Depends(combine_verify)]):
-    pass
+async def recover_password(user: user_dto.UserRecoverPassword):
+    try:
+        validate_email(user.email, check_deliverability = False)
+    except EmailNotValidError as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=e)
+    
+    use = await User.get_or_none(gmail=user.email)
+    
+    if not use:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+    
+    if user.code == recover_password_email.get_code(user.email):
+        use.password = user.password
+        await use.save()
+        return True
+    return False

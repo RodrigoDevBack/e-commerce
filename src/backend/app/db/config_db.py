@@ -16,4 +16,3 @@ async def lifespan(app: FastAPI):
     await Tortoise.generate_schemas()
     yield
     await Tortoise.close_connections()
-

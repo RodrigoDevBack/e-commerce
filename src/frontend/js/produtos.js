@@ -1,10 +1,9 @@
 export default function produtosPage() {
-  return `
+  return (`
     <section class="products-section">
       <div class="container">
         <h2>Todos os Produtos</h2>
 
-        <!-- filtro -->
         <div class="product-filter">
           <label for="filter">Filtrar por preço:</label>
           <select id="filter">
@@ -15,78 +14,135 @@ export default function produtosPage() {
           </select>
         </div>
 
-        <!-- lista de produtos -->
-        
-        <ul class="product-list">
-          <li class="product-item" data-price="49.9">
-            <div class="thumb">
-                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="100%" height="100%" fill="#f0a500"/>
-                  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto A</text>
-                </svg>
-            </div>
-            <h3>Produto A</h3>
-            <p class="product-price">R$ 49,90</p>
-            <button class="btn add-to-cart">Adicionar ao carrinho</button>
-          </li>
-
-          <li class="product-item" data-price="79.9">
-            <div class="thumb">
-                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="100%" height="100%" fill="#8a3696ff"/>
-                  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto B</text>
-                </svg>
-            </div>
-            <h3>Produto B</h3>
-            <p class="product-price">R$ 79,90</p>
-            <button class="btn add-to-cart">Adicionar ao carrinho</button>
-          </li>
-
-          <li class="product-item" data-price="29.9">
-            <div class="thumb">
-                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="100%" height="100%" fill="#2c5b91ff"/>
-                  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto C</text>
-                </svg>
-            </div>
-            <h3>Produto C</h3>
-            <p class="product-price">R$ 29,90</p>
-            <button class="btn add-to-cart">Adicionar ao carrinho</button>
-          </li>
-
-          <li class="product-item" data-price="99.9">
-            <div class="thumb">
-                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="100%" height="100%" fill="#389247ff"/>
-                  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto D</text>
-                </svg>
-            </div>
-            <h3>Produto D</h3>
-            <p class="product-price">R$ 99,90</p>
-            <button class="btn add-to-cart">Adicionar ao carrinho</button>
-          </li>
-        </ul>
+        <ul class="product-list" id="product-list"></ul>
       </div>
     </section>
-
-    <script>
-      const filterSelect = document.getElementById('filter');
-      const products = document.querySelectorAll('.product-item');
-
-      filterSelect.addEventListener('change', () => {
-        const value = filterSelect.value;
-        products.forEach(product => {
-          const price = parseFloat(product.dataset.price);
-          let show = false;
-
-          if (value === 'all') show = true;
-          if (value === 'under50' && price <= 50) show = true;
-          if (value === '50to80' && price > 50 && price <= 80) show = true;
-          if (value === 'above80' && price > 80) show = true;
-
-          product.style.display = show ? 'block' : 'none';
-        });
-      });
-    </script>
-  `;
+  `);
 }
+
+export async function initProductsList() {
+  const productList = document.getElementById("product-list");
+  productList.innerHTML = "";
+
+  const request = await fetch("/api/product/get_all_products.php");
+  const products = await request.json();
+
+  if (products.success === false) {
+    alert("Sem produtos");
+    return;
+  }
+
+  const data = JSON.parse(products);
+
+  data.forEach(product => {
+    const productCard = createProductCard(product);
+    productList.appendChild(productCard);
+
+    // Cria o modal e injeta no body (fora do fluxo da página)
+    const modal = createProductModal(product);
+    document.body.appendChild(modal);
+  });
+}
+
+// Cria o card de produto
+
+function createProductCard(product) {
+  const li = document.createElement("li");
+  li.classList.add("product-item");
+
+  li.innerHTML = `
+    <div class="thumb">
+      <img 
+        src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
+        width="100%" height="100%" 
+        alt="${product.name}" 
+        style="object-fit: contain; border-radius: 8px;">
+    </div>
+    <h3>${product.name}</h3>
+    <p>Quantidade: ${product.qtd}</p>
+    <p class="product-price">R$ ${product.price}</p>
+    <button type="button" 
+      class="btn btn-primary btn-details" 
+      data-product-id="${product.id}">
+      Ver detalhes
+    </button>
+    <button class="btn add-to-cart">Adicionar ao carrinho</button>
+  `;
+
+  // Ação do botão de detalhes
+  li.querySelector(".btn-details").addEventListener("click", () => {
+    const modalEl = document.getElementById(`modal-product-${product.id}`);
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  });
+
+  return li;
+}
+
+
+// Cria o modal com o carousel de imagens e informações
+
+function createProductModal(product) {
+  const modalContainer = document.createElement("div");
+  modalContainer.innerHTML = `
+    <div class="modal fade" id="modal-product-${product.id}" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="product-modal-label-${product.id}" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="product-modal-label-${product.id}">
+              ${product.name}
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+
+          <div class="modal-body product-card">
+            <div class="card p-3 shadow-sm">
+              <div id="carousel-${product.id}" class="carousel slide">
+                <div class="carousel-inner">
+                  ${(product.images || []).map((img, i) => `
+                    <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                      <img 
+                        src="http://localhost:5000/images_products/${product.name}/${img}"
+                        class="d-block w-100"
+                        alt="${product.name} - Imagem ${i + 1}"
+                        style="object-fit: contain; max-height: 400px;">
+                    </div>
+                  `).join('')}
+                </div>
+
+                ${(product.images?.length || 0) > 1 ? `
+                  <button class="carousel-control-prev" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+                ` : ''}
+              </div>
+
+              <div class="mt-3">
+                <h5>${product.name}</h5>
+                <p>Quantidade disponível: ${product.qtd}</p>
+                <p class="fw-bold product-price">R$ ${product.price}</p>
+                <h6>Descrição:</h6>
+                <p>${product.description}</p>
+              </div>
+
+              <div class="text-center mt-3">
+                <button class="btn btn-success card-add-to-cart" id="add-cart-${product.id}">
+                  Adicionar ao carrinho
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+  return modalContainer.firstElementChild;
+}
+

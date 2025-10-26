@@ -10,4 +10,3 @@ class Product(Model):
     price = fields.FloatField()
     
     items_in_cart = fields.ReverseRelation['Order']
-    

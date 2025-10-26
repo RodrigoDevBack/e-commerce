@@ -10,4 +10,10 @@
 @import url('checkout.css');
 @import url('register.css');
 @import url('responsive.css'); /* sempre por último */
+html, body { /* Estava havendo scrol fantasma, então essa é a solução :)*/
+  height: 100%; /* Mantem o index em 100% da tela*/
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 /* estilos adicionais específicos para esta página podem ser adicionados aqui */ 
