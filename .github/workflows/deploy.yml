@@ -18,11 +18,11 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H root@191.252.177.252 >> ~/.ssh/known_hosts
+        ssh-keyscan -H 191.252.177.252 >> ~/.ssh/known_hosts
 
     - name: Deploy para VPS
       run: |
-        ssh root@191.252.177.252 << 'EOF'
+        ssh -i ~/.ssh/id_ed25519 root@191.252.177.252 << 'EOF'
           cd /www/sites/e-commerce/
           git pull origin main
           docker-compose down
