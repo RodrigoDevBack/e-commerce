@@ -60,7 +60,7 @@ function router() {
     case '#admin':
       pageContent = adminProductsPage();
       app.innerHTML = pageContent;
-      initAdminProducts();
+      initAdminProducts(app);
       break;
 
     case '#register':

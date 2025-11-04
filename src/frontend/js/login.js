@@ -11,6 +11,7 @@
 export default function loginPage() {
   return `
     <section class="login">
+    <div id="login">
       <h2>Login</h2>
       <form id="login-form">
         <label for="email">Email:</label>
@@ -20,28 +21,126 @@ export default function loginPage() {
         <input type="password" id="password" required>
         
         <button type="submit">Entrar</button>
+        <br> <br>
+
+        <label for="recover-password">Esqueceu sua senha?</label>
+        <button type="button" id = "recuperar-senha">Recuperar</button>
       </form>
+      </div>
     </section>
   `;
 }
 
-/**
- * Inicializa a lógica de autenticação na página de login.
- * 
- * Fluxo:
- * - Captura o submit do formulário
- * - Envia credenciais para a API
- * - Lida com resposta (sucesso / erro)
- * 
- * Efeitos colaterais:
- * - Em caso de sucesso, salva dados no localStorage
- * - Redireciona o usuário para a home via hash e recarrega SPA
- * 
- * Observação técnica:
- * - O form só existe quando a página de login está montada no DOM,
- *   por isso verificamos sua existência antes de adicionar o listener.
- */
+
 export async function initLogin() {
+  const login = document.getElementById('login');
+  const btnRecuperarSenha = document.getElementById('recuperar-senha');
+  btnRecuperarSenha.addEventListener('click', async () => {
+    criarCampoDeSolicitarCodigo(login);
+  })
+
+  function criarCampoDeSolicitarCodigo(div) {
+    div.innerHTML = ''
+    div.innerHTML = `
+      <h2>Recuperar Senha</h2>
+      <form id="recuperar-password-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        
+        <button type="submit" id="solicitar-codigo">Solicitar Código</button>
+        <br> <br>
+        <button type="button" id="voltar">Voltar</button>
+      </form>`
+
+      let voltar = document.getElementById(`voltar`);
+      voltar.addEventListener('click', (e) => {
+        location.reload();
+      })
+
+      let recuperarPasswordForm = document.getElementById('recuperar-password-form')
+      recuperarPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let email = document.getElementById('email').value
+        let body = {
+          'email': email
+        };
+        let request = await fetch('api/login/request_recover_password.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        let response = await request.json();
+
+        if (response.success == true) {
+          alert('Solicitação bem sucedida!');
+          escreverNovaSenha(div);
+        } else {
+          alert('Usuário não cadastrado ou email inválido.');
+        }
+
+      })
+  }
+
+  function escreverNovaSenha(div) {
+    div.innerHTML = '';
+    div.innerHTML =  `
+      <h2>Recuperar Senha</h2>
+      <form id="recuperar-password-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="code">Código de verificação:</label>
+        <input type="text" id="code" required>
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" required>
+        
+        <button type="submit" id="recover-password">Recuperar a senha</button>
+        <br> <br>
+        <button type="button" id="voltar">Voltar</button>
+      </form>`
+
+      let voltar = document.getElementById(`voltar`);
+      voltar.addEventListener('click', () => {
+        criarCampoDeSolicitarCodigo(div);
+      })
+
+      let recuperarPasswordForm = document.getElementById('recuperar-password-form')
+      recuperarPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let email = document.getElementById('email').value;
+        let code = document.getElementById('code').value;
+        let password = document.getElementById('password').value;
+
+        let body = {
+          'email': email,
+          'code': code,
+          'password': password,
+        };
+
+        let request = await fetch('api/login/recover_password.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        let response = await request.json();
+
+        if (response.success == true) {
+          alert('Senha recuperada com sucesso!');
+          alert('Bora fazer login.');
+          location.reload();
+        } else {
+          alert('Falha! Verifique se o email ou código estão corretos.');
+        }
+      })
+  }
+
   const form = document.getElementById('login-form');
   if (!form) return; // Evita erro se função rodar fora da página de login
 
@@ -53,7 +152,7 @@ export async function initLogin() {
 
     const data = {
       'username': email,
-      'password': password
+      'password': password,
     };
 
     // Envia credenciais para API PHP de autenticação
