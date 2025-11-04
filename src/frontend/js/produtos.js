@@ -88,7 +88,7 @@ function createProductCard(product) {
   li.innerHTML = `
     <div class="thumb">
       <img 
-        src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
+        src="http://backend:5000/images_products/${product.name}/${product.images[0]}" 
         width="100%" height="100%" 
         alt="${product.name}" 
         style="object-fit: contain; border-radius: 8px;">
@@ -139,7 +139,7 @@ function createProductModal(product) {
                   ${(product.images || []).map((img, i) => `
                     <div class="carousel-item ${i === 0 ? 'active' : ''}">
                       <img 
-                        src="http://localhost:5000/images_products/${product.name}/${img}"
+                        src="http://backend:5000/images_products/${product.name}/${img}"
                         class="d-block w-100"
                         alt="${product.name} - Imagem ${i + 1}"
                         style="object-fit: contain; max-height: 400px;">
