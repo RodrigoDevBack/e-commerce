@@ -49,3 +49,7 @@ uvicorn==0.35.0
 uvloop==0.21.0
 watchfiles==1.1.0
 websockets==15.0.1
+cryptography==43.0.3
+aiofiles==24.1.0
+aerich==0.7.2
+loguru==0.7.2
