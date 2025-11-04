@@ -11,7 +11,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'http://backend:5000/admin/delete-product';
+$url = 'https://api.singlotown.com.br/admin/delete-product';
 
 $cURL = curl_init($url);
 

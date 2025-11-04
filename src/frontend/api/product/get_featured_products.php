@@ -3,7 +3,7 @@ session_start();
 
 header('Content-type: application/json');
 
-$url = 'http://backend:5000/app/get-featured-products';
+$url = 'https://api.singlotown.com.br/app/get-featured-products';
 
 $cURL = curl_init($url);
 

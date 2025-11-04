@@ -10,7 +10,7 @@ $data = [
     'password' => $data['password']
 ];
 
-$url = 'http://backend:5000/user/login';
+$url = 'https://api.singlotown.com.br/user/login';
 
 $cURL = curl_init($url);
 

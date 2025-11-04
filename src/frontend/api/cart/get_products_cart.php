@@ -10,7 +10,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'http://backend:5000/cart/get';
+$url = 'https://api.singlotown.com.br/cart/get';
 
 $cURL = curl_init($url);
 
