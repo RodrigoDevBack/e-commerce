@@ -24,7 +24,7 @@ export async function initProductsList() {
   const productList = document.getElementById("product-list");
   productList.innerHTML = "";
 
-  const request = await fetch("/api/product/get_all_products.php");
+  const request = await fetch("http://127.0.0.1:8000/api/product/get_all_products.php");
   const products = await request.json();
 
   if (products.success === false) {

@@ -106,7 +106,7 @@ export async function initAdminProducts() {
 
   if (!table) return;
 
-  const request = await fetch('/api/product/get_all_products.php');
+  const request = await fetch('http://127.0.0.1:8000/api/product/get_all_products.php');
 
   const products = await request.json();
 
@@ -129,7 +129,7 @@ export async function initAdminProducts() {
         const data = {
           'id': e.target.value
         };
-        const request = await fetch('/api/admin/delete_product.php', {
+        const request = await fetch('http://127.0.0.1:8000/api/admin/delete_product.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -197,7 +197,7 @@ export async function initAdminProducts() {
     });
 
     try {
-      const request = await fetch('/api/admin/create_product.php', {
+      const request = await fetch('http://127.0.0.1:8000/api/admin/create_product.php', {
         method: 'POST',
         body: formData,
       });
@@ -587,7 +587,7 @@ async function requestEditProduct(id, nam, descriptio, valu, qt, image, urlsToDe
     });
 
     try {
-      const request = await fetch('/api/admin/edit_product.php', {
+      const request = await fetch('http://127.0.0.1:8000/api/admin/edit_product.php', {
         method: 'POST',
         body: formData,
       });
