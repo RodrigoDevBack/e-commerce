@@ -12,7 +12,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'https://api.singlotown.com.br/cart/delete';
+$url = 'http://backend:5000/cart/delete';
 
 $cURL = curl_init($url);
 

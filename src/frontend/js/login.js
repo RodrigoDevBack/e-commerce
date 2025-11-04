@@ -30,7 +30,7 @@ export async function initLogin() {
     };
 
 
-    const request = await fetch('https://www.minhalojaminhavida.singlotown.com.br/api/login/login.php', {
+    const request = await fetch('/api/login/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

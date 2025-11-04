@@ -63,7 +63,7 @@ export default function adminProductsPage() {
 
                         <div class="mb-3">
                             <label class="form-label">Valor do produto</label><br>
-                            <input class="form-control" type="number" name="valor-produto" id="valor-produto"
+                            <input class="form-control" type="number" step="any" name="valor-produto" id="valor-produto"
                                 placeholder="Ex: 2323.23 ou 2323,23 (Obrigatório)" required><br>
                         </div>
 
@@ -106,7 +106,7 @@ export async function initAdminProducts() {
 
   if (!table) return;
 
-  const request = await fetch('https://www.minhalojaminhavida.singlotown.com.br/api/product/get_all_products.php');
+  const request = await fetch('/api/product/get_all_products.php');
 
   const products = await request.json();
 
@@ -129,7 +129,7 @@ export async function initAdminProducts() {
         const data = {
           'id': e.target.value
         };
-        const request = await fetch('https://www.minhalojaminhavida.singlotown.com.br/api/admin/delete_product.php', {
+        const request = await fetch('/api/admin/delete_product.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -197,7 +197,7 @@ export async function initAdminProducts() {
     });
 
     try {
-      const request = await fetch('https://www.minhalojaminhavida.singlotown.com.br/api/admin/create_product.php', {
+      const request = await fetch('/api/admin/create_product.php', {
         method: 'POST',
         body: formData,
       });
@@ -295,7 +295,7 @@ function createEditProductModal(product) {
                     <form id="editar-produto" method="post" enctype="multipart/form-data">
                         <label class="form-label">Imagens atuais do produto</label> <br> <br>
                         ${(product.images || []).map((img, i) => `
-                            <img src="https://api.singlotown.com.br/images_products/${product.name}/${img}"
+                            <img src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
                                 class="d-block w-100" alt="${product.name} - Imagem ${i + 1}"
                                 style="object-fit: contain; max-height: 400px;"> <br>
                             <div class="mb-3">
@@ -345,7 +345,7 @@ function createEditProductModal(product) {
 
                         <div class="mb-3">
                             <label class="form-label">Valor do produto</label><br>
-                            <input class="form-control" type="number" name="valor-produto" id="valor-produto"
+                            <input class="form-control" type="number" step="any" name="valor-produto" id="valor-produto"
                                 value="${product.price}" readonly><br>
                             <input class="form-check-input" type="checkbox" id="checkbox-editar-valor-produto">
                             <label class="form-check-label">Quer editar?</label><br> <br>
@@ -587,7 +587,7 @@ async function requestEditProduct(id, nam, descriptio, valu, qt, image, urlsToDe
     });
 
     try {
-      const request = await fetch('/api/product/get_all_products.php/api/admin/edit_product.php', {
+      const request = await fetch('/api/admin/edit_product.php', {
         method: 'POST',
         body: formData,
       });
@@ -605,52 +605,3 @@ async function requestEditProduct(id, nam, descriptio, valu, qt, image, urlsToDe
       return {'response': erro}
     }
 }
-
-
-
-
-
-    // var name = btnEditProduct.querySelector('#nome-produto').value ?? null;
-    // var description = btnEditProduct.querySelector('#descricao-produto').value ?? null;
-    // var value = btnEditProduct.querySelector('#valor-produto').value ?? null;
-    // var qtd = btnEditProduct.querySelector('#qtd-produto').value ?? null;
-    // let images = btnEditProduct.querySelectorAll('#entrada-imagem');
-    // var delImages = urlImagesForRemove
-
-    // let formData = new FormData();
-
-    // formData.append('id', product.id)
-    // formData.append('name', name);
-    // formData.append('description', description);
-    // formData.append('price', parseFloat(value));
-    // formData.append('qtd', parseInt(qtd));
-    // formData.append('del_images[]', delImages)
-    
-    // images.forEach((input) => {
-    //   if (input.files.length > 0) {
-    //     for (let i = 0; i < input.files.length; i++) {
-    //       formData.append('images[]', input.files[i]);
-    //     }
-    //   }
-    // });
-
-    
-    // try {
-    //   const request = await fetch('/api/admin/edit_product.php', {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
-
-    //   if (!request.ok) throw new alert('Falha ao enviar os dados');
-
-    //   const response = await request.json();
-
-    //   if (response.success == true) {
-    //     alert('Produto editado!');
-    //     window.location.reload();
-    //   } else {
-    //     alert('Problema na requisição.');
-    //   }
-    // } catch (erro) {
-    //   console.log(`Falha: ${erro}`)
-    // }

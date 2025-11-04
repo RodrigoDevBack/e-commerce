@@ -10,7 +10,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'https://api.singlotown.com.br/user/request_recover_password';
+$url = 'http://backend:5000/user/request_recover_password';
 
 $cURL = curl_init($url);
 

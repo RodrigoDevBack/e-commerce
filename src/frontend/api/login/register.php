@@ -12,7 +12,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'https://api.singlotown.com.br/user/register';
+$url = 'http://backend:5000/user/register';
 
 $cURL = curl_init($url);
 

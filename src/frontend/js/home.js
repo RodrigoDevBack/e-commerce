@@ -29,7 +29,7 @@ export async function initHomePage() {
 
   const productList = document.getElementById(`product-list`)
 
-  let response = await fetch(`http://127.0.0.1:8000/api/product/get_featured_products.php`);
+  let response = await fetch(`/api/product/get_featured_products.php`);
 
   let products = await response.json();
 
@@ -47,7 +47,7 @@ export async function initHomePage() {
     <div class="product-card">
       <div class="thumb">
           <img 
-            src="https://api.singlotown.com.br/images_products/${product.name}/${product.images[0]}" 
+            src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
             width="100%" height="100%" 
             alt="${product.name}" 
             style="object-fit: contain; border-radius: 8px;">

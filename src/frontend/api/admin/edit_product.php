@@ -13,7 +13,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'https://api.singlotown.com.br/admin/edit-product';
+$url = 'http://backend:5000/admin/edit-product';
 
 $cURL = curl_init($url);
 
@@ -48,7 +48,7 @@ if (isset($_POST['del_images'])) {
         $del_image['id'] = $_POST['id'];
         $del_image['del_image'] = $i;
 
-        $url = 'https://api.singlotown.com.br/admin/delete-product-image';
+        $url = 'http://backend:5000/admin/delete-product-image';
 
         $cURL = curl_init($url);
         
@@ -78,7 +78,7 @@ if (isset($_FILES['images'])) {
 
             $dataImage['id'] = $_POST['id'];
 
-            $url = 'https://api.singlotown.com.br/admin/add-product-image';
+            $url = 'http://backend:5000/admin/add-product-image';
 
             $cURL = curl_init($url);
 

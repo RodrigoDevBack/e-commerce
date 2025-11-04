@@ -37,7 +37,7 @@ export async function initRegister() {
 
     console.log("data");
 
-    const request = await fetch('https://www.minhalojaminhavida.singlotown.com.br/api/login/register.php', {
+    const request = await fetch('/api/login/register.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

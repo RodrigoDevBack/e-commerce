@@ -12,7 +12,7 @@ $data = [
 
 $data = json_encode($data);
 
-$url = 'https://api.singlotown.com.br/admin/create-product';
+$url = 'http://backend:5000/admin/create-product';
 
 $cURL = curl_init($url);
 
@@ -56,7 +56,7 @@ if (isset($_FILES['images'])) {
 
             $dataImage['id'] = json_decode($response, true)['id'];
 
-            $url = 'https://api.singlotown.com.br/admin/add-product-image';
+            $url = 'http://backend:5000/admin/add-product-image';
 
             $cURL = curl_init($url);
             
