@@ -22,7 +22,7 @@ jobs:
 
     - name: Deploy para VPS
       run: |
-        ssh -i ~/.ssh/id_ed25519 root@191.252.177.252 << 'EOF'
+        ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=15 -i ~/.ssh/id_ed25519 root@191.252.177.252 << 'EOF'
           cd /www/sites/e-commerce/
           git pull origin main
           docker-compose down
