@@ -6,6 +6,9 @@ import { initApp } from '/js/appInit.js';
 import { initLogin } from '/js/login.js';
 import cadastroPage, { initRegister } from './register.js';
 import adminProductsPage, { initAdminProducts } from '/js/adminProducts.js';
+import { initProductsList } from './produtos.js';
+import { initHomePage } from './home.js';
+
 // --- Inicializa o app ---
 initApp(router);
 
@@ -34,29 +37,38 @@ function router() {
   switch(hash) {
     case '#home':
       pageContent = homePage();
+      app.innerHTML = pageContent;
+      initHomePage();
       break;
     case '#produtos':
       pageContent = produtosPage();
+      app.innerHTML = pageContent;
+      initProductsList();
       break;
     case '#login':
       pageContent = loginPage();
+      app.innerHTML = pageContent;
+      initLogin();
       break;
     case '#checkout':
       pageContent = checkoutPage();
+      app.innerHTML = pageContent;
       break;
     case '#admin':
       pageContent = adminProductsPage();
+      app.innerHTML = pageContent;
       initAdminProducts();
       break;
     case '#register':
       pageContent = cadastroPage();
+      app.innerHTML = pageContent;
       initRegister();
       break;
     default:
       pageContent = '<h2>Página não encontrada</h2>';
   }
   
-  app.innerHTML = pageContent;
+  
   if (hash === '#checkout') {
  
     // Depois de renderizar a tela de sucesso
@@ -221,7 +233,28 @@ document.addEventListener('click', e => {
 
     // Atualiza visualmente o carrinho
     updateCart();
-  }  
+  }  else if (e.target.classList.contains('card-add-to-cart')) {
+    const card = e.target.closest('.product-card, .product-item');
+    const name = card.querySelector('h5').textContent;
+    const priceText = card.querySelector('.product-price').textContent;
+    const price = parseFloat(priceText.replace('R$', '').replace(',', '.'));
+    let thumbHTML;
+    const img = card.querySelector('img');
+    if (img) {
+      thumbHTML = `<img src="${img.src}" alt="${name}" class="cart-thumb">`;
+    } else {
+      thumbHTML = card.querySelector('.thumb').innerHTML; // pega SVG
+    }
+
+    // Adiciona o item ao carrinho em memória
+    cart.push({ name, price, thumbHTML });
+
+    // Salva no localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Atualiza visualmente o carrinho
+    updateCart();
+  }
 });
 
 // --- AQUI fora do listener add-to-cart ---

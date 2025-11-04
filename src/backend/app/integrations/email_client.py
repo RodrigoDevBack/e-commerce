@@ -10,6 +10,8 @@ sender_email = os.getenv('SENDER_EMAIL')
 password_email = os.getenv('PASSWORD')
 
 class Email_Client():
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
     
     def create_code(self, gmail: str):
         os.makedirs(f'/app/integrations/code_validate_email/{gmail}', exist_ok=True)
@@ -38,11 +40,8 @@ f"""<!DOCTYPE html>
         email['From'] = sender_email
         email['To'] = gmail
         try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)
-            server.starttls()
-            server.login(email['From'], password_email)
-            server.sendmail(email['From'], email['To'], email.as_string())
-            server.quit()
+            self.server.login(email['From'], password_email)
+            self.server.sendmail(email['From'], email['To'], email.as_string())
             return {'Response': 200}
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, {'Fail': e})
@@ -63,11 +62,8 @@ f"""<!DOCTYPE html>
         email['From'] = sender_email
         email['To'] = gmail
         try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)
-            server.starttls()
-            server.login(email['From'], password_email)
-            server.sendmail(email['From'], email['To'], email.as_string())
-            server.quit()
+            self.server.login(email['From'], password_email)
+            self.server.sendmail(email['From'], email['To'], email.as_string())
             return {'Response': 200}
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, {'Fail': e})

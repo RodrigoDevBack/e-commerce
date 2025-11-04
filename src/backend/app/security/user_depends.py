@@ -13,9 +13,9 @@ dotenv.load_dotenv()
 class TokenPayload(BaseModel):
     sub: Optional[int] = None
     
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/user/login")
 
-async def combine_verify(hash_token: Annotated[str, Depends(reusable_oauth2)]):
+async def get_user(hash_token: Annotated[str, Depends(reusable_oauth2)]):
     try:
         token_decode = jwt.decode(hash_token, os.getenv('SECRET_KEY'), algorithms=[os.getenv('JWT_ALGORITHM')])
         token_valid = TokenPayload(**token_decode)
@@ -53,7 +53,7 @@ async def get_user_admin(hash_token: Annotated[str, Depends(reusable_oauth2)]):
 
 async def combine_verify(hash_token: Annotated[str, Depends(reusable_oauth2)]):
     try:
-        combine_verify
+        return await get_user(hash_token)
     except:
-        get_user_admin
-   
+        return await get_user_admin(hash_token)
+

@@ -1,9 +1,3 @@
-// Usuários fictícios (inicialmente os mesmos do login)
-const users = JSON.parse(localStorage.getItem('users')) || [
-  { email: 'admin@teste.com', password: 'admin', role: 'admin', name: 'Administrador' },
-  { email: 'user@teste.com', password: 'user', role: 'user', name: 'Cliente' }
-];
-
 export default function registerPage() {
   return `
     <section class="register">
@@ -24,37 +18,40 @@ export default function registerPage() {
   `;
 }
 
-// Script para tratar cadastro fake
-export function initRegister() {
+export async function initRegister() {
   const form = document.getElementById('register-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-    // Verifica se usuário já existe
-    const existingUser = users.find(u => u.email === email);
-    if (existingUser) {
-      alert('Este email já está cadastrado!');
-      return;
+    const data = {
+      'name': name,
+      'email': email,
+      'password': password
+    };
+
+    console.log("data");
+
+    const request = await fetch('/api/login/register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const response = await request.json();
+
+    if (response.success === true) {
+      window.location.hash = '#home';
+      window.location.reload();
+    } else {
+      alert('Email já cadastrado.');
     }
-
-    // Cria novo usuário
-    const newUser = { name, email, password, role: 'user' };
-    users.push(newUser);
-
-    // Salva todos usuários no localStorage
-    localStorage.setItem('users', JSON.stringify(users));
-
-    // Salva sessão do usuário logado
-    localStorage.setItem('user', JSON.stringify(newUser));
-
-    // Redireciona para home
-    window.location.hash = '#home';
-    window.location.reload();
   });
 }

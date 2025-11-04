@@ -13,59 +13,7 @@ export default function homePage() {
         <div class="carousel" aria-roledescription="carousel" aria-label="Produtos em destaque">
           <button class="carousel-btn prev" aria-label="Anterior">&#10094;</button>
           <div class="carousel-track-container">
-            <ul class="carousel-track">
-              <li class="carousel-slide">
-                <div class="product-card">
-                  <div class="thumb">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="100%" height="100%" fill="#f0a500"/>
-                      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto A</text>
-                    </svg>
-                  </div>
-                  <h3>Produto A</h3> 
-                  <p class="product-price">R$ 49,90</p>
-                  <button class="btn add-to-cart">Adicionar ao carrinho</button>
-                </div>
-              </li>
-              <li class="carousel-slide">
-                <div class="product-card">
-                  <div class="thumb">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="100%" height="100%" fill="#0a7a3a"/>
-                      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto B</text>
-                    </svg>
-                  </div>
-                  <h3>Produto B</h3>
-                  <p class="product-price">R$ 79,90</p>
-                  <button class="btn add-to-cart">Adicionar ao carrinho</button>
-                </div>
-              </li>
-              <li class="carousel-slide">
-                <div class="product-card">
-                  <div class="thumb">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="100%" height="100%" fill="#007bff"/>
-                      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto C</text>
-                    </svg>
-                  </div>
-                  <h3>Produto C</h3>
-                  <p class="product-price">R$ 29,90</p>
-                  <button class="btn add-to-cart">Adicionar ao carrinho</button>
-                </div>
-              </li>
-              <li class="carousel-slide">
-                <div class="product-card">
-                  <div class="thumb">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="100%" height="100%" fill="#ff4c4c"/>
-                      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="22">Produto D</text>
-                    </svg>
-                  </div>
-                  <h3>Produto D</h3>
-                  <p class="product-price">R$ 99,90</p>
-                  <button class="btn add-to-cart">Adicionar ao carrinho</button>
-                </div>
-              </li>
+            <ul class="carousel-track" id="product-list">
             </ul>
           </div>
 
@@ -74,4 +22,43 @@ export default function homePage() {
       </div>
     </section>
   `;
+}
+
+
+export async function initHomePage() {
+
+  const productList = document.getElementById(`product-list`)
+
+  let response = await fetch(`/api/product/get_featured_products.php`);
+
+  let products = await response.json();
+
+  if (products.success === false) {
+    alert("Sem produtos");
+    return;
+  }
+
+  let data = JSON.parse(products);
+
+  data.forEach(product => {
+    let li = document.createElement("li");
+    li.classList.add("carousel-slide");
+    li.innerHTML =`
+    <div class="product-card">
+      <div class="thumb">
+          <img 
+            src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
+            width="100%" height="100%" 
+            alt="${product.name}" 
+            style="object-fit: contain; border-radius: 8px;">
+        </div>
+        <h3>${product.name}</h3>
+        <p>Quantidade: ${product.qtd}</p>
+        <p class="product-price">R$ ${product.price}</p>
+        <button class="btn add-to-cart">Adicionar ao carrinho</button>
+      </div>
+      `
+    productList.appendChild(li)
+  });
+  
 }

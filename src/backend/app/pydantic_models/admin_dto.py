@@ -11,19 +11,22 @@ class Admin_Create_Product(BaseModel):
     description: str
     qtd: int
     price: float
-    images: List[str]
-    
 
+class Admin_Response_Product(BaseModel):
+    id: int
+    name: str
+    description: str
+    qtd: int
+    price: float
 
 class Admin_Update_Product(BaseModel):
-    id: int = Form(...)
-    name: Optional[str] = Form(...)
-    description: Optional[str] = Form(...)
-    qtd: Optional[int] = Form(...)
-    price: Optional[float] = Form(...)
-    images: List[Optional[UploadFile]] = File(...)
+    id: int
+    name: Optional[str]
+    description: Optional[str]
+    qtd: Optional[int]
+    price: Optional[float]
 
-    @field_validator('name', 'qtd', 'description', 'price', 'images')
+    @field_validator('name', 'qtd', 'description', 'price')
     @classmethod
     def empty_string_to_none(cls, v):
         if v == "":

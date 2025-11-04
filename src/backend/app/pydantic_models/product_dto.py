@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class Product_Response(BaseModel):
     id: int
@@ -7,5 +7,5 @@ class Product_Response(BaseModel):
     description: str
     qtd: int
     price: float
-    images: List[str]
+    images: Optional[List[str]]
     

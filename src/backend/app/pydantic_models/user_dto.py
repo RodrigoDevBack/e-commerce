@@ -17,9 +17,18 @@ class LoginUserDTO(BaseModel):
     admin: bool
 
 
+class UserRequestRecoverPassword(BaseModel):
+    email: str
+
+
 class UserRecoverPassword(BaseModel):
     email: str
+    code: int
     password: str
+    
+    @field_validator('password', mode='before')
+    def password_hash(cls, v):
+        return to_hash_password(v)
     
 
 class UserUpdateEmail(BaseModel):
@@ -30,7 +39,6 @@ class UserUpdateEmail(BaseModel):
 class UserValidateEmail(BaseModel):
     email: str
     secret_code: str
-
 
 class UserResponseDTO(BaseModel):
     id: int

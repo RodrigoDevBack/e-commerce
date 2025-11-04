@@ -3,7 +3,7 @@
   position: fixed;
   top: 80px;
   right: 0;
-  width: 300px;
+  width: 350px;
   height: calc(100% - 100px);
   background: #fff;
   border-left: 1px solid #ddd;
@@ -124,7 +124,7 @@
 .btn:hover { 
     background:#0056b3; 
 }
-.btn-close { 
+.btn-closer { 
     border: none; 
     padding:8px 12px; 
     border-radius:8px; 
@@ -132,7 +132,7 @@
     background:#007bff; 
     color:white; 
 }
-.btn-close:hover { 
+.btn-closer:hover { 
     background:#0056b3;
     color: white;
 }

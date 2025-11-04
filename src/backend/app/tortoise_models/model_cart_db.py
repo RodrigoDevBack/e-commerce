@@ -10,5 +10,3 @@ class Cart(Model):
     )
     
     orders = fields.ReverseRelation['Order']
-
-    

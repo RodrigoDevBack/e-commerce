@@ -1,9 +1,3 @@
-// Usuários fictícios
-const users = [
-  { email: 'admin@teste.com', password: 'admin', role: 'admin', name: 'Administrador' },
-  { email: 'user@teste.com', password: 'user', role: 'user', name: 'Cliente' }
-];
-
 export default function loginPage() {
   return `
     <section class="login">
@@ -21,24 +15,41 @@ export default function loginPage() {
   `;
 }
 
-// Script para tratar login fake
-export function initLogin() {
+export async function initLogin() {
   const form = document.getElementById('login-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const name = email.split('@')[0]; // só pra simular nome
-    
-    // Definir role
-    const role = email === 'admin@teste.com' ? 'admin' : 'user';
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-    // Salvar no localStorage
-    localStorage.setItem('user', JSON.stringify({ name, email, role }));
+    const data = {
+      'username': email,
+      'password': password
+    };
 
-    // Redirecionar para home
-    window.location.hash = '#home';
-    window.location.reload(); // força recarregar menu atualizado
-  });
+
+    const request = await fetch('/api/login/login.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const response = await request.json();
+    console.log(response);
+
+    if (response.success === true) {
+      const role = response.role;
+      const name = response.name;
+      localStorage.setItem('user', JSON.stringify({ name, email, role }))
+      window.location.hash = '#home';
+      window.location.reload();
+    } else {
+      alert('Email ou senha incorretos.');
+    }
+
+  })
 }
