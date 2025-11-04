@@ -1,0 +1,30 @@
+name: Deploy para VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v3
+    
+    - name: Configurar chave SSH
+      run: |  
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -H root@191.252.177.252 >> ~/.ssh/known_hosts
+
+    - name: Deploy para VPS
+      run: |
+        ssh root@191.252.177.252 << 'EOF'
+          cd /www/sites/e-commerce/
+          git pull origin main
+          docker-compose down
+          docker-compose up -d --build
+        EOF

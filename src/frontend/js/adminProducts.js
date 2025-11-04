@@ -1,20 +1,3 @@
-// produtosAdmin.js
-// // Lê produtos do localStorage ou cria lista inicial
-// const products = JSON.parse(localStorage.getItem('products')) || [
-//   { id: 1, name: 'Produto A', price: 19.9 },
-//   { id: 2, name: 'Produto B', price: 49.9 }
-// ];
-// let productsHTML = products.map(p => `
-//   <tr>
-//     <td>${p.id}</td>
-//     <td>${p.name}</td>
-//     <td>R$ ${p.price.toFixed(2)}</td>
-//     <td>
-//       <button class="btn-edit" data-id="${p.id}">Editar</button>
-//       <button class="btn-delete" data-id="${p.id}">Excluir</button>
-//     </td>
-//   </tr>
-// `).join('');
 export default function adminProductsPage() {
 
   return `
@@ -139,7 +122,7 @@ export async function initAdminProducts() {
           <button class="btn-delete" value="${product.id}">Excluir</button>`
 
     novoProduto.querySelector('.btn-delete').addEventListener('click', async function (e) {
-      const decision = window.confirm();
+      const decision = window.confirm("Tem certeza de que deseja deletar este produto?");
       e.preventDefault();
 
       if (decision === true) {
@@ -219,7 +202,7 @@ export async function initAdminProducts() {
         body: formData,
       });
 
-      if (!request.ok) throw new alert('Falha ao enviar os dados');
+      if (!request.ok) throw alert('Falha ao enviar os dados');
 
       const response = await request.json();
 
@@ -230,7 +213,7 @@ export async function initAdminProducts() {
         alert('Problema na requisição.');
       }
     } catch (erro) {
-      console.log(`Falha: ${erro}`)
+      console.log(`Falha inesperada: ${erro}`)
     }
   })
 
@@ -290,16 +273,9 @@ export async function initAdminProducts() {
     }
   })
 }
-// O código abaixo é um exemplo de como a lista de produtos pode ser renderizada
-// e como o filtro pode ser implementado. Ele não faz parte do arquivo adminProducts.js
 
 
 function createEditProductModal(product) {
-  // Conta quantos campos de entrada de imagem no cadastro
-  let contador = 1
-
-  // Limite para a quantidade de entrada de imagem no cadastro
-  let contador_limit = 6 - (product.images).length;
 
   const modalContainer = document.createElement("div");
   modalContainer.innerHTML = `
@@ -318,7 +294,6 @@ function createEditProductModal(product) {
                 <div class="modal-body">
                     <form id="editar-produto" method="post" enctype="multipart/form-data">
                         <label class="form-label">Imagens atuais do produto</label> <br> <br>
-
                         ${(product.images || []).map((img, i) => `
                             <img src="http://localhost:5000/images_products/${product.name}/${img}"
                                 class="d-block w-100" alt="${product.name} - Imagem ${i + 1}"
@@ -387,70 +362,95 @@ function createEditProductModal(product) {
     </div>
   `;
   
-  let urlRemoveImages = []
-  const removeImages = modalContainer.querySelectorAll('#checkbox-remover-imagem')
-  removeImages.forEach(function (checkbox) {
+  // Conta quantos campos de entrada de imagem no cadastro
+  let countFieldsToImages = 1;
+
+  // Limite para a quantidade de entrada de imagem no cadastro
+  let limitImages = 6 - (product.images).length;
+
+  // Lista para reunir as imagens para serem removidas
+  let urlImagesForRemove = [];
+
+  // Selecionar os campos que estão com a flag de remover ATIVA
+  const allCheckboxToRemoveImage = modalContainer.querySelectorAll('#checkbox-remover-imagem')
+
+  // Percorre os campos selecionados em busca das flags ativas ou inativas
+  allCheckboxToRemoveImage.forEach(function (checkbox) {
+
+    // Para cada checkbox aguarda alteração
     checkbox.addEventListener('change', function () {
+
+      // Se ativar a checkbox a url é capturada.
       if(checkbox.checked) {
-        contador_limit++;
-        urlRemoveImages.push(checkbox.value);
-        if (contador >= contador_limit) {
-          alert(`Atenção! Limite de imagens excedido em ${contador - contador_limit}`);
+        limitImages++;
+        urlImagesForRemove.push(checkbox.value);
+        // Alerta o usuário se houver excedido o limite de imagens
+        if (countFieldsToImages >= limitImages) {
+          alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
         }
-      } else {
-        contador_limit--;
-        urlRemoveImages = urlRemoveImages.filter(value => value != checkbox.value);
-        if (contador >= contador_limit) {
-          alert(`Atenção! Limite de imagens excedido em ${contador - contador_limit}`);
+        
+      } else { // Se inativar a checkbox a url é removida da lista
+        limitImages--;
+        urlImagesForRemove = urlImagesForRemove.filter(value => value != checkbox.value);
+        // Alerta o usuário se houver excedido o limite de imagens
+        if (countFieldsToImages >= limitImages) {
+          alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
         }
       }
     })
   })
 
-  let images = modalContainer.querySelectorAll('#entrada-imagem');
-  // Seleciona o container de imagens para criar os campos de imagens
+  // Seleciona todos os campos de entrada de imagens do DOOM
+  let fieldsToImages = modalContainer.querySelectorAll('#entrada-imagem');
+
+  // Seleciona o container e botões de gerenciamento dos campos de imagens
   const container = modalContainer.querySelector('#images-input-container');
-  const btnAdd = modalContainer.querySelector('#add-campo-imagem');
-  const btnRemove = modalContainer.querySelector('#remove-campo-imagem');
-  // Seleciona o card de preview da imagem
-  const preview_image = modalContainer.querySelector('#imagem-preview');
-  let image = images[images.length - 1];
+  const btnAddFieldImage = modalContainer.querySelector('#add-campo-imagem');
+  const btnRemoveFieldImage = modalContainer.querySelector('#remove-campo-imagem');
+
+  // Seleciona o campo de preview da última imagem inserida
+  const fieldToPreviewImage = modalContainer.querySelector('#imagem-preview');
+
+  // Seleciono o último campo de imagem criado e inserido imagem
+  let finalFieldImage = fieldsToImages[fieldsToImages.length - 1];
+
   // Preview da imagem selecionada
-  image.addEventListener('change', function (event) {
+  finalFieldImage.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        preview_image.src = e.target.result;
-        preview_image.style.display = 'block';
+        fieldToPreviewImage.src = e.target.result;
+        fieldToPreviewImage.style.display = 'block';
       };
       reader.readAsDataURL(file);
     } else {
-      preview_image.style.display = 'none';
+      fieldToPreviewImage.style.display = 'none';
     }
   });
-  // Cria mais algum campo de imagem
-  btnAdd.addEventListener('click', function () {
-    if (contador < contador_limit) {
-      contador++
+
+  // Adiciona mais campos para imagens no DOM se o limite de imagens não houver sido alcançado
+  btnAddFieldImage.addEventListener('click', function () {
+    if (countFieldsToImages < limitImages) {
+      countFieldsToImages++
       const novoCampo = document.createElement('div')
       novoCampo.classList.add('mb-3')
       novoCampo.innerHTML = `
                 <label class="form-label">Imagem-plus</label>
                 <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
                 `
-      image = novoCampo.querySelector('#entrada-imagem')
-      image.addEventListener('change', function (event) {
+      finalFieldImage = novoCampo.querySelector('#entrada-imagem')
+      finalFieldImage.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
           const reader = new FileReader();
           reader.onload = function (e) {
-            preview_image.src = e.target.result;
-            preview_image.style.display = 'block';
+            fieldToPreviewImage.src = e.target.result;
+            fieldToPreviewImage.style.display = 'block';
           };
           reader.readAsDataURL(file);
         } else {
-          preview_image.style.display = 'none';
+          fieldToPreviewImage.style.display = 'none';
         }
       });
       container.appendChild(novoCampo);
@@ -459,54 +459,67 @@ function createEditProductModal(product) {
     }
   })
 
-  btnRemove.addEventListener('click', function () {
+  // Remove campos para imagens no DOM se o limite mínimo não tiver sido alcançado
+  btnRemoveFieldImage.addEventListener('click', function () {
     if (container.children.length > 6) {
       container.removeChild(container.lastElementChild);
-      preview_image.style.display = 'none';
-      contador--;
-      if (contador >= contador_limit) {
-          alert(`Atenção! Limite de imagens excedido em ${contador - contador_limit}`);
+      fieldToPreviewImage.style.display = 'none';
+      countFieldsToImages--;
+      // Alerta o usuário se houver excedido o limite de imagens
+      if (countFieldsToImages >= limitImages) {
+          alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
       }
     } else {
-      alert('O limite foi alcançado!');
+      alert('Limite de remoção alcançado');
     }
   })
 
-  var name = modalContainer.querySelector('#nome-produto');
-  var description = modalContainer.querySelector('#descricao-produto');
-  var qtd = modalContainer.querySelector('#qtd-produto');
-  var value = modalContainer.querySelector('#valor-produto');
+  // Caso o usuário não queira alterar algum dado do produto
 
-  const editarNome = modalContainer.querySelector('#checkbox-editar-nome');
-  editarNome.addEventListener('change', function () {
-    if (editarNome.checked){
+  // Aqui capturo os campos de texto do DOM
+  let name = modalContainer.querySelector('#nome-produto');
+  let description = modalContainer.querySelector('#descricao-produto');
+  let qtd = modalContainer.querySelector('#qtd-produto');
+  let value = modalContainer.querySelector('#valor-produto');
+  
+  // Aqui capturo as checkbox dos campos de texto do DOM
+  const checkboxEditarNome = modalContainer.querySelector('#checkbox-editar-nome');
+  const checkboxEditarDescricao = modalContainer.querySelector('#checkbox-editar-descricao');
+  const checkboxEditarQtd = modalContainer.querySelector('#checkbox-editar-qtd');
+  const checkboxEditarValorProduto = modalContainer.querySelector('#checkbox-editar-valor-produto');
+
+  checkboxEditarNome.addEventListener('change', function () {
+    if (checkboxEditarNome.checked){
+      // readOnly = false significa que o campo pode ser alterado
       name.readOnly = false
     } else {
+      // Caso o usuário se arrependeu de alterar, então o campo é resetado
       name.value = product.name
+      // readOnly = true significa que o campo não pode ser alterado
       name.readOnly = true
     }
   });
-  const editarDescricao = modalContainer.querySelector('#checkbox-editar-descricao');
-  editarDescricao.addEventListener('change', function () {
-    if (editarDescricao.checked){
+
+  checkboxEditarDescricao.addEventListener('change', function () {
+    if (checkboxEditarDescricao.checked){
       description.readOnly = false
     } else {
       description.value = product.description
       description.readOnly = true
     }
   });
-  const editarQtd = modalContainer.querySelector('#checkbox-editar-qtd');
-  editarQtd.addEventListener('change', function () {
-    if (editarQtd.checked){
+
+  checkboxEditarQtd.addEventListener('change', function () {
+    if (checkboxEditarQtd.checked){
       qtd.readOnly = false
     } else {
       qtd.value = product.qtd
       qtd.readOnly = true
     }
   });
-  const editarValorProduto = modalContainer.querySelector('#checkbox-editar-valor-produto');
-  editarValorProduto.addEventListener('change', function () {
-    if (editarValorProduto.checked){
+
+  checkboxEditarValorProduto.addEventListener('change', function () {
+    if (checkboxEditarValorProduto.checked){
       value.readOnly = false
     } else {
       value.value = product.price
@@ -514,22 +527,51 @@ function createEditProductModal(product) {
     }
   });
 
-  // // Seleciona a div de produtos
-  // const productList = document.getElementById('product-list');
-  var editarProduto = modalContainer.querySelector('#editar-produto');
-  editarProduto.addEventListener('submit', async function (e) {
+  // Aqui inicia a montagem e envio para o php os dados do DOOM
+
+  // Seleciona o botão da tela de edição de produtos que inicia a edição do produto
+  let btnEditProduct = modalContainer.querySelector('#editar-produto');
+
+  btnEditProduct.addEventListener('submit', async function (e) {
+    // Evita que a tela atualize
     e.preventDefault();
-    var name = editarProduto.querySelector('#nome-produto').value ?? null;
-    var description = editarProduto.querySelector('#descricao-produto').value ?? null;
-    var value = editarProduto.querySelector('#valor-produto').value ?? null;
-    var qtd = editarProduto.querySelector('#qtd-produto').value ?? null;
-    let images = editarProduto.querySelectorAll('#entrada-imagem');
-    var delImages = urlRemoveImages
-    // console.log(imagens);
+
+    // Captura todos os campos do DOM, necesários para edição
+    let name = btnEditProduct.querySelector('#nome-produto').value;
+    let description = btnEditProduct.querySelector('#descricao-produto').value;
+    let value = btnEditProduct.querySelector('#valor-produto').value;
+    let qtd = btnEditProduct.querySelector('#qtd-produto').value;
+    let images = btnEditProduct.querySelectorAll('#entrada-imagem');
+    let delImages = urlImagesForRemove
+
+    // Executa a função de envio de dados para o php tratar e enviar para a API
+    let response = await requestEditProduct(product.id, name, description, value, qtd, images, delImages)
+    
+    // Trata a resposta da requisição
+    if (response.response == true) {
+      alert('Produto editado!');
+      window.location.reload();
+    } else {
+      alert(`Erro inesperado: ${response.response}`)
+    }
+  })
+
+  return modalContainer.firstElementChild;
+};
+
+
+async function requestEditProduct(id, nam, descriptio, valu, qt, image, urlsToDeleteImages) {
+  
+    let name = nam ?? null;
+    let description = descriptio ?? null;
+    let value = valu ?? null;
+    let qtd = qt ?? null;
+    let images = image ?? null;
+    let delImages = urlsToDeleteImages ?? null;
 
     let formData = new FormData();
 
-    formData.append('id', product.id)
+    formData.append('id', id)
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', parseFloat(value));
@@ -544,168 +586,71 @@ function createEditProductModal(product) {
       }
     });
 
-    
     try {
       const request = await fetch('/api/admin/edit_product.php', {
         method: 'POST',
         body: formData,
       });
 
-      if (!request.ok) throw new alert('Falha ao enviar os dados');
+      if (!request.ok) return {'response': 'Falha ao enviar os dados'};
 
       const response = await request.json();
 
       if (response.success == true) {
-        alert('Produto editado!');
-        window.location.reload();
+        return {'response': true};
       } else {
-        alert('Problema na requisição.');
+        return {'response': 'Falha na requisição'};
       }
     } catch (erro) {
-      console.log(`Falha: ${erro}`)
+      return {'response': erro}
     }
-  })
-
-  return modalContainer.firstElementChild;
-};
+}
 
 
 
 
 
-// <div class="modal fade" id="modelProductEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-//   aria-labelledby="staticBackdropLabel" aria-hidden="true">
-//   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-//       <div class="modal-content">
+    // var name = btnEditProduct.querySelector('#nome-produto').value ?? null;
+    // var description = btnEditProduct.querySelector('#descricao-produto').value ?? null;
+    // var value = btnEditProduct.querySelector('#valor-produto').value ?? null;
+    // var qtd = btnEditProduct.querySelector('#qtd-produto').value ?? null;
+    // let images = btnEditProduct.querySelectorAll('#entrada-imagem');
+    // var delImages = urlImagesForRemove
 
-//           <div class="modal-header">
-//               <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Produto</h1>
-//               <button type="button" class="btn btn-closer" data-bs-dismiss="modal" aria-label="Close"></button>
-//           </div>
+    // let formData = new FormData();
 
-//           <div class="modal-body">
-//               <form id="editar-produto" method="post" enctype="multipart/form-data">
-//                   <label class="form-label">Imagens do produto</label> <br> <br>
+    // formData.append('id', product.id)
+    // formData.append('name', name);
+    // formData.append('description', description);
+    // formData.append('price', parseFloat(value));
+    // formData.append('qtd', parseInt(qtd));
+    // formData.append('del_images[]', delImages)
+    
+    // images.forEach((input) => {
+    //   if (input.files.length > 0) {
+    //     for (let i = 0; i < input.files.length; i++) {
+    //       formData.append('images[]', input.files[i]);
+    //     }
+    //   }
+    // });
 
-//                   <div class="card" style="width: 100%;">
-//                       <img id="imagem-preview" alt="Imagem Preview">
-//                   </div> <br>
+    
+    // try {
+    //   const request = await fetch('/api/admin/edit_product.php', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
 
-//                   <div id="images-input-container">
-//                       <button type="button" class="btn btn-danger" id="remove-campo-imagem">Remover Campo</button>
-//                       <button type="button" class="btn btn-success" id="add-campo-imagem">Adicionar Campo</button>
-//                       <br> <br>
-//                       <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
-//                       <br>
-//                   </div> <br> <br>
+    //   if (!request.ok) throw new alert('Falha ao enviar os dados');
 
-//                   <div class="mb-3">
-//                       <label class="form-label">Nome do produto</label><br>
-//                       <input type="text" class="form-control" name="nome-produto" id="nome-produto" placeholder="(Obrigatório)"
-//                           required> <br>
-//                   </div>
+    //   const response = await request.json();
 
-//                   <div class="mb-3">
-//                       <label class="form-label">Descrição do produto</label><br>
-//                       <textarea class="form-control" name="descricao-produto" id="descricao-produto" placeholder="(Obrigatório)" rows="3"
-//                           required></textarea><br>
-//                   </div>
-
-//                   <div class="mb-3">
-//                       <label class="form-label">Quantidade do produto</label><br>
-//                       <input class="form-control" type="number" name="qtd-produto" id="qtd-produto"
-//                           placeholder="Ex: 23 (Obrigatório)" required><br>
-//                   </div>
-
-//                   <div class="mb-3">
-//                       <label class="form-label">Valor do produto</label><br>
-//                       <input class="form-control" type="number" name="valor-produto" id="valor-produto"
-//                           placeholder="Ex: 2323.23 ou 2323,23 (Obrigatório)" required><br>
-//                   </div>
-
-//                   <button type="reset" class="btn btn-danger">Limpar</button>
-//                   <button type="submit" class="btn btn-success" id="criar-produto" name="criar-produto">Criar</button> <br>
-//                   <br>
-//               </form>
-//           </div>
-//       </div>
-//     </div>
-// </div>
-//     </td>
-
-
-
-
-
-// Botao de abrir a janela de criar produto
-
-{/* <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasProfile"
-  aria-labelledby="offcanvasTitleProfile">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasTitleProfile">Perfil</h5>
-    <button type="button" class="btn-closer" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <hr>
-      <a data-bs-toggle="modal" data-bs-target="#modelProductRegister" href="#">Criar Produto</a>
-  </div>
-</div> */}
-
-//Janela de criar produto:
-{/* <div class="modal fade" id="modelProductRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                    <button type="button" class="btn-closer" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="cadastrar-produto" enctype="multipart/form-data">
-                        <label class="form-label">Imagens do produto</label> <br> <br>
-
-                        <div class="card" style="width: 100%;">
-                            <img id="imagem-preview" alt="Imagem Preview">
-                        </div> <br>
-
-                        <div id="images-input-container">
-                            <button type="button" class="btn btn-danger" id="remove-campo-imagem">Remover Campo</button>
-                            <button type="button" class="btn btn-success" id="add-campo-imagem">Adicionar Campo</button>
-                            <br> <br>
-                            <input type="file" name="image" accept="image/*" class="form-control" id="entrada-imagem">
-                            <br>
-                        </div> <br> <br>
-
-                        <div class="mb-3">
-                            <label class="form-label">Nome do produto</label><br>
-                            <input type="text" class="form-control" name="nome-produto" placeholder="(Obrigatório)"
-                                required> <br>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Descrição do produto</label><br>
-                            <textarea class="form-control" name="descricao-produto" placeholder="(Obrigatório)" rows="3"
-                                required></textarea><br>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Valor do produto</label><br>
-                            <input class="form-control" type="number" name="valor-produto"
-                                placeholder="Ex: 2323.23 ou 2323,23 (Obrigatório)" required><br>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="form-check" id="checkbox-container">
-                                <input class="form-check-input" type="checkbox" id="checkbox-Register-Promotion">
-                                <label class="form-check-label">Em promoção?</label><br> <br>
-                            </div>
-                        </div>
-
-                        <button type="reset" class="btn btn-danger">Limpar</button>
-                        <button type="submit" class="btn btn-success" name="criar-produto">Criar</button> <br>
-                        <br>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> */}
+    //   if (response.success == true) {
+    //     alert('Produto editado!');
+    //     window.location.reload();
+    //   } else {
+    //     alert('Problema na requisição.');
+    //   }
+    // } catch (erro) {
+    //   console.log(`Falha: ${erro}`)
+    // }

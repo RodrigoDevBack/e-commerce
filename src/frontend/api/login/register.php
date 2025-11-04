@@ -43,8 +43,6 @@ if ($httpCode != 200) {
         'success' => true,
         'name' => $response['name'],
         'role' => $response['admin'],
-        'status_email' => $response['status_email'],
-        'status' => $response['status']
     ];
     $response_user = json_encode($response_user);
     echo $response_user;

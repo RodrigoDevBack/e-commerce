@@ -1,2 +1,11 @@
 .venv/
 **__pycache__
+
+src/backend/app/integrations/images_products/*
+!src/backend/app/integrations/images_products/.gitkeep
+
+src/backend/app/integrations/code_validate_email/*
+!src/backend/app/integrations/code_validate_email/.gitkeep
+
+src/backend/app/integrations/code_recover_password/*
+!src/backend/app/integrations/code_recover_password/.gitkeep

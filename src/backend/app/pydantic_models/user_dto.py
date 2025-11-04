@@ -40,7 +40,6 @@ class UserValidateEmail(BaseModel):
     email: str
     secret_code: str
 
-
 class UserResponseDTO(BaseModel):
     id: int
     name: str

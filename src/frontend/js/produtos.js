@@ -32,16 +32,51 @@ export async function initProductsList() {
     return;
   }
 
-  const data = JSON.parse(products);
+  let data = JSON.parse(products);
 
   data.forEach(product => {
-    const productCard = createProductCard(product);
+    let productCard = createProductCard(product);
     productList.appendChild(productCard);
 
     // Cria o modal e injeta no body (fora do fluxo da página)
-    const modal = createProductModal(product);
+    let modal = createProductModal(product);
     document.body.appendChild(modal);
   });
+
+  const filter = document.getElementById('filter')
+  filter.addEventListener('change', function () {
+    if (filter.value == 'all') {
+      productList.innerHTML = '';
+      data.forEach(product => {
+        let productCard = createProductCard(product);
+        productList.appendChild(productCard);
+      })
+    } else if (filter.value == 'under50') {
+      productList.innerHTML = '';
+      data.forEach(product => {
+        if (product.price <= 50) {
+          let productCard = createProductCard(product);
+          productList.appendChild(productCard);
+        }
+      })
+    } else if (filter.value == '50to80') {
+      productList.innerHTML = '';
+      data.forEach(product => {
+        if (product.price >= 50 && product.price <= 80) {
+          let productCard = createProductCard(product);
+          productList.appendChild(productCard);
+        }
+      })
+    } else if (filter.value == 'above80') {
+      productList.innerHTML = '';
+      data.forEach(product => {
+        if (product.price >= 80) {
+          let productCard = createProductCard(product);
+          productList.appendChild(productCard);
+        }
+      })
+    }
+  })
 }
 
 // Cria o card de produto

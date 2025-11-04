@@ -37,7 +37,6 @@ if ($httpCode != 200) {
     $response_user = json_encode($response_user);
     echo $response_user;
 } else {
-    $response = json_decode($response, true);
     $response_user = ['success' => true,];
     $response_user = json_encode($response_user);
     echo $response_user;

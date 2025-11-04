@@ -4,7 +4,7 @@ from typing import Annotated
 from pydantic_models import user_dto
 from tortoise_models.model_user_db import User
 from security.encrypter_password import to_hash_password, hash_token_user, hash_token_admin
-from security.user_depends import combine_verify
+from security.user_depends import combine_verify, get_user_admin, get_user
 from email_validator import EmailNotValidError, validate_email
 from integrations.email_client import Email_Client
 from integrations.recover_password_client import Password_Recover_Email
@@ -16,6 +16,14 @@ router_user = APIRouter(
     tags = ['User'],
     responses = {404: {'Description': 'Not found'}}
 )
+
+@router_user.get('/me', response_model=user_dto.UserResponseDTO)
+async def get_profile_user(bearer: Annotated[str, Depends(combine_verify)]):
+    user = await User.get_or_none(id=bearer)
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+    return user
+
 
 @router_user.post('/register', response_model = user_dto.UserResponseDTO)
 async def register_user(user: user_dto.RegisterUserDTO):
@@ -110,7 +118,7 @@ async def request_recover_password(user: user_dto.UserRequestRecoverPassword):
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
     
     email.create_code(user.email)
-    recover_password_email.send_email(use.name, user.email, recover_password_email.create_code(user.email))
+    recover_password_email.send_email(use.name, user.email, recover_password_email.get_code(user.email))
 
 
 @router_user.post('/recover_password')

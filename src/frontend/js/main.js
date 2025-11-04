@@ -7,6 +7,8 @@ import { initLogin } from '/js/login.js';
 import cadastroPage, { initRegister } from './register.js';
 import adminProductsPage, { initAdminProducts } from '/js/adminProducts.js';
 import { initProductsList } from './produtos.js';
+import { initHomePage } from './home.js';
+
 // --- Inicializa o app ---
 initApp(router);
 
@@ -36,6 +38,7 @@ function router() {
     case '#home':
       pageContent = homePage();
       app.innerHTML = pageContent;
+      initHomePage();
       break;
     case '#produtos':
       pageContent = produtosPage();
