@@ -7,7 +7,7 @@ $data = json_decode($input, true);
 
 $data = [
     'email' => $_SESSION['email'],
-    'secret_code' => $data['secret_code']
+    'secret_code' => $data['code']
 ];
 
 $data = json_encode($data);

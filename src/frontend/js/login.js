@@ -160,11 +160,76 @@ export async function initLogin() {
       const role = response.role;
       const name = response.name;
       localStorage.setItem('user', JSON.stringify({ name, email, role }))
-      window.location.hash = '#home';
-      window.location.reload();
-    } else {
+
+      if (response.email_validate == false) { 
+        let div = document.getElementById('login');
+        let confirm = window.confirm('Você deseja validar seu email?');
+        if (confirm) {
+          criarCampoDeValidarEmail(div);
+        } else {
+          alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
+          let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
+          if (!confirm) {
+            criarCampoDeValidarEmail(div);
+          } else {
+            window.location.hash = '#home';
+            window.location.reload();
+          }
+        }
+        } else {
+          window.location.hash = '#home';
+          window.location.reload();
+        }
+      } else {
       alert('Email ou senha incorretos.');
     }
 
   })
+
+  function criarCampoDeValidarEmail(div) {
+    div.innerHTML = ''
+    div.innerHTML = `
+      <h2>Validação de email</h2>
+      <form id="validate-email-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="code">Código de validação:</label>
+        <input type="text" id="code" required>
+
+        <button type="submit">Validar</button>
+      </form>`
+
+    let validateEmailForm = document.getElementById('validate-email-form')
+    validateEmailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let email = document.getElementById('email').value;
+      let code = document.getElementById('code').value;
+
+      let body = {
+        'email': email,
+        'code': code,
+      };
+
+      let request = await fetch('/api/login/validate_email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      let response = await request.json();
+
+      if (response.success == true) {
+        alert('Email verificado com sucesso!')
+        window.location.hash = '#home';
+        window.location.reload();
+
+      } else {
+        alert('Código ou email inválidos.')
+      }
+    })
+  }
+
 }

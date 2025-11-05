@@ -76,7 +76,8 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
                     "access_token" : hash_token_admin(user.id), 
                     "token_type" : "bearer",
                     "name" : user.name,
-                    "role" : 'admin'
+                    "role" : 'admin',
+                    "email_validate": user.status_email
                 }
             else:
                 return {
