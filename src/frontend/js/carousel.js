@@ -1,4 +1,17 @@
-  // --- INICIALIZAÇÃO DO CAROUSEL ---
+/**
+ * Inicializa o carrossel da página.
+ *
+ * Responsabilidades:
+ * - Ajustar posição horizontal de cada slide
+ * - Controlar navegação via botões anterior/próximo
+ * - Gerenciar estado do slide ativo
+ *
+ * Notas:
+ * - Assumimos que todos os slides têm a mesma largura
+ * - Requer botões com classes `.carousel-btn.next` e `.carousel-btn.prev`
+ *
+ * @returns {void} Não retorna nenhum valor
+ */
 export function initCarousel() {
   const track = document.querySelector('.carousel-track');
   if (!track) return;

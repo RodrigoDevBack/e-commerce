@@ -1,3 +1,12 @@
+/**
+ * Módulo de administração de produtos.
+ * 
+ * Contém funções para renderizar a página de gerenciamento de produtos, 
+ * listar produtos existentes, criar novos produtos, editar produtos 
+ * existentes e remover produtos. Também gerencia os campos de upload 
+ * de imagens, preview de imagens, e interação com os modais de cadastro 
+ * e edição de produtos.
+ */
 export default function adminProductsPage() {
 
   return `

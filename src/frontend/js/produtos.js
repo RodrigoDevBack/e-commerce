@@ -1,3 +1,7 @@
+/**
+ * Renderiza a seção de produtos da SPA.
+ * @returns {string} HTML da página de produtos.
+ */
 export default function produtosPage() {
   return (`
     <section class="products-section">
@@ -20,6 +24,9 @@ export default function produtosPage() {
   `);
 }
 
+/**
+ * Inicializa a lista de produtos, realiza fetch da API, cria cards e modais.
+ */
 export async function initProductsList() {
   const productList = document.getElementById("product-list");
   productList.innerHTML = "";
@@ -38,16 +45,20 @@ export async function initProductsList() {
     let productCard = createProductCard(product);
     productList.appendChild(productCard);
 
-    // Cria o modal e injeta no body (fora do fluxo da página)
+     /** 
+     * Cria o modal para cada produto e adiciona ao body 
+     */
     let modal = createProductModal(product);
     document.body.appendChild(modal);
   });
-
-  const filter = document.getElementById('filter')
+     /**
+   * Adiciona listener para filtrar produtos por preço
+   */
+    const filter = document.getElementById('filter');
   filter.addEventListener('change', function () {
     if (filter.value == 'all') {
-      productList.innerHTML = '';
-      data.forEach(product => {
+    productList.innerHTML = '';
+    data.forEach(product => {
         let productCard = createProductCard(product);
         productList.appendChild(productCard);
       })
@@ -56,8 +67,8 @@ export async function initProductsList() {
       data.forEach(product => {
         if (product.price <= 50) {
           let productCard = createProductCard(product);
-          productList.appendChild(productCard);
-        }
+        productList.appendChild(productCard);
+      }
       })
     } else if (filter.value == '50to80') {
       productList.innerHTML = '';
@@ -104,7 +115,9 @@ function createProductCard(product) {
     <button class="btn add-to-cart">Adicionar ao carrinho</button>
   `;
 
-  // Ação do botão de detalhes
+  /**
+   * Mostra o modal do produto ao clicar no botão de detalhes
+   */
   li.querySelector(".btn-details").addEventListener("click", () => {
     const modalEl = document.getElementById(`modal-product-${product.id}`);
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -114,9 +127,11 @@ function createProductCard(product) {
   return li;
 }
 
-
-// Cria o modal com o carousel de imagens e informações
-
+/**
+ * Cria o modal com carousel de imagens e informações detalhadas do produto.
+ * @param {Object} product - Objeto do produto
+ * @returns {HTMLElement} Elemento do modal do produto
+ */
 function createProductModal(product) {
   const modalContainer = document.createElement("div");
   modalContainer.innerHTML = `
@@ -180,4 +195,3 @@ function createProductModal(product) {
 
   return modalContainer.firstElementChild;
 }
-
