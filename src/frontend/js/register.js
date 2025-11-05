@@ -5,19 +5,21 @@
 export default function registerPage() {
   return `
     <section class="register">
-      <h2>Cadastro</h2>
-      <form id="register-form">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" required>
+      <div id="register">
+        <h2>Cadastro</h2>
+        <form id="register-form">
+          <label for="name">Nome:</label>
+          <input type="text" id="name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
+          <label for="email">Email:</label>
+          <input type="email" id="email" required>
 
-        <label for="password">Senha:</label>
-        <input type="password" id="password" required>
+          <label for="password">Senha:</label>
+          <input type="password" id="password" required>
 
-        <button type="submit">Cadastrar</button>
-      </form>
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
     </section>
   `;
 }
@@ -58,12 +60,69 @@ export async function initRegister() {
 
     // Verifica resposta da API
     if (response.success === true) {
-      // Redireciona para home após sucesso
-      window.location.hash = '#home';
-      window.location.reload();
+      let div = document.getElementById('register');
+      let confirm = window.confirm('Você deseja validar seu email?');
+      if (confirm) {
+        criarCampoDeValidarEmail(div);
+      } else {
+        alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
+        let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
+        if (!confirm) {
+          criarCampoDeValidarEmail(div);
+        } else {
+          window.location.hash = '#home';
+          window.location.reload();
+        }
+      }
     } else {
       // Mostra alerta caso email já exista
       alert('Email já cadastrado.');
     }
   });
+
+  function criarCampoDeValidarEmail(div) {
+    div.innerHTML = ''
+    div.innerHTML = `
+      <h2>Validação de email</h2>
+      <form id="validate-email-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="code">Código de validação:</label>
+        <input type="text" id="code" required>
+
+        <button type="submit">Validar</button>
+      </form>`
+
+    let validateEmailForm = document.getElementById('validate-email-form')
+    validateEmailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let email = document.getElementById('email').value;
+      let code = document.getElementById('code').value;
+
+      let body = {
+        'email': email,
+        'code': code,
+      };
+
+      let request = await fetch('/api/login/validate_email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      let response = await request.json();
+
+      if (response.success == true) {
+        alert('Email verificado com sucesso!')
+        window.location.hash = '#home';
+        window.location.reload();
+
+      } else {
+        alert('Código ou email inválidos.')
+      }
+    })
+  }
 }
