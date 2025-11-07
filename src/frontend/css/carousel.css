@@ -1,10 +1,64 @@
-.carousel-section { padding: 2rem 0; }
-.carousel-track { display:flex; gap:16px; overflow-x:auto; scroll-snap-type: x mandatory; }
-.carousel-slide { list-style: none; min-width:260px; scroll-snap-align: start; }
+/* =============================================================================
+   carousel.css
+   -----------------------------------------------------------------------------
+   Estilos para o componente de carrossel de produtos.
+   Fornece layout horizontal rolável, botões de navegação e cartões de produto.
+   ============================================================================= */
 
-.carousel { position: relative; }
-.carousel-track-container { overflow:hidden; padding: 0 2.5rem; }
+/* ---------------------------------------------------------------------------
+   SEÇÃO PRINCIPAL DO CARROSSEL
+   Espaçamento vertical que separa o carrossel do restante do conteúdo.
+   --------------------------------------------------------------------------- */
+.carousel-section {
+  padding: 2rem 0;
+}
 
+/* ---------------------------------------------------------------------------
+   FAIXA DE DESLIZE (TRACK)
+   - Usa flexbox para dispor slides lado a lado.
+   - scroll-snap-type garante rolagem suave e parada precisa nos itens.
+   --------------------------------------------------------------------------- */
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+/* ---------------------------------------------------------------------------
+   SLIDE INDIVIDUAL
+   - Define a largura mínima de cada cartão dentro do carrossel.
+   - scroll-snap-align permite o alinhamento no início de cada item.
+   --------------------------------------------------------------------------- */
+.carousel-slide {
+  list-style: none;
+  min-width: 260px;
+  scroll-snap-align: start;
+}
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL DO CARROSSEL
+   - Define posicionamento relativo para ancorar botões de navegação.
+   --------------------------------------------------------------------------- */
+.carousel {
+  position: relative;
+}
+
+/* ---------------------------------------------------------------------------
+   CONTAINER DA TRACK
+   - Cria recorte horizontal e espaçamento lateral para setas.
+   --------------------------------------------------------------------------- */
+.carousel-track-container {
+  overflow: hidden;
+  padding: 0 2.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTÕES DE NAVEGAÇÃO
+   - Posicionados verticalmente ao centro do carrossel.
+   - Utiliza sombra, bordas suaves e transições para realce ao hover.
+   - Escala leve no hover para resposta visual imediata.
+   --------------------------------------------------------------------------- */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -17,13 +71,69 @@
   border-radius: 8px;
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   transition: background 0.2s, color 0.2s, transform 0.1s;
 }
-.carousel-btn:hover { background: #007bff; color: #fff; transform: translateY(-50%) scale(1.1); }
-.carousel-btn.prev { left: 0.5rem; }
-.carousel-btn.next { right: 0.5rem; }
 
-.product-card { background:#fff; border:1px solid #eee; border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px; height:100%; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-.thumb { width:100%; height:160px; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-.product-price { color:#0a7a3a; font-weight:600; }
+/* Hover: realça o botão e adiciona leve aumento para feedback de interação */
+.carousel-btn:hover {
+  background: #007bff;
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Posicionamento das setas de navegação */
+.carousel-btn.prev {
+  left: 0.5rem;
+}
+
+.carousel-btn.next {
+  right: 0.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   CARTÃO DE PRODUTO
+   - Estrutura visual dos produtos dentro do carrossel.
+   - Inclui borda sutil, sombra leve e espaçamento interno.
+   - Organiza imagem, nome e preço em coluna flexível.
+   --------------------------------------------------------------------------- */
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------------------------------------------------------------------------
+   MINIATURA DO PRODUTO
+   - Garante centralização da imagem.
+   - Define altura fixa e mantém proporção via object-fit.
+   --------------------------------------------------------------------------- */
+.thumb {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------------------------
+   PREÇO DO PRODUTO
+   - Destaque com cor verde e peso de fonte aumentado.
+   - Mantém consistência visual com a paleta de confiança.
+   --------------------------------------------------------------------------- */
+.product-price {
+  color: #0a7a3a;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   FIM DO carousel.css
+   ============================================================================ */

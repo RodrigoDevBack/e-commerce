@@ -1,5 +1,19 @@
-/* Estilos para o cabeçalho do site */
+/* =============================================================================
+   header.css
+   -----------------------------------------------------------------------------
+   Estilos para o cabeçalho principal do site.
+   Responsável por exibir a marca, navegação primária e ações do usuário
+   (login, cadastro, ícones, etc.), mantendo-se fixo no topo durante o scroll.
+   ============================================================================= */
 
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL DO CABEÇALHO (.site-header)
+   ---------------------------------------------------------------------------
+   • background: mantém fundo branco, destacando o conteúdo.  
+   • border-bottom + box-shadow: criam separação sutil do restante da página.  
+   • position: sticky mantém o cabeçalho fixo no topo ao rolar a tela.  
+   • z-index elevado garante sobreposição em relação a outros elementos.  
+   --------------------------------------------------------------------------- */
 .site-header { 
   background: #fff; 
   border-bottom: 1px solid #e6e6e6; 
@@ -9,44 +23,75 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   padding: 0 1rem;
 }
+
+/* ---------------------------------------------------------------------------
+   CONTEÚDO INTERNO DO CABEÇALHO (.header-inner)
+   ---------------------------------------------------------------------------
+   • Define layout flexível entre marca, navegação e ações.  
+   • Centraliza e limita largura para manter alinhamento responsivo.  
+   --------------------------------------------------------------------------- */
 .header-inner { 
-  display:flex; 
-  align-items:center; 
+  display: flex; 
+  align-items: center; 
   justify-content: space-between;
   padding: 0.75rem 0; 
   max-width: 1200px; 
   margin: 0 auto; 
 }
 
-/* Estilos para a marca (logo) */
-
+/* ---------------------------------------------------------------------------
+   MARCA / LOGOTIPO (.brand .logo)
+   ---------------------------------------------------------------------------
+   • Fonte destacada e cor primária reforçam a identidade visual.  
+   • text-decoration removido para aparência limpa.  
+   --------------------------------------------------------------------------- */
 .brand .logo { 
-  font-weight:700; 
-  text-decoration:none; 
-  color:#007bff; 
-  font-size:1.125rem; 
+  font-weight: 700; 
+  text-decoration: none; 
+  color: #007bff; 
+  font-size: 1.125rem; 
 }
 
-/* Estilos para a navegação principal */
-
-.main-nav { display:flex; 
+/* ---------------------------------------------------------------------------
+   NAVEGAÇÃO PRINCIPAL (.main-nav)
+   ---------------------------------------------------------------------------
+   • Layout horizontal simples com espaçamento entre links.  
+   • Configurado para se alinhar à esquerda da logo.  
+   --------------------------------------------------------------------------- */
+.main-nav { 
+  display: flex; 
   gap: 1rem; 
   margin-left: 1rem;
   align-items: center;
   justify-content: flex-start;
 }
+
+/* ---------------------------------------------------------------------------
+   LINKS DE NAVEGAÇÃO PRINCIPAL (.main-nav .nav-link)
+   ---------------------------------------------------------------------------
+   • Visual limpo com transição suave de hover.  
+   • Estado “.active” replica o estilo de hover para consistência visual.  
+   --------------------------------------------------------------------------- */
 .main-nav .nav-link { 
-  text-decoration:none; 
-  color:#444; padding:0.5rem; 
-  border-radius:6px;
+  text-decoration: none; 
+  color: #444; 
+  padding: 0.5rem; 
+  border-radius: 6px;
   transition: background 0.2s, color 0.2s;
 }
-.main-nav .nav-link.active, .main-nav .nav-link:hover { 
-  background:#f0f0f0; 
-  color:#007bff;
+
+.main-nav .nav-link.active, 
+.main-nav .nav-link:hover { 
+  background: #f0f0f0; 
+  color: #007bff;
 }
 
-/* Estilos para a seção à direita (Login e Cadastrar) */
+/* ---------------------------------------------------------------------------
+   ÁREA À DIREITA (Login e Ações do Usuário) (.main-nav-right)
+   ---------------------------------------------------------------------------
+   • Contém os links de autenticação e outros atalhos (ex.: carrinho, perfil).  
+   • “margin-left: auto” empurra o grupo para a extremidade direita.  
+   --------------------------------------------------------------------------- */
 .main-nav-right {
   display: flex;
   align-items: center;
@@ -54,6 +99,7 @@
   margin-left: auto;
 }
 
+/* Links padrão da área direita */
 .main-nav-right .nav-link {
   background: none;
   color: #007bff;
@@ -63,11 +109,19 @@
   transition: background 0.2s, color 0.2s;
 }
 
+/* Estados de interação (hover / ativo) */
 .main-nav-right .nav-link:hover,
 .main-nav-right .nav-link.active {
   background: #f0f0f0;
   color: #007bff;
 }
+
+/* ---------------------------------------------------------------------------
+   SEÇÃO DIREITA SECUNDÁRIA (.main-nav-right-right)
+   ---------------------------------------------------------------------------
+   • Usada para ações de destaque como “Cadastrar-se”.  
+   • Inclui separador visual com border-left para delimitar áreas.  
+   --------------------------------------------------------------------------- */
 .main-nav-right-right {
   display: flex;
   align-items: center;
@@ -76,6 +130,8 @@
   padding-left: 1rem;
   margin-left: 1rem;
 }
+
+/* Botão de destaque (ex.: “Cadastrar”) */
 .main-nav-right-right .nav-link-cadastrar {
   background: #007bff;
   color: #fff;
@@ -84,8 +140,14 @@
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
 }
+
+/* Interações do botão de cadastro */
 .main-nav-right-right .nav-link-cadastrar:hover,
 .main-nav-right-right .nav-link-cadastrar:active {
   background: #0056b3;
   color: #fff;
 }
+
+/* ============================================================================
+   FIM DO header.css
+   ============================================================================

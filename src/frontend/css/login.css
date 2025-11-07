@@ -1,4 +1,19 @@
-/* --- Login Section --- */
+/* =============================================================================
+   login.css
+   -----------------------------------------------------------------------------
+   Módulo responsável pelos estilos da página de login do usuário.
+   Contém layout do formulário, campos de entrada, botões e interações do menu
+   quando o usuário está autenticado.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL (.login)
+   ---------------------------------------------------------------------------
+   • Centraliza o formulário na tela com margens automáticas.  
+   • Define largura máxima para leitura confortável.  
+   • Fundo branco e bordas suaves para destacar o formulário do background.  
+   • Sombra leve (box-shadow) adiciona profundidade visual.  
+   --------------------------------------------------------------------------- */
 .login {
   max-width: 400px;
   margin: 2rem auto;
@@ -9,13 +24,26 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
+/* ---------------------------------------------------------------------------
+   TÍTULO DO FORMULÁRIO (.login h2)
+   ---------------------------------------------------------------------------
+   • Centraliza o título para simetria visual.  
+   • Margem inferior cria espaçamento do conteúdo subsequente.  
+   • Cor neutra (#333) mantém contraste adequado.  
+   --------------------------------------------------------------------------- */
 .login h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   color: #333;
 }
 
-/* Inputs */
+/* ---------------------------------------------------------------------------
+   CAMPOS DE ENTRADA (.login input)
+   ---------------------------------------------------------------------------
+   • Largura total do container para alinhamento uniforme.  
+   • Padding interno garante conforto visual ao digitar.  
+   • Transições suaves em foco para feedback visual acessível.  
+   --------------------------------------------------------------------------- */
 .login input {
   width: 100%;
   padding: 0.6rem 0.75rem;
@@ -26,13 +54,20 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Estado de foco dos inputs: reforço visual da interação ativa */
 .login input:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
 }
 
-/* Labels */
+/* ---------------------------------------------------------------------------
+   LABELS (.login label)
+   ---------------------------------------------------------------------------
+   • Define contexto textual para cada campo de input.  
+   • Margem inferior ajustada para proximidade sem sobreposição.  
+   • Cor e tamanho da fonte equilibrados com o restante da UI.  
+   --------------------------------------------------------------------------- */
 .login label {
   display: block;
   font-size: 0.9rem;
@@ -40,7 +75,14 @@
   margin-bottom: 0.3rem;
 }
 
-/* Botão */
+/* ---------------------------------------------------------------------------
+   BOTÃO DE LOGIN (.login button)
+   ---------------------------------------------------------------------------
+   • Preenchimento total horizontal (width: 100%) para toque facilitado.  
+   • Cor principal azul (#007bff) mantém identidade visual do sistema.  
+   • Tipografia em negrito reforça ação primária.  
+   • Transição sutil na cor de fundo no hover.  
+   --------------------------------------------------------------------------- */
 .login button {
   width: 100%;
   padding: 0.75rem;
@@ -58,14 +100,25 @@
   background: #0056b3;
 }
 
-/* Nome do usuário no menu */
+/* ---------------------------------------------------------------------------
+   ELEMENTOS RELACIONADOS AO USUÁRIO LOGADO
+   (localizados na seção de navegação principal)
+   --------------------------------------------------------------------------- */
+
+/* Nome do usuário exibido no menu (.user-btn)
+   • Estilo discreto mas consistente com o tema principal azul. */
 .main-nav-right .user-btn {
   font-weight: 600;
   color: #007bff;
   padding: 0.3rem 0.5rem;
 }
 
-/* Botão Sair */
+/* ---------------------------------------------------------------------------
+   BOTÃO SAIR (.sair-btn)
+   ---------------------------------------------------------------------------
+   • Bordas azuis para manter coerência visual com o restante da UI.  
+   • Hover inverte as cores (azul → branco) para indicar interação clara.  
+   --------------------------------------------------------------------------- */
 .main-nav-right .sair-btn {
   background: none;
   border: 1px solid #007bff;
@@ -81,3 +134,7 @@
   color: #fff;
 }
 
+/* ============================================================================
+   FIM DO login.css
+   ============================================================================
+*/

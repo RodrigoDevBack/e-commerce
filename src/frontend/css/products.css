@@ -1,10 +1,61 @@
-/* product card */
-.product-card { background:#fff; border:1px solid #eee; border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px; height:100%; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-.thumb { width:100%; height:160px; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-.product-price { color:#0a7a3a; font-weight:600; }
+/* =============================================================================
+   products.css
+   -----------------------------------------------------------------------------
+   @description
+   Define o layout e estilo da página de produtos:
+   - Cartões individuais (cards)
+   - Listagem em grid de produtos
+   - Filtro de ordenação
+   - Responsividade para telas pequenas
 
-/* produtos */
-/* produtos page */
+   @notes
+   - Todas as cores e bordas seguem o padrão visual do tema (azul principal e verde nos preços).
+   - Mantém consistência com o carrossel e o header.
+   ============================================================================= */
+
+
+/* ---------------------------------------------------------------------------
+   COMPONENTE: Product Card
+   ---------------------------------------------------------------------------
+   Estrutura básica de exibição de um produto individual.
+   Inclui imagem, título e preço, usado tanto em carrossel quanto em listagens.
+   --------------------------------------------------------------------------- */
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Miniatura da imagem do produto */
+.thumb {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cor e destaque para o preço do produto */
+.product-price {
+  color: #0a7a3a;
+  font-weight: 600;
+}
+
+
+/* ---------------------------------------------------------------------------
+   SEÇÃO: Products Section
+   ---------------------------------------------------------------------------
+   Define espaçamento geral e título da área principal de produtos.
+   Mantém alinhamento central e hierarquia visual consistente.
+   --------------------------------------------------------------------------- */
 .products-section {
   padding: 2rem 0;
 }
@@ -13,10 +64,16 @@
   font-size: 1.75rem;
   margin-bottom: 1rem;
   color: #007bff; /* mesma cor dos headers */
-    text-align: center;
+  text-align: center;
 }
 
-/* filtro de produtos */
+
+/* ---------------------------------------------------------------------------
+   COMPONENTE: Product Filter
+   ---------------------------------------------------------------------------
+   Barra de filtragem/ordenação de produtos.
+   Mantém espaçamento entre elementos e visual coerente com os nav-links.
+   --------------------------------------------------------------------------- */
 .product-filter {
   margin-bottom: 1.5rem;
   display: flex;
@@ -26,6 +83,7 @@
   color: #444; /* mesma cor dos nav-links */
 }
 
+/* Campo select dentro do filtro */
 .product-filter select {
   padding: 0.5rem;
   border-radius: 6px;
@@ -37,13 +95,20 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Estado de foco do filtro */
 .product-filter select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
 }
 
-/* lista de produtos */
+
+/* ---------------------------------------------------------------------------
+   COMPONENTE: Product List
+   ---------------------------------------------------------------------------
+   Grade de produtos exibida na página.
+   Utiliza grid responsivo com colunas automáticas (auto-fit).
+   --------------------------------------------------------------------------- */
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -53,6 +118,13 @@
   margin: 0;
 }
 
+
+/* ---------------------------------------------------------------------------
+   COMPONENTE: Product Item
+   ---------------------------------------------------------------------------
+   Cada produto dentro da lista.
+   Possui hover interativo para dar sensação de profundidade.
+   --------------------------------------------------------------------------- */
 .product-item {
   background: #fff;
   border: 1px solid #eee;
@@ -66,12 +138,13 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+/* Efeito visual ao passar o mouse */
 .product-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* mini thumb */
+/* Miniatura interna da lista */
 .thumb {
   width: 100%;
   height: 160px;
@@ -82,7 +155,7 @@
   justify-content: center;
 }
 
-/* título e preço */
+/* Nome e preço do produto */
 .product-item h3 {
   font-size: 1.1rem;
   color: #444; /* mesma cor dos nav-links */
@@ -93,7 +166,13 @@
   color: #0a7a3a; /* mesma cor usada nos preços do carousel */
 }
 
-/* botão adicionar */
+
+/* ---------------------------------------------------------------------------
+   BOTÃO: Adicionar ao Carrinho
+   ---------------------------------------------------------------------------
+   Botão principal de ação nos cards de produto.
+   Segue a paleta azul padrão da identidade visual.
+   --------------------------------------------------------------------------- */
 .product-item .btn {
   margin-top: auto;
   padding: 0.5rem 1rem;
@@ -106,16 +185,28 @@
   transition: background 0.2s;
 }
 
+/* Estado de hover */
 .product-item .btn:hover {
   background: #0056b3;
 }
 
-/* responsivo */
+
+/* ---------------------------------------------------------------------------
+   RESPONSIVIDADE
+   ---------------------------------------------------------------------------
+   Ajusta o grid e a altura das imagens para dispositivos móveis.
+   --------------------------------------------------------------------------- */
 @media (max-width: 600px) {
   .product-list {
     grid-template-columns: 1fr;
   }
+
   .thumb {
     height: 140px;
   }
 }
+
+/* ============================================================================
+   FIM DO ARQUIVO: products.css
+   ============================================================================ 
+*/

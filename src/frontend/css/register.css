@@ -1,13 +1,29 @@
+/* =============================================================================
+   register.css
+   -----------------------------------------------------------------------------
+   @description
+   Define o layout e o estilo do formulário de cadastro de novos usuários.
+   Segue o padrão visual do login (bordas suaves, espaçamento generoso e sombras leves).
+   ============================================================================= */
+
+
+/* ---------------------------------------------------------------------------
+   CONTAINER: Register Form
+   ---------------------------------------------------------------------------
+   Estrutura principal do formulário de registro.
+   Centraliza na tela e mantém proporções confortáveis de leitura.
+   --------------------------------------------------------------------------- */
 .register {
   max-width: 400px;        /* largura agradável para leitura */
-  margin: 2rem auto;       /* centraliza na tela e dá espaço em cima/baixo */
-  padding: 1.5rem 2rem;   /* espaçamento interno */
+  margin: 2rem auto;       /* centraliza e adiciona espaçamento vertical */
+  padding: 1.5rem 2rem;    /* espaçamento interno */
   border: 1px solid #ddd; 
   border-radius: 12px;
   background: #fff;        /* fundo branco */
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
+/* Título do formulário */
 .register h2 {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -15,6 +31,13 @@
   font-size: 1.5rem;
 }
 
+
+/* ---------------------------------------------------------------------------
+   CAMPOS DE ENTRADA
+   ---------------------------------------------------------------------------
+   Inputs padrão de texto, e-mail e senha.
+   Mantêm o mesmo comportamento visual dos campos de login.
+   --------------------------------------------------------------------------- */
 .register input {
   width: 100%;
   padding: 0.6rem 0.75rem;
@@ -25,16 +48,23 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Estado de foco (focus) */
 .register input:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
 }
 
+
+/* ---------------------------------------------------------------------------
+   BOTÃO: Enviar Cadastro
+   ---------------------------------------------------------------------------
+   Botão principal de ação, com tom verde (#28a745) coerente com a semântica de sucesso.
+   --------------------------------------------------------------------------- */
 .register button {
   width: 100%;
   padding: 0.65rem;
-  background: #28a745;
+  background: #28a745;     /* verde de sucesso */
   color: #fff;
   font-weight: 600;
   font-size: 1rem;
@@ -44,6 +74,16 @@
   transition: background 0.2s;
 }
 
+/* Estado de hover */
 .register button:hover {
   background: #218838;
 }
+
+.register input:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40,167,69,0.15);
+}
+
+/* ============================================================================
+   FIM DO ARQUIVO: register.css
+   ============================================================================ */

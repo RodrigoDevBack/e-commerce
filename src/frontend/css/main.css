@@ -1,19 +1,57 @@
-@import url('base.css');
-@import url('header.css');
-@import url('hero.css');
-@import url('carousel.css');
-@import url('products.css');
-@import url('cart.css');
-@import url('login.css');
-@import url('adminproducs.css');
-@import url('footer.css');
-@import url('checkout.css');
-@import url('register.css');
-@import url('responsive.css'); /* sempre por último */
-html, body { /* Estava havendo scrol fantasma, então essa é a solução :)*/
-  height: 100%; /* Mantem o index em 100% da tela*/
+/* =============================================================================
+   main.css
+   -----------------------------------------------------------------------------
+   Arquivo de entrada principal de estilos do projeto.
+   Centraliza a importação modular de todos os estilos da aplicação.
+   Cada módulo é responsável por uma área específica da interface.
+   -----------------------------------------------------------------------------
+   Ordem de importação:
+   1. Base e estrutura
+   2. Componentes e seções principais
+   3. Páginas específicas (login, admin, checkout etc.)
+   4. Responsividade (sempre por último)
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   IMPORTAÇÕES DE MÓDULOS DE ESTILO
+   ---------------------------------------------------------------------------
+   A ordem é importante para garantir que estilos base sejam carregados antes
+   dos componentes e que regras de sobrescrita (como responsive.css) funcionem
+   corretamente.
+   --------------------------------------------------------------------------- */
+@import url('base.css');          /* Reset e variáveis globais */
+@import url('header.css');        /* Cabeçalho e navegação principal */
+@import url('hero.css');          /* Seção principal de destaque */
+@import url('carousel.css');      /* Carrossel de produtos */
+@import url('products.css');      /* Listagem geral de produtos */
+@import url('cart.css');          /* Carrinho lateral e itens */
+@import url('login.css');         /* Página de login e estado autenticado */
+@import url('adminproducs.css');  /* Painel administrativo de produtos */
+@import url('footer.css');        /* Rodapé do site */
+@import url('checkout.css');      /* Resumo e finalização de pedido */
+@import url('register.css');      /* Cadastro de usuário */
+@import url('responsive.css');    /* Regras de responsividade — sempre por último */
+
+/* ---------------------------------------------------------------------------
+   AJUSTES GERAIS DE LAYOUT
+   ---------------------------------------------------------------------------
+   Correção do “scroll fantasma” e reforço do layout em 100% da altura da tela.
+   Estas regras garantem que o conteúdo ocupe toda a viewport e previnem
+   rolagem horizontal indesejada.
+   --------------------------------------------------------------------------- */
+html,
+body {
+  height: 100%;       /* Mantém o index em 100% da tela */
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Solução para scroll fantasma */
 }
-/* estilos adicionais específicos para esta página podem ser adicionados aqui */ 
+
+/* ---------------------------------------------------------------------------
+   SEÇÃO RESERVADA PARA ESTILOS ESPECÍFICOS DE PÁGINA
+   ---------------------------------------------------------------------------
+   • Use este bloco para pequenas customizações que não justificam
+     um novo módulo CSS separado.
+   • Recomenda-se manter alterações locais e bem documentadas.
+   --------------------------------------------------------------------------- */
+

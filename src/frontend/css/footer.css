@@ -1,8 +1,27 @@
-/* footer */
+/* =============================================================================
+   footer.css
+   -----------------------------------------------------------------------------
+   Estilos para o rodapé global do site.
+   Responsável por exibir informações institucionais, direitos autorais
+   e links secundários, mantendo o padrão visual limpo e discreto.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL DO RODAPÉ (.site-footer)
+   ---------------------------------------------------------------------------
+   • Padding: espaçamento vertical interno para dar respiro ao conteúdo.  
+   • Border-top: separa visualmente o rodapé do corpo principal da página.  
+   • text-align: centraliza o conteúdo textual (ex.: ©, links, créditos).  
+   • color e font-size: aplicam tipografia sutil e harmonizada com o tema.  
+   --------------------------------------------------------------------------- */
 .site-footer { 
-    padding:1rem 0; 
-    border-top:1px solid #eee; 
-    text-align:center; 
-    color:#666; 
-    font-size:0.95rem; 
+    padding: 1rem 0;                /* espaçamento vertical */
+    border-top: 1px solid #eee;     /* linha superior leve */
+    text-align: center;             /* centraliza o texto */
+    color: #666;                    /* tom neutro de cinza */
+    font-size: 0.95rem;             /* tamanho de fonte leve e legível */
 }
+
+/* ============================================================================
+   FIM DO footer.css
+   ============================================================================
