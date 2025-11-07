@@ -1,6 +1,6 @@
 .carousel-section { padding: 2rem 0; }
 .carousel-track { display:flex; gap:16px; overflow-x:auto; scroll-snap-type: x mandatory; }
-.carousel-slide { min-width:260px; scroll-snap-align: start; }
+.carousel-slide { list-style: none; min-width:260px; scroll-snap-align: start; }
 
 .carousel { position: relative; }
 .carousel-track-container { overflow:hidden; padding: 0 2.5rem; }

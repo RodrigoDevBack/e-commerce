@@ -29,21 +29,18 @@ export default function homePage() {
       <div class="container">
         <h2>Produtos em destaque</h2>
 
-        <!-- Carrossel acessível com botões e faixa deslizante -->
+        <!-- Carrossel apenas com rolagem inferior, sem botões laterais -->
         <div class="carousel" aria-roledescription="carousel" aria-label="Produtos em destaque">
-          <button class="carousel-btn prev" aria-label="Anterior">&#10094;</button>
-
-          <div class="carousel-track-container">
+          <div class="carousel-track-container" style="overflow-x:auto; white-space: nowrap; scroll-behavior: smooth;">
             <!-- Lista onde os produtos serão injetados dinamicamente -->
-            <ul class="carousel-track" id="product-list"></ul>
+            <ul class="carousel-track" id="product-list" style="display: flex; gap: 16px;"></ul>
           </div>
-
-          <button class="carousel-btn next" aria-label="Próximo">&#10095;</button>
         </div>
       </div>
     </section>
   `;
 }
+
 
 /**
  * Inicializa o carrossel da Home com produtos em destaque.
