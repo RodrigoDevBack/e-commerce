@@ -205,22 +205,26 @@ function initCart() {
   function updateCart() {
     cartItemsElement.innerHTML = '';
     let total = 0;
+cartItemsElement.innerHTML = '';
 
-    cart.forEach(item => {
-      total += item.price;
-      const li = document.createElement('li');
-      li.classList.add('cart-item');
-      li.innerHTML = `
-        ${item.thumbHTML}
-        <div>
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
-        </div>
-      `;
-      cartItemsElement.appendChild(li);
-    });
+cart.forEach(item => {
+  const quantidade = item.qtd || 1;
+  const subtotal = item.price * quantidade;
+  total += subtotal;
 
-    cartTotalElement.textContent = total.toFixed(2);
+  const li = document.createElement('li');
+  li.classList.add('cart-item');
+  li.innerHTML = `
+    ${item.thumbHTML}
+    <div>
+      <div class="cart-item-name">${item.name} (x${quantidade})</div>
+      <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
+    </div>
+  `;
+  cartItemsElement.appendChild(li);
+});
+
+cartTotalElement.textContent = total.toFixed(2);
   }
 
   openCartBtn.addEventListener('click', () => cartElement.classList.add('open'));
@@ -240,9 +244,17 @@ function initCart() {
         ? `<img src="${img.src}" alt="${name}" class="cart-thumb">`
         : card.querySelector('.thumb').innerHTML;
 
-      cart.push({ name, price, thumbHTML });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCart();
+      const existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+      existingItem.qtd = (existingItem.qtd || 1) + 1;
+    } else {
+      cart.push({ name, price, thumbHTML, qtd: 1 });
+    }
+
+    // Atualiza o localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
     }
   });
 

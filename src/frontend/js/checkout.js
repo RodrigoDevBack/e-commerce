@@ -17,17 +17,26 @@ export default function checkoutPage() {
   // Monta a lista em HTML com itens do carrinho
   let cartItemsHTML = '';
   cart.forEach(item => {
+    const qtd = item.qtd || 1; // garante que tenha pelo menos 1
+    const subtotal = item.price * qtd;
+
     cartItemsHTML += `
-      <li>
-        ${item.thumbHTML}
-        <span>${item.name}</span> - R$ ${item.price.toFixed(2)}
-      </li>
-    `;
+  <li class="checkout-item">
+    ${item.thumbHTML}
+    <div class="checkout-item-info">
+      <span class="checkout-item-name">${item.name}</span>
+      <span class="checkout-item-qtd">x${item.qtd}</span>
+      <span class="checkout-item-price">R$ ${(item.price * item.qtd).toFixed(2)}</span>
+    </div>
+  </li>
+`;
+
   });
 
   // Calcula total da compra
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * (item.qtd || 1), 0);
 
+  // Retorna HTML da página
   return `
     <section class="checkout">
       <h2>Checkout</h2>
@@ -57,15 +66,15 @@ export default function checkoutPage() {
         <button type="submit" id="finalize-checkout-btn">Concluir Compra</button>
       </form>
 
-      <!-- Resumo do carrinho ao lado -->
+      <!-- Resumo do carrinho -->
       <aside class="checkout-cart">
-        <h3>Carrinho</h3>
+        <h3>Resumo do Carrinho</h3>
 
-        <ul>
-          ${cartItemsHTML}
+        <ul class="checkout-list">
+          ${cartItemsHTML || '<li>Seu carrinho está vazio.</li>'}
         </ul>
 
-        <p>Total: R$ ${total.toFixed(2)}</p>
+        <p class="checkout-total">Total: <strong>R$ ${total.toFixed(2)}</strong></p>
       </aside>
     </section>
   `;
