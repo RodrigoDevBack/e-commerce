@@ -1,14 +1,9 @@
 /* =============================================================================
-   admin-products.css
-   -----------------------------------------------------------------------------
-   Módulo responsável pela interface administrativa de gerenciamento de produtos.
-   Inclui layout, tabela de listagem e botões de ação (editar, excluir, adicionar).
-   Mantém consistência visual com o restante do painel administrativo.
+   admin-products.css — estilo completo moderno, sem alterar HTML
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
    CONTAINER PRINCIPAL
-   Define a área de trabalho da página de administração de produtos.
    --------------------------------------------------------------------------- */
 .admin-products {
   padding: 2rem;
@@ -16,36 +11,29 @@
   min-height: 80vh;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espaçamento vertical entre título, tabela e botões */
+  gap: 1.5rem;
+  font-family: Arial, sans-serif;
 }
 
-/* ---------------------------------------------------------------------------
-   TÍTULO DA PÁGINA
-   Reforça hierarquia visual e uso da cor primária do sistema (azul).
-   --------------------------------------------------------------------------- */
+/* TÍTULO DA PÁGINA */
 .admin-products h2 {
   color: #007bff;
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
-/* ---------------------------------------------------------------------------
-   TABELA DE PRODUTOS
-   Estrutura principal de listagem dos itens cadastrados no sistema.
-   --------------------------------------------------------------------------- */
+/* TABELA DE PRODUTOS */
 .admin-products table {
   width: 100%;
-  border-collapse: collapse; /* Remove espaçamento entre células */
+  border-collapse: collapse;
   background: #fff;
   border-radius: 8px;
-  overflow: hidden; /* Garante bordas arredondadas mesmo com conteúdo interno */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra leve para profundidade */
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  table-layout: fixed;
 }
 
-/* ---------------------------------------------------------------------------
-   CABEÇALHO DA TABELA
-   Define o estilo das colunas (rótulos dos campos).
-   --------------------------------------------------------------------------- */
+/* CABEÇALHO DA TABELA */
 .admin-products table thead th {
   background: #f0f0f0;
   color: #333;
@@ -53,73 +41,75 @@
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  vertical-align: middle;
 }
 
-/* ---------------------------------------------------------------------------
-   CORPO DA TABELA
-   Estilo das células que exibem os dados dos produtos.
-   --------------------------------------------------------------------------- */
+/* CORPO DA TABELA */
 .admin-products table tbody td {
   padding: 0.75rem;
   border-bottom: 1px solid #eee;
-  vertical-align: middle; /* Centraliza o conteúdo verticalmente */
+  vertical-align: middle;
   color: #444;
 }
 
-/* ---------------------------------------------------------------------------
-   BOTÕES DE AÇÃO (Editar / Excluir)
-   Compartilham base visual consistente para todas as ações dentro da tabela.
-   --------------------------------------------------------------------------- */
-.admin-products .btn {
-  padding: 0.4rem 0.6rem;
+/* COLUNA DE AÇÕES — centraliza botões e mantém espaçamento */
+.admin-products table tbody td:last-child {
+  display: flex;
+  justify-content: center; /* centraliza horizontal */
+  align-items: center;     /* centraliza vertical */
+  gap: 0.5rem;             /* espaçamento entre botões */
+}
+
+/* BOTÕES MODERNOS (Editar/Excluir) */
+.admin-products table tbody td button.btn-edit,
+.admin-products table tbody td button.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.65rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 0.8rem;
-  margin-right: 0.3rem; /* Espaçamento entre botões */
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem; /* Espaçamento entre ícone e texto */
-  transition: all 0.2s;
+  line-height: 1;
+  transition: all 0.2s ease;
 }
 
-/* ---------------------------------------------------------------------------
-   BOTÃO "EDITAR"
-   Ação de modificação de produto — usa cor azul padrão (consistência semântica).
-   --------------------------------------------------------------------------- */
-.admin-products .btn-edit {
-  background: #007bff; /* Azul principal */
+/* Ícones dentro dos botões */
+.admin-products table tbody td button.btn-edit i,
+.admin-products table tbody td button.btn-delete i {
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* Azul para editar */
+.admin-products table tbody td button.btn-edit {
+  background-color: #007bff;
   color: #fff;
 }
-
-.admin-products .btn-edit:hover {
-  background: #0056b3;
-  transform: scale(1.05); /* Feedback visual sutil no hover */
+.admin-products table tbody td button.btn-edit:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,123,255,0.25);
 }
 
-/* ---------------------------------------------------------------------------
-   BOTÃO "EXCLUIR"
-   Ação destrutiva — usa vermelho para indicar risco ou remoção.
-   --------------------------------------------------------------------------- */
-.admin-products .btn-delete {
-  background: #dc3545; /* Vermelho de alerta */
+/* Vermelho para excluir */
+.admin-products table tbody td button.btn-delete {
+  background-color: #dc3545;
   color: #fff;
 }
-
-.admin-products .btn-delete:hover {
-  background: #c82333;
-  transform: scale(1.05);
+.admin-products table tbody td button.btn-delete:hover {
+  background-color: #b02a37;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(220,53,69,0.25);
 }
 
-/* ---------------------------------------------------------------------------
-   BOTÃO "ADICIONAR PRODUTO"
-   Ação primária fora da tabela (criação de novo item).
-   Posicionado no topo da página, à esquerda.
-   --------------------------------------------------------------------------- */
-#add-product-btn {
+/* BOTÃO "CRIAR PRODUTO" */
+.admin-products .btn.btn-primary {
   align-self: flex-start;
-  background: #28a745; /* Verde de confirmação */
+  width: 120px;
+  background-color: #28a745;
   color: #fff;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
@@ -128,11 +118,42 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-
-#add-product-btn:hover {
-  background: #218838;
+.admin-products .btn.btn-primary:hover {
+  background-color: #218838;
 }
 
-/* ============================================================================
-   FIM DO admin-products.css
-   ============================================================================ */
+/* MODAL — mantém padrão Bootstrap, sem alterações */
+.admin-products .modal .modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* INPUTS E TEXTAREAS — consistência visual */
+.admin-products input.form-control,
+.admin-products textarea.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* BOTOES RESET/CRIAR DENTRO DO FORM */
+.admin-products button.btn-success,
+.admin-products button.btn-danger {
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.admin-products button.btn-success:hover {
+  background-color: #218838;
+}
+.admin-products button.btn-danger:hover {
+  background-color: #b02a37;
+}
