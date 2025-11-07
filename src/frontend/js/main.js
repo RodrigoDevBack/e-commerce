@@ -111,7 +111,9 @@ function router() {
  */
 function updateMenu() {
   const userData = JSON.parse(localStorage.getItem('user'));
+
   const navRight = document.querySelector('.main-nav-right');
+  const registerLink = document.querySelector('.nav-link-cadastrar');
 
   if (userData) {
     navRight.innerHTML = `
@@ -120,13 +122,23 @@ function updateMenu() {
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
 
-    document.getElementById('logout-btn').addEventListener('click', () => {
+    // Esconde o link de cadastro
+    if (registerLink) registerLink.style.display = 'none';
+
+  } else {
+    navRight.innerHTML = `<a href="#login" class="nav-link">Login</a>`;
+    
+    // Mostra o link de cadastro
+    if (registerLink) registerLink.style.display = '';
+  }
+
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('user');
       window.location.hash = '#home';
       updateMenu();
     });
-  } else {
-    navRight.innerHTML = `<a href="#login" class="nav-link">Login</a>`;
   }
 }
 
