@@ -33,7 +33,7 @@ function router() {
   setActiveLink(hash);
   let pageContent = '';
 
-  switch(hash) {
+  switch (hash) {
     case '#home':
       pageContent = homePage();
       app.innerHTML = pageContent;
@@ -205,26 +205,26 @@ function initCart() {
   function updateCart() {
     cartItemsElement.innerHTML = '';
     let total = 0;
-cartItemsElement.innerHTML = '';
+    cartItemsElement.innerHTML = '';
 
-cart.forEach(item => {
-  const quantidade = item.qtd || 1;
-  const subtotal = item.price * quantidade;
-  total += subtotal;
+    cart.forEach(item => {
+      const quantidade = item.qtd || 1;
+      const subtotal = item.price * quantidade;
+      total += subtotal;
 
-  const li = document.createElement('li');
-  li.classList.add('cart-item');
-  li.innerHTML = `
+      const li = document.createElement('li');
+      li.classList.add('cart-item');
+      li.innerHTML = `
     ${item.thumbHTML}
     <div>
       <div class="cart-item-name">${item.name} (x${quantidade})</div>
       <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
     </div>
   `;
-  cartItemsElement.appendChild(li);
-});
+      cartItemsElement.appendChild(li);
+    });
 
-cartTotalElement.textContent = total.toFixed(2);
+    cartTotalElement.textContent = total.toFixed(2);
   }
 
   openCartBtn.addEventListener('click', () => cartElement.classList.add('open'));
@@ -240,21 +240,21 @@ cartTotalElement.textContent = total.toFixed(2);
       const priceText = card.querySelector('.product-price').textContent;
       const price = parseFloat(priceText.replace('R$', '').replace(',', '.'));
       const img = card.querySelector('img');
-      const thumbHTML = img 
+      const thumbHTML = img
         ? `<img src="${img.src}" alt="${name}" class="cart-thumb">`
         : card.querySelector('.thumb').innerHTML;
 
       const existingItem = cart.find(item => item.name === name);
 
-    if (existingItem) {
-      existingItem.qtd = (existingItem.qtd || 1) + 1;
-    } else {
-      cart.push({ name, price, thumbHTML, qtd: 1 });
-    }
+      if (existingItem) {
+        existingItem.qtd = (existingItem.qtd || 1) + 1;
+      } else {
+        cart.push({ name, price, thumbHTML, qtd: 1 });
+      }
 
-    // Atualiza o localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
+      // Atualiza o localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCart();
     }
   });
 

@@ -23,7 +23,7 @@
   align-items: center;
   text-align: center;
 
-  background-image: 
+  background-image:
     radial-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
     url('/assets/images/background_loja.jpg');
 
@@ -43,7 +43,7 @@
 .hero h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
 }
 
 /* ---------------------------------------------------------------------------
@@ -56,7 +56,7 @@
    --------------------------------------------------------------------------- */
 .hero p {
   font-size: 1.2rem;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
   max-width: 600px;
   margin: 0 auto;
 }

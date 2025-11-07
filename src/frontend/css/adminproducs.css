@@ -29,7 +29,7 @@
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   table-layout: fixed;
 }
 
@@ -55,9 +55,12 @@
 /* COLUNA DE AÇÕES — centraliza botões e mantém espaçamento */
 .admin-products table tbody td:last-child {
   display: flex;
-  justify-content: center; /* centraliza horizontal */
-  align-items: center;     /* centraliza vertical */
-  gap: 0.5rem;             /* espaçamento entre botões */
+  justify-content: center;
+  /* centraliza horizontal */
+  align-items: center;
+  /* centraliza vertical */
+  gap: 0.5rem;
+  /* espaçamento entre botões */
 }
 
 /* BOTÕES MODERNOS (Editar/Excluir) */
@@ -88,10 +91,11 @@
   background-color: #007bff;
   color: #fff;
 }
+
 .admin-products table tbody td button.btn-edit:hover {
   background-color: #0056b3;
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0,123,255,0.25);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.25);
 }
 
 /* Vermelho para excluir */
@@ -99,10 +103,11 @@
   background-color: #dc3545;
   color: #fff;
 }
+
 .admin-products table tbody td button.btn-delete:hover {
   background-color: #b02a37;
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(220,53,69,0.25);
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
 }
 
 /* BOTÃO "CRIAR PRODUTO" */
@@ -118,6 +123,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .admin-products .btn.btn-primary:hover {
   background-color: #218838;
 }
@@ -151,9 +157,11 @@
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .admin-products button.btn-success:hover {
   background-color: #218838;
 }
+
 .admin-products button.btn-danger:hover {
   background-color: #b02a37;
 }

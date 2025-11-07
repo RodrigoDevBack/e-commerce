@@ -29,7 +29,7 @@
   flex-direction: column;
   gap: 8px;
   height: 100%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Miniatura da imagem do produto */
@@ -63,7 +63,8 @@
 .products-section h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
-  color: #007bff; /* mesma cor dos headers */
+  color: #007bff;
+  /* mesma cor dos headers */
   text-align: center;
 }
 
@@ -80,7 +81,8 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
-  color: #444; /* mesma cor dos nav-links */
+  color: #444;
+  /* mesma cor dos nav-links */
 }
 
 /* Campo select dentro do filtro */
@@ -99,7 +101,7 @@
 .product-filter select:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
 
@@ -134,14 +136,14 @@
   flex-direction: column;
   gap: 8px;
   height: 100%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 /* Efeito visual ao passar o mouse */
 .product-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Miniatura interna da lista */
@@ -158,12 +160,14 @@
 /* Nome e preço do produto */
 .product-item h3 {
   font-size: 1.1rem;
-  color: #444; /* mesma cor dos nav-links */
+  color: #444;
+  /* mesma cor dos nav-links */
 }
 
 .product-price {
   font-weight: 600;
-  color: #0a7a3a; /* mesma cor usada nos preços do carousel */
+  color: #0a7a3a;
+  /* mesma cor usada nos preços do carousel */
 }
 
 

@@ -19,18 +19,30 @@
    dos componentes e que regras de sobrescrita (como responsive.css) funcionem
    corretamente.
    --------------------------------------------------------------------------- */
-@import url('base.css');          /* Reset e variáveis globais */
-@import url('header.css');        /* Cabeçalho e navegação principal */
-@import url('hero.css');          /* Seção principal de destaque */
-@import url('carousel.css');      /* Carrossel de produtos */
-@import url('products.css');      /* Listagem geral de produtos */
-@import url('cart.css');          /* Carrinho lateral e itens */
-@import url('login.css');         /* Página de login e estado autenticado */
-@import url('adminproducs.css');  /* Painel administrativo de produtos */
-@import url('footer.css');        /* Rodapé do site */
-@import url('checkout.css');      /* Resumo e finalização de pedido */
-@import url('register.css');      /* Cadastro de usuário */
-@import url('responsive.css');    /* Regras de responsividade — sempre por último */
+@import url('base.css');
+/* Reset e variáveis globais */
+@import url('header.css');
+/* Cabeçalho e navegação principal */
+@import url('hero.css');
+/* Seção principal de destaque */
+@import url('carousel.css');
+/* Carrossel de produtos */
+@import url('products.css');
+/* Listagem geral de produtos */
+@import url('cart.css');
+/* Carrinho lateral e itens */
+@import url('login.css');
+/* Página de login e estado autenticado */
+@import url('adminproducs.css');
+/* Painel administrativo de produtos */
+@import url('footer.css');
+/* Rodapé do site */
+@import url('checkout.css');
+/* Resumo e finalização de pedido */
+@import url('register.css');
+/* Cadastro de usuário */
+@import url('responsive.css');
+/* Regras de responsividade — sempre por último */
 
 /* ---------------------------------------------------------------------------
    AJUSTES GERAIS DE LAYOUT
@@ -41,10 +53,12 @@
    --------------------------------------------------------------------------- */
 html,
 body {
-  height: 100%;       /* Mantém o index em 100% da tela */
+  height: 100%;
+  /* Mantém o index em 100% da tela */
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Solução para scroll fantasma */
+  overflow-x: hidden;
+  /* Solução para scroll fantasma */
 }
 
 /* ---------------------------------------------------------------------------
@@ -54,4 +68,3 @@ body {
      um novo módulo CSS separado.
    • Recomenda-se manter alterações locais e bem documentadas.
    --------------------------------------------------------------------------- */
-

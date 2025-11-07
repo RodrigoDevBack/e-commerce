@@ -14,12 +14,17 @@
    • text-align: centraliza o conteúdo textual (ex.: ©, links, créditos).  
    • color e font-size: aplicam tipografia sutil e harmonizada com o tema.  
    --------------------------------------------------------------------------- */
-.site-footer { 
-    padding: 1rem 0;                /* espaçamento vertical */
-    border-top: 1px solid #eee;     /* linha superior leve */
-    text-align: center;             /* centraliza o texto */
-    color: #666;                    /* tom neutro de cinza */
-    font-size: 0.95rem;             /* tamanho de fonte leve e legível */
+.site-footer {
+    padding: 1rem 0;
+    /* espaçamento vertical */
+    border-top: 1px solid #eee;
+    /* linha superior leve */
+    text-align: center;
+    /* centraliza o texto */
+    color: #666;
+    /* tom neutro de cinza */
+    font-size: 0.95rem;
+    /* tamanho de fonte leve e legível */
 }
 
 /* ============================================================================

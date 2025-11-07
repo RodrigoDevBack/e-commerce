@@ -21,7 +21,7 @@
   height: calc(100% - 100px);
   background: #fff;
   border-left: 1px solid #ddd;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -43,7 +43,8 @@
    - Hover aplica tom mais escuro para destaque visual.
    --------------------------------------------------------------------------- */
 #clear-cart {
-  background-color: #ff4d4f; /* vermelho para ação de apagar */
+  background-color: #ff4d4f;
+  /* vermelho para ação de apagar */
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -55,7 +56,8 @@
 }
 
 #clear-cart:hover {
-  background-color: #e63946; /* tom mais escuro ao passar o mouse */
+  background-color: #e63946;
+  /* tom mais escuro ao passar o mouse */
 }
 
 /* Mantém o tamanho de fonte dos botões consistentes com o layout geral */

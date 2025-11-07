@@ -15,11 +15,13 @@
    - Aumenta o tamanho visual de slides e miniaturas.
    ============================================================================ */
 @media (min-width: 1600px) {
+
   .header-inner,
   .checkout,
   .carousel-track {
     max-width: 1400px;
-    margin: 0 auto; /* centraliza o conteúdo */
+    margin: 0 auto;
+    /* centraliza o conteúdo */
   }
 
   .carousel-slide {
@@ -102,7 +104,8 @@
    ============================================================================ */
 @media (max-width: 880px) {
   .main-nav {
-    display: none; /* esconde menu em telas pequenas */
+    display: none;
+    /* esconde menu em telas pequenas */
   }
 
   .carousel-slide {

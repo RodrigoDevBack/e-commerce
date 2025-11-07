@@ -14,13 +14,13 @@
    • position: sticky mantém o cabeçalho fixo no topo ao rolar a tela.  
    • z-index elevado garante sobreposição em relação a outros elementos.  
    --------------------------------------------------------------------------- */
-.site-header { 
-  background: #fff; 
-  border-bottom: 1px solid #e6e6e6; 
-  position: sticky; 
-  top: 0; 
-  z-index: 50; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   padding: 0 1rem;
 }
 
@@ -30,13 +30,13 @@
    • Define layout flexível entre marca, navegação e ações.  
    • Centraliza e limita largura para manter alinhamento responsivo.  
    --------------------------------------------------------------------------- */
-.header-inner { 
-  display: flex; 
-  align-items: center; 
+.header-inner {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0; 
-  max-width: 1200px; 
-  margin: 0 auto; 
+  padding: 0.75rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* ---------------------------------------------------------------------------
@@ -45,11 +45,11 @@
    • Fonte destacada e cor primária reforçam a identidade visual.  
    • text-decoration removido para aparência limpa.  
    --------------------------------------------------------------------------- */
-.brand .logo { 
-  font-weight: 700; 
-  text-decoration: none; 
-  color: #007bff; 
-  font-size: 1.125rem; 
+.brand .logo {
+  font-weight: 700;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1.125rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -58,9 +58,9 @@
    • Layout horizontal simples com espaçamento entre links.  
    • Configurado para se alinhar à esquerda da logo.  
    --------------------------------------------------------------------------- */
-.main-nav { 
-  display: flex; 
-  gap: 1rem; 
+.main-nav {
+  display: flex;
+  gap: 1rem;
   margin-left: 1rem;
   align-items: center;
   justify-content: flex-start;
@@ -72,17 +72,17 @@
    • Visual limpo com transição suave de hover.  
    • Estado “.active” replica o estilo de hover para consistência visual.  
    --------------------------------------------------------------------------- */
-.main-nav .nav-link { 
-  text-decoration: none; 
-  color: #444; 
-  padding: 0.5rem; 
+.main-nav .nav-link {
+  text-decoration: none;
+  color: #444;
+  padding: 0.5rem;
   border-radius: 6px;
   transition: background 0.2s, color 0.2s;
 }
 
-.main-nav .nav-link.active, 
-.main-nav .nav-link:hover { 
-  background: #f0f0f0; 
+.main-nav .nav-link.active,
+.main-nav .nav-link:hover {
+  background: #f0f0f0;
   color: #007bff;
 }
 

@@ -24,11 +24,14 @@
    Define a altura total, tipografia e cores padrão para o documento.
    Mantém uma base neutra e leve, adequada para temas claros.
    --------------------------------------------------------------------------- */
-html,body {
+html,
+body {
     height: 100%;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    color: #222;              /* Cor de texto base com bom contraste */
-    background: #fafafa;      /* Fundo neutro para destacar conteúdo */
+    color: #222;
+    /* Cor de texto base com bom contraste */
+    background: #fafafa;
+    /* Fundo neutro para destacar conteúdo */
 }
 
 /* ---------------------------------------------------------------------------
@@ -37,9 +40,12 @@ html,body {
    Reutilizado em múltiplos módulos (home, produtos, checkout, etc.).
    --------------------------------------------------------------------------- */
 .container {
-    width: 90%;               /* Proporção flexível para telas menores */
-    max-width: 1100px;        /* Largura máxima para manter legibilidade */
-    margin: 0 auto;           /* Centraliza horizontalmente */
+    width: 90%;
+    /* Proporção flexível para telas menores */
+    max-width: 1100px;
+    /* Largura máxima para manter legibilidade */
+    margin: 0 auto;
+    /* Centraliza horizontalmente */
 }
 
 /* ============================================================================

@@ -12,7 +12,8 @@
    --------------------------------------------------------------------------- */
 .checkout {
   display: flex;
-  flex-wrap: wrap; /* Permite que o carrinho desça abaixo do formulário em telas pequenas */
+  flex-wrap: wrap;
+  /* Permite que o carrinho desça abaixo do formulário em telas pequenas */
   gap: 2rem;
   padding: 2rem;
   font-family: Arial, sans-serif;
@@ -29,7 +30,7 @@
   background-color: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Título principal da página */
@@ -100,7 +101,7 @@
   background-color: #fff;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   min-width: 250px;
 }
 

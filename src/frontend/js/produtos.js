@@ -45,20 +45,20 @@ export async function initProductsList() {
     let productCard = createProductCard(product);
     productList.appendChild(productCard);
 
-     /** 
-     * Cria o modal para cada produto e adiciona ao body 
-     */
+    /** 
+    * Cria o modal para cada produto e adiciona ao body 
+    */
     let modal = createProductModal(product);
     document.body.appendChild(modal);
   });
-     /**
-   * Adiciona listener para filtrar produtos por preço
-   */
-    const filter = document.getElementById('filter');
+  /**
+* Adiciona listener para filtrar produtos por preço
+*/
+  const filter = document.getElementById('filter');
   filter.addEventListener('change', function () {
     if (filter.value == 'all') {
-    productList.innerHTML = '';
-    data.forEach(product => {
+      productList.innerHTML = '';
+      data.forEach(product => {
         let productCard = createProductCard(product);
         productList.appendChild(productCard);
       })
@@ -67,8 +67,8 @@ export async function initProductsList() {
       data.forEach(product => {
         if (product.price <= 50) {
           let productCard = createProductCard(product);
-        productList.appendChild(productCard);
-      }
+          productList.appendChild(productCard);
+        }
       })
     } else if (filter.value == '50to80') {
       productList.innerHTML = '';
