@@ -263,6 +263,18 @@ function initCart() {
 const checkoutBtn = document.getElementById('checkout');
 if (checkoutBtn) {
   checkoutBtn.addEventListener('click', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Se não estiver logado, manda para a página de login
+    if (!user) {
+      alert('Você precisa estar logado para finalizar o pedido.');
+      window.location.hash = '#login';
+      const cartElement = document.getElementById('cart');
+      if (cartElement) cartElement.classList.remove('open');
+      return;
+    }
+
+    // Se estiver logado, segue para o checkout normalmente
     window.location.hash = '#checkout';
     const cartElement = document.getElementById('cart');
     if (cartElement) cartElement.classList.remove('open');
