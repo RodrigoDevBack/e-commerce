@@ -111,36 +111,36 @@ function router() {
  */
 function updateMenu() {
   const userData = JSON.parse(localStorage.getItem('user'));
-
   const navRight = document.querySelector('.main-nav-right');
   const registerLink = document.querySelector('.nav-link-cadastrar');
 
   if (userData) {
+    // Usuário logado → mostra saudação e botão sair
     navRight.innerHTML = `
       <span class="user-btn">Olá, ${userData.name}</span>
       ${userData.role === 'admin' ? '<a href="#admin" class="nav-link">Gerenciar Produtos</a>' : ''}
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
 
-    // Esconde o link de cadastro
+    // Garante que o botão de cadastro some completamente
     if (registerLink) registerLink.style.display = 'none';
-
   } else {
+    // Usuário deslogado → mostra login e garante que o cadastro reaparece
     navRight.innerHTML = `<a href="#login" class="nav-link">Login</a>`;
-    
-    // Mostra o link de cadastro
     if (registerLink) registerLink.style.display = '';
   }
 
+  // Lida com o logout
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('user');
       window.location.hash = '#home';
-      updateMenu();
+      updateMenu(); // Atualiza o menu após logout
     });
   }
 }
+
 
 /** Inicializa o SPA e módulos principais */
 initApp(router);
