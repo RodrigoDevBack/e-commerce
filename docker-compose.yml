@@ -1,6 +1,8 @@
+version: "3.8"
 services:
   frontend:
-    build: ./src/frontend/
+    build: 
+      context: ./src/frontend/
     container_name: frontend_app
     ports:
       - "8000:8000"
@@ -11,7 +13,8 @@ services:
     volumes:
       - ./src/frontend:/frontend
   backend:
-    build: ./src/backend/app
+    build: 
+      context: ./src/backend/app
     container_name: backend_app
     networks:
       - default
@@ -39,7 +42,7 @@ services:
     networks:
       - default
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/
 
 volumes:
   postgres_data:
