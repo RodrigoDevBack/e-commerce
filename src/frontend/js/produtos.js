@@ -95,25 +95,28 @@ export async function initProductsList() {
 function createProductCard(product) {
   const li = document.createElement("li");
   li.classList.add("product-item");
-
-  li.innerHTML = `
-    <div class="thumb">
-      <img 
-        src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
-        width="100%" height="100%" 
-        alt="${product.name}" 
-        style="object-fit: contain; border-radius: 8px;">
-    </div>
+// R: Tela de todos os produtos
+ li.innerHTML = `
+  <div class="thumb">
+    <img 
+      src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
+      width="100%" height="100%" 
+      alt="${product.name}" 
+      style="object-fit: contain; border-radius: 8px;">
+  </div>
+  <div class="product-item-content">
     <h3>${product.name}</h3>
-    <p>Quantidade: ${product.qtd}</p>
+    <p>Disponível: ${product.qtd}</p>
     <p class="product-price">R$ ${product.price}</p>
-    <button type="button" 
-      class="btn btn-primary btn-details" 
-      data-product-id="${product.id}">
-      Ver detalhes
-    </button>
-    <button class="btn add-to-cart">Adicionar ao carrinho</button>
-  `;
+  </div>
+  <button type="button" 
+    class="btn btn-primary btn-details" 
+    data-product-id="${product.id}">
+    Ver detalhes
+  </button>
+  <button class="btn add-to-cart">Adicionar ao carrinho</button>
+`;
+
 
   /**
    * Mostra o modal do produto ao clicar no botão de detalhes
@@ -134,6 +137,7 @@ function createProductCard(product) {
  */
 function createProductModal(product) {
   const modalContainer = document.createElement("div");
+  // R: Modal de detalhes do produto
   modalContainer.innerHTML = `
     <div class="modal fade" id="modal-product-${product.id}" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="product-modal-label-${product.id}" aria-hidden="true">
