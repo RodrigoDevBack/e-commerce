@@ -226,10 +226,15 @@ export async function initAdminProducts() {
     }
   })
 
-  const preview_image = document.getElementById('imagem-preview');
-  let images = document.querySelectorAll("#entrada-imagem");
-  let image = images[images.length - 1]
-  image.addEventListener('change', function (event) {
+const preview_image = document.getElementById('imagem-preview');
+preview_image.style.display = 'none'; // esconde por padrão
+preview_image.style.width = '300px';   // define largura fixa
+preview_image.style.height = '200px';  // define altura fixa
+preview_image.style.objectFit = 'contain'; // mantém proporção da imagem
+
+// Função para lidar com o preview de qualquer input de imagem
+function handlePreview(input) {
+  input.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -242,47 +247,40 @@ export async function initAdminProducts() {
       preview_image.style.display = 'none';
     }
   });
-
-  btnAdd.addEventListener('click', function () {
-    if (contador <= contador_limit) {
-      contador++
-      const novoCampo = document.createElement('div')
-      novoCampo.classList.add('mb-3')
-      novoCampo.innerHTML = `
-                <label class="form-label">Imagem-plus</label>
-                <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
-                `
-      image = novoCampo.querySelector('#entrada-imagem')
-      image.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            preview_image.src = e.target.result;
-            preview_image.style.display = 'block';
-          };
-          reader.readAsDataURL(file);
-        } else {
-          preview_image.style.display = 'none';
-        }
-      });
-      container.appendChild(novoCampo)
-    } else {
-      alert('O limite foi alcançado!')
-    }
-  })
-
-  btnRemove.addEventListener('click', function () {
-    if (container.children.length > 6) {
-      container.removeChild(container.lastElementChild)
-      previewImage.style.display = 'none'
-      contador--
-    } else {
-      alert('O limite foi alcançado!')
-    }
-  })
 }
 
+// Aplica a função a todos os inputs existentes
+document.querySelectorAll('#entrada-imagem').forEach(handlePreview);
+
+// Ao criar novos campos, chama handlePreview no novo input
+btnAdd.addEventListener('click', function () {
+  if (contador < contador_limit) {
+    contador++;
+    const novoCampo = document.createElement('div');
+    novoCampo.classList.add('mb-3');
+    novoCampo.innerHTML = `
+      <label class="form-label">Imagem-plus</label>
+      <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
+    `;
+    const novoInput = novoCampo.querySelector('#entrada-imagem');
+    handlePreview(novoInput);
+    container.appendChild(novoCampo);
+  } else {
+    alert('O limite foi alcançado!');
+  }
+});
+
+// Remove campos de imagem
+btnRemove.addEventListener('click', function () {
+  if (container.children.length > 1) { // mantém pelo menos 1 campo
+    container.removeChild(container.lastElementChild);
+    preview_image.style.display = 'none';
+    contador--;
+  } else {
+    alert('Não é possível remover o último campo!');
+  }
+});
+}
 
 function createEditProductModal(product) {
 

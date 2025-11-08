@@ -331,3 +331,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* preview de upload inicialmente escondido */
+#imagem-preview {
+  display: none;
+}
