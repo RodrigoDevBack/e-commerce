@@ -93,9 +93,10 @@
 
 /* ---------------------------------------------------------------------------
    CARTÃO DE PRODUTO
-   - Estrutura visual dos produtos dentro do carrossel.
-   - Inclui borda sutil, sombra leve e espaçamento interno.
-   - Organiza imagem, nome e preço em coluna flexível.
+   ---------------------------------------------------------------------------
+   Estrutura visual dos produtos dentro do carrossel ou aba produtos.
+   Inclui borda sutil, sombra leve e espaçamento interno.
+   Organiza imagem, título, quantidade e preço em coluna flexível.
    --------------------------------------------------------------------------- */
 .product-card {
   background: #fff;
@@ -107,12 +108,12 @@
   gap: 8px;
   height: 100%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  align-items: center;   /* centraliza todos os elementos horizontalmente */
+  text-align: center;    /* centraliza texto de h3 e p */
 }
 
 /* ---------------------------------------------------------------------------
    MINIATURA DO PRODUTO
-   - Garante centralização da imagem.
-   - Define altura fixa e mantém proporção via object-fit.
    --------------------------------------------------------------------------- */
 .thumb {
   width: 100%;
@@ -125,15 +126,28 @@
 }
 
 /* ---------------------------------------------------------------------------
-   PREÇO DO PRODUTO
-   - Destaque com cor verde e peso de fonte aumentado.
-   - Mantém consistência visual com a paleta de confiança.
+   TÍTULO DO PRODUTO
    --------------------------------------------------------------------------- */
-.product-price {
-  color: #0a7a3a;
+.product-card h3 {
+  font-size: 1.2rem;    /* tamanho adequado */
   font-weight: 600;
+  color: #444;
+  margin: 0;            /* remove margem padrão */
 }
 
+/* ---------------------------------------------------------------------------
+   QUANTIDADE E PREÇO
+   --------------------------------------------------------------------------- */
+.product-card p {
+  margin: 0;            /* remove margem padrão para alinhamento */
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.product-price {
+  font-weight: 600;
+  color: #0a7a3a;       /* verde do preço */
+}
 /* ============================================================================
-   FIM DO carousel.css
-   ============================================================================ */
+   FIM DO ARQUIVO: carousel.css
+   ============================================================================

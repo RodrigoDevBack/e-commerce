@@ -81,7 +81,7 @@ export async function initHomePage() {
   data.forEach(product => {
     let li = document.createElement("li");
     li.classList.add("carousel-slide");
-
+// R: Slide do carrossel na Home
     li.innerHTML = `
       <div class="product-card">
         <div class="thumb">
@@ -92,7 +92,7 @@ export async function initHomePage() {
             style="object-fit: contain; border-radius: 8px;">
         </div>
         <h3>${product.name}</h3>
-        <p>Quantidade: ${product.qtd}</p>
+        <p>Disponivel: ${product.qtd}</p>
         <p class="product-price">R$ ${product.price}</p>
         <button class="btn add-to-cart">Adicionar ao carrinho</button>
       </div>
