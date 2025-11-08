@@ -272,7 +272,7 @@ btnAdd.addEventListener('click', function () {
 
 // Remove campos de imagem
 btnRemove.addEventListener('click', function () {
-  if (container.children.length > 1) { // mantém pelo menos 1 campo
+  if (container.children.length > 6) { // mantém pelo menos 6 campos
     container.removeChild(container.lastElementChild);
     preview_image.style.display = 'none';
     contador--;
@@ -301,7 +301,7 @@ function createEditProductModal(product) {
                 <div class="modal-body">
                     <form id="editar-produto" method="post" enctype="multipart/form-data">
                         <label class="form-label">Imagens atuais do produto</label> <br> <br>
-                        ${(product.images || []).map((img, i) => `
+                        ${(product.images != null) ? (product.images || []).map((img, i) => `
                             <img src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
                                 class="d-block w-100" alt="${product.name} - Imagem ${i + 1}"
                                 style="object-fit: contain; max-height: 400px;"> <br>
@@ -311,7 +311,7 @@ function createEditProductModal(product) {
                                     <label class="form-check-label">É para remover?</label><br> <br>
                                 </div>
                             </div>
-                        `).join('')}
+                        `).join('') : ''}
                         <br>
                         <div class="card" style="width: 100%;">
                             <img id="imagem-preview" alt="Imagem Preview">
@@ -371,9 +371,10 @@ function createEditProductModal(product) {
 
   // Conta quantos campos de entrada de imagem no cadastro
   let countFieldsToImages = 1;
-
+  
   // Limite para a quantidade de entrada de imagem no cadastro
-  let limitImages = 6 - (product.images).length;
+  let qtd_images_exists = (product.images != null) ? (product.images).length : 0;
+  let limitImages = 6 - qtd_images_exists;
 
   // Lista para reunir as imagens para serem removidas
   let urlImagesForRemove = [];

@@ -62,17 +62,12 @@ export async function initRegister() {
     if (response.success === true) {
       let div = document.getElementById('register');
       let confirm = window.confirm('Você deseja validar seu email?');
-      if (confirm) {
+      if (confirm == true) {
         criarCampoDeValidarEmail(div);
       } else {
         alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
-        let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
-        if (!confirm) {
-          criarCampoDeValidarEmail(div);
-        } else {
-          window.location.hash = '#home';
-          window.location.reload();
-        }
+        window.location.hash = '#home';
+        window.location.reload();
       }
     } else {
       // Mostra alerta caso email já exista

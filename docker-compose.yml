@@ -1,4 +1,4 @@
-version: "3.8"
+#version: "3.8"
 services:
   frontend:
     build: 
@@ -31,7 +31,7 @@ services:
     volumes: 
       - ./src/backend/app:/app
   db:
-    image: postgres:17
+    image: postgres:latest
     restart: always
     environment:
       POSTGRES_USER: postgres

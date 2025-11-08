@@ -6,7 +6,7 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $data = [
-    'email' => $_SESSION['email'],
+    'email' => $data['email'],
     'secret_code' => $data['code']
 ];
 

@@ -133,8 +133,14 @@ function updateMenu() {
   // Lida com o logout
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', async () => {
       localStorage.removeItem('user');
+      await fetch('api/login/logout.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
       window.location.hash = '#home';
       updateMenu(); // Atualiza o menu após logout
     });

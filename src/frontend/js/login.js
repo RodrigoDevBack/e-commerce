@@ -174,17 +174,12 @@ export async function initLogin() {
       if (response.email_validate == false) {
         let div = document.getElementById('login');
         let confirm = window.confirm('Você deseja validar seu email?');
-        if (confirm) {
+        if (confirm == true) {
           criarCampoDeValidarEmail(div);
         } else {
           alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
-          let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
-          if (!confirm) {
-            criarCampoDeValidarEmail(div);
-          } else {
             window.location.hash = '#home';
             window.location.reload();
-          }
         }
       } else {
         window.location.hash = '#home';

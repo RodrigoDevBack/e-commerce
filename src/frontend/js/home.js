@@ -84,13 +84,23 @@ export async function initHomePage() {
 // R: Slide do carrossel na Home
     li.innerHTML = `
       <div class="product-card">
+      
+        ${(product.images != null) ? `
         <div class="thumb">
           <img 
             src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
             width="100%" height="100%" 
             alt="${product.name}" 
             style="object-fit: contain; border-radius: 8px;">
-        </div>
+        </div>` : 
+        `<div class="thumb">
+          <img 
+            src="https://img.icons8.com/color/96/no-image.png" 
+            width="100%" height="100%" 
+            alt="${product.name} sem imagens" 
+            style="object-fit: contain; border-radius: 8px;">
+        </div>`}
+
         <h3>${product.name}</h3>
         <p>Disponivel: ${product.qtd}</p>
         <p class="product-price">R$ ${product.price}</p>
