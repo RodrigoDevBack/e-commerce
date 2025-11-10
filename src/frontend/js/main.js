@@ -1,23 +1,19 @@
-import homePage from '/js/home.js';
-import produtosPage from '/js/produtos.js';
-import loginPage from '/js/login.js';
-import checkoutPage from '/js/checkout.js';
-import { initApp } from '/js/appInit.js';
-import { initLogin } from '/js/login.js';
+import homePage, { initHomePage } from './home.js';
+import produtosPage, { initProductsList } from './produtos.js';
+import loginPage, { initLogin } from './login.js';
+import checkoutPage from './checkout.js';
 import cadastroPage, { initRegister } from './register.js';
-import adminProductsPage, { initAdminProducts } from '/js/adminProducts.js';
-import { initProductsList } from './produtos.js';
-import { initHomePage } from './home.js';
+import adminProductsPage, { initAdminProducts } from './adminProducts.js';
+import { initApp } from './appInit.js';
 
-// --- Inicializa o app ---
-initApp(router);
-
-
-// --- Elementos principais ---
+/** Elementos principais da aplicação SPA */
 const app = document.getElementById('app');
 const navLinks = document.querySelectorAll('.nav-link');
 
-// ---- FUNÇÃO PARA DEIXAR NAV ATIVAR ---
+/**
+ * Define o link de navegação ativo baseado no hash da URL
+ * @param {string} hash - Hash atual da URL
+ */
 function setActiveLink(hash) {
   navLinks.forEach(link => {
     if (link.getAttribute('href') === hash) {
@@ -28,119 +24,144 @@ function setActiveLink(hash) {
   });
 }
 
-// --- ROUTER SIMPLES ---
+/**
+ * Router simples baseado em hash
+ * Renderiza a página correspondente e inicializa scripts específicos
+ */
 function router() {
   const hash = window.location.hash || '#home';
   setActiveLink(hash);
   let pageContent = '';
 
-  switch(hash) {
+  switch (hash) {
     case '#home':
       pageContent = homePage();
       app.innerHTML = pageContent;
       initHomePage();
       break;
+
     case '#produtos':
       pageContent = produtosPage();
       app.innerHTML = pageContent;
       initProductsList();
       break;
+
     case '#login':
       pageContent = loginPage();
       app.innerHTML = pageContent;
       initLogin();
       break;
+
     case '#checkout':
       pageContent = checkoutPage();
       app.innerHTML = pageContent;
       break;
+
     case '#admin':
       pageContent = adminProductsPage();
       app.innerHTML = pageContent;
       initAdminProducts(app);
       break;
+
     case '#register':
       pageContent = cadastroPage();
       app.innerHTML = pageContent;
       initRegister();
       break;
+
     default:
       pageContent = '<h2>Página não encontrada</h2>';
   }
-  
-  
+
+  // Lógica de finalização do checkout e exibição de mensagem de sucesso
   if (hash === '#checkout') {
- 
-    // Depois de renderizar a tela de sucesso
- const checkoutForm = document.getElementById('checkout-form');
-const finalizeBtn = document.getElementById('finalize-checkout-btn');
+    const checkoutForm = document.getElementById('checkout-form');
+    const finalizeBtn = document.getElementById('finalize-checkout-btn');
 
-if (finalizeBtn && checkoutForm) {
-  checkoutForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+    if (finalizeBtn && checkoutForm) {
+      checkoutForm.addEventListener('submit', e => {
+        e.preventDefault();
 
-    // Limpa o localStorage
-    localStorage.removeItem('cart');
+        // Limpa carrinho (localStorage e memória)
+        localStorage.removeItem('cart');
+        if (window.cart) window.cart.length = 0;
 
-    // Limpa o carrinho em memória (se estiver acessível aqui)
-    if (window.cart) {
-      window.cart.length = 0; 
+        app.innerHTML = `
+          <section class="checkout-success">
+            <h2>Compra Concluída!</h2>
+            <p>Obrigado por comprar conosco, ${document.getElementById('name').value}!</p>
+            <button id="back-home-btn">Voltar para Home</button>
+          </section>
+        `;
+
+        // Botão de retorno para a página Home
+        document.getElementById('back-home-btn').addEventListener('click', () => {
+          window.location.hash = '#home';
+        });
+      });
     }
-
-    // Substitui o conteúdo do app pelo agradecimento
-    const app = document.getElementById('app');
-    app.innerHTML = `
-      <section class="checkout-success">
-        <h2>Compra Concluída!</h2>
-        <p>Obrigado por comprar conosco, ${document.getElementById('name').value}!</p>
-        <button id="back-home-btn">Voltar para Home</button>
-      </section>
-    `;
-
-    // Botão para voltar à home
-    const backHomeBtn = document.getElementById('back-home-btn');
-    backHomeBtn.addEventListener('click', () => {
-      window.location.hash = '#home';
-    });
-  });
-}
   }
-  // Inicializa componentes específicos da página
-  initCarousel();
-  initCart();
-   if (hash === '#login') initLogin(); // <-- só chama login quando renderizar login
 
+  // Garantia de inicialização do login somente quando necessário
+  if (hash === '#login') initLogin();
 }
 
-// --- Login ---
+/**
+ * Atualiza o menu de navegação com base no usuário logado
+ */
 function updateMenu() {
   const userData = JSON.parse(localStorage.getItem('user'));
   const navRight = document.querySelector('.main-nav-right');
+  const registerLink = document.querySelector('.nav-link-cadastrar');
 
   if (userData) {
+    // Usuário logado → mostra saudação e botão sair
     navRight.innerHTML = `
       <span class="user-btn">Olá, ${userData.name}</span>
       ${userData.role === 'admin' ? '<a href="#admin" class="nav-link">Gerenciar Produtos</a>' : ''}
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
 
-    const logoutBtn = document.getElementById('logout-btn');
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('user');
-      window.location.hash = '#home';
-      updateMenu();
-    });
+    // Garante que o botão de cadastro some completamente
+    if (registerLink) registerLink.style.display = 'none';
   } else {
+    // Usuário deslogado → mostra login e garante que o cadastro reaparece
     navRight.innerHTML = `<a href="#login" class="nav-link">Login</a>`;
+    if (registerLink) registerLink.style.display = '';
+  }
+
+  // Lida com o logout
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      localStorage.removeItem('user');
+      await fetch('api/login/logout.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      window.location.hash = '#home';
+      updateMenu(); // Atualiza o menu após logout
+    });
   }
 }
 
-// Chama sempre que a página carregar ou mudar hash
+
+/** Inicializa o SPA e módulos principais */
+initApp(router);
+initCarousel();
+initCart();
+initHomePage();
+initProductsList();
+
+/** Atualiza menu ao carregar a página e ao trocar rota */
 window.addEventListener('load', updateMenu);
 window.addEventListener('hashchange', updateMenu);
 
-
-  // --- INICIALIZAÇÃO DO CAROUSEL ---
+/**
+ * Inicializa o carrossel de produtos
+ */
 function initCarousel() {
   const track = document.querySelector('.carousel-track');
   if (!track) return;
@@ -171,7 +192,9 @@ function initCarousel() {
   });
 }
 
-// --- INICIALIZAÇÃO DO CARRINHO ---
+/**
+ * Inicializa o carrinho e gerencia lógica de adição/remover produtos
+ */
 function initCart() {
   const cartElement = document.getElementById('cart');
   const cartItemsElement = document.getElementById('cart-items');
@@ -182,98 +205,94 @@ function initCart() {
 
   if (!cartElement || !openCartBtn || !closeCartBtn) return;
 
-  // Atualiza visualmente o carrinho: mostra itens, miniaturas e total
-  // Função updateCart() que exibe os itens no carrinho
+  /**
+   * Atualiza visualmente o carrinho
+   */
   function updateCart() {
-  cartItemsElement.innerHTML = '';
-  let total = 0;
-  cart.forEach(item => {
-    total += item.price;
-    const li = document.createElement('li');
-    li.classList.add('cart-item'); // adiciona classe para CSS
-    li.innerHTML = `
-      ${item.thumbHTML}
-      <div>
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
-      </div>
-    `;
+    cartItemsElement.innerHTML = '';
+    let total = 0;
+    cartItemsElement.innerHTML = '';
 
-    cartItemsElement.appendChild(li);
-  });
+    cart.forEach(item => {
+      const quantidade = item.qtd || 1;
+      const subtotal = item.price * quantidade;
+      total += subtotal;
 
-  cartTotalElement.textContent = total.toFixed(2);
-}
+      const li = document.createElement('li');
+      li.classList.add('cart-item');
+      li.innerHTML = `
+    ${item.thumbHTML}
+    <div>
+      <div class="cart-item-name">${item.name} (x${quantidade})</div>
+      <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
+    </div>
+  `;
+      cartItemsElement.appendChild(li);
+    });
 
+    cartTotalElement.textContent = total.toFixed(2);
+  }
 
   openCartBtn.addEventListener('click', () => cartElement.classList.add('open'));
   closeCartBtn.addEventListener('click', () => cartElement.classList.remove('open'));
 
-// Delegação de clique para adicionar produtos ao carrinho e navegar para checkout
-// Delegação de clique para adicionar produtos ao carrinho
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('add-to-cart')) {
-    const card = e.target.closest('.product-card, .product-item');
-    const name = card.querySelector('h3').textContent;
-    const priceText = card.querySelector('.product-price').textContent;
-    const price = parseFloat(priceText.replace('R$', '').replace(',', '.'));
-    let thumbHTML;
-    const img = card.querySelector('img');
-    if (img) {
-      thumbHTML = `<img src="${img.src}" alt="${name}" class="cart-thumb">`;
-    } else {
-      thumbHTML = card.querySelector('.thumb').innerHTML; // pega SVG
+  /**
+   * Delegação de clique para adicionar produtos ao carrinho
+   */
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('add-to-cart') || e.target.classList.contains('card-add-to-cart')) {
+      const card = e.target.closest('.product-card, .product-item');
+      const name = card.querySelector('h3, h5').textContent;
+      const priceText = card.querySelector('.product-price').textContent;
+      const price = parseFloat(priceText.replace('R$', '').replace(',', '.'));
+      const img = card.querySelector('img');
+      const thumbHTML = img
+        ? `<img src="${img.src}" alt="${name}" class="cart-thumb">`
+        : card.querySelector('.thumb').innerHTML;
+
+      const existingItem = cart.find(item => item.name === name);
+
+      if (existingItem) {
+        existingItem.qtd = (existingItem.qtd || 1) + 1;
+      } else {
+        cart.push({ name, price, thumbHTML, qtd: 1 });
+      }
+
+      // Atualiza o localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCart();
     }
-
-    // Adiciona o item ao carrinho em memória
-    cart.push({ name, price, thumbHTML });
-
-    // Salva no localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Atualiza visualmente o carrinho
-    updateCart();
-  }  else if (e.target.classList.contains('card-add-to-cart')) {
-    const card = e.target.closest('.product-card, .product-item');
-    const name = card.querySelector('h5').textContent;
-    const priceText = card.querySelector('.product-price').textContent;
-    const price = parseFloat(priceText.replace('R$', '').replace(',', '.'));
-    let thumbHTML;
-    const img = card.querySelector('img');
-    if (img) {
-      thumbHTML = `<img src="${img.src}" alt="${name}" class="cart-thumb">`;
-    } else {
-      thumbHTML = card.querySelector('.thumb').innerHTML; // pega SVG
-    }
-
-    // Adiciona o item ao carrinho em memória
-    cart.push({ name, price, thumbHTML });
-
-    // Salva no localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Atualiza visualmente o carrinho
-    updateCart();
-  }
-});
-
-// --- AQUI fora do listener add-to-cart ---
-const clearCartBtn = document.getElementById('clear-cart');
-if (clearCartBtn) {
-  clearCartBtn.addEventListener('click', () => {
-    cart.length = 0; // limpa carrinho em memória
-    localStorage.removeItem('cart'); // limpa localStorage
-    updateCart(); // atualiza visualmente
   });
+
+  /**
+   * Limpa o carrinho completamente
+   */
+  const clearCartBtn = document.getElementById('clear-cart');
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', () => {
+      cart.length = 0;
+      localStorage.removeItem('cart');
+      updateCart();
+    });
+  }
 }
 
-
-}
-
-// Redireciona para a página de checkout ao clicar no botão "Finalizar Compra"
+/** Botão de redirecionamento para checkout */
 const checkoutBtn = document.getElementById('checkout');
 if (checkoutBtn) {
   checkoutBtn.addEventListener('click', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Se não estiver logado, manda para a página de login
+    if (!user) {
+      alert('Você precisa estar logado para finalizar o pedido.');
+      window.location.hash = '#login';
+      const cartElement = document.getElementById('cart');
+      if (cartElement) cartElement.classList.remove('open');
+      return;
+    }
+
+    // Se estiver logado, segue para o checkout normalmente
     window.location.hash = '#checkout';
     const cartElement = document.getElementById('cart');
     if (cartElement) cartElement.classList.remove('open');

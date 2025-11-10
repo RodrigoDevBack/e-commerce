@@ -1,3 +1,7 @@
+/**
+ * Renderiza a seção de produtos da SPA.
+ * @returns {string} HTML da página de produtos.
+ */
 export default function produtosPage() {
   return (`
     <section class="products-section">
@@ -20,6 +24,9 @@ export default function produtosPage() {
   `);
 }
 
+/**
+ * Inicializa a lista de produtos, realiza fetch da API, cria cards e modais.
+ */
 export async function initProductsList() {
   const productList = document.getElementById("product-list");
   productList.innerHTML = "";
@@ -38,12 +45,16 @@ export async function initProductsList() {
     let productCard = createProductCard(product);
     productList.appendChild(productCard);
 
-    // Cria o modal e injeta no body (fora do fluxo da página)
+    /** 
+    * Cria o modal para cada produto e adiciona ao body 
+    */
     let modal = createProductModal(product);
     document.body.appendChild(modal);
   });
-
-  const filter = document.getElementById('filter')
+  /**
+* Adiciona listener para filtrar produtos por preço
+*/
+  const filter = document.getElementById('filter');
   filter.addEventListener('change', function () {
     if (filter.value == 'all') {
       productList.innerHTML = '';
@@ -84,27 +95,41 @@ export async function initProductsList() {
 function createProductCard(product) {
   const li = document.createElement("li");
   li.classList.add("product-item");
-
-  li.innerHTML = `
-    <div class="thumb">
-      <img 
-        src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
-        width="100%" height="100%" 
-        alt="${product.name}" 
-        style="object-fit: contain; border-radius: 8px;">
-    </div>
+// R: Tela de todos os produtos
+ li.innerHTML = `
+  ${(product.images != null) ? 
+  `<div class="thumb">
+    <img 
+      src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
+      width="100%" height="100%" 
+      alt="${product.name}" 
+      style="object-fit: contain; border-radius: 8px;">
+  </div>` : 
+  `<div class="thumb">
+    <img 
+      src="https://img.icons8.com/color/96/no-image.png"
+      width="100%" height="100%"
+      alt="${product.name} - Sem imagens"
+      style="object-fit: contain; border-radius: 8px;">
+  </div>`}
+  
+  <div class="product-item-content">
     <h3>${product.name}</h3>
-    <p>Quantidade: ${product.qtd}</p>
+    <p>Disponível: ${product.qtd}</p>
     <p class="product-price">R$ ${product.price}</p>
-    <button type="button" 
-      class="btn btn-primary btn-details" 
-      data-product-id="${product.id}">
-      Ver detalhes
-    </button>
-    <button class="btn add-to-cart">Adicionar ao carrinho</button>
-  `;
+  </div>
+  <button type="button" 
+    class="btn btn-primary btn-details" 
+    data-product-id="${product.id}">
+    Ver detalhes
+  </button>
+  <button class="btn add-to-cart">Adicionar ao carrinho</button>
+`;
 
-  // Ação do botão de detalhes
+
+  /**
+   * Mostra o modal do produto ao clicar no botão de detalhes
+   */
   li.querySelector(".btn-details").addEventListener("click", () => {
     const modalEl = document.getElementById(`modal-product-${product.id}`);
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -114,11 +139,14 @@ function createProductCard(product) {
   return li;
 }
 
-
-// Cria o modal com o carousel de imagens e informações
-
+/**
+ * Cria o modal com carousel de imagens e informações detalhadas do produto.
+ * @param {Object} product - Objeto do produto
+ * @returns {HTMLElement} Elemento do modal do produto
+ */
 function createProductModal(product) {
   const modalContainer = document.createElement("div");
+  // R: Modal de detalhes do produto
   modalContainer.innerHTML = `
     <div class="modal fade" id="modal-product-${product.id}" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="product-modal-label-${product.id}" aria-hidden="true">
@@ -136,7 +164,7 @@ function createProductModal(product) {
             <div class="card p-3 shadow-sm">
               <div id="carousel-${product.id}" class="carousel slide">
                 <div class="carousel-inner">
-                  ${(product.images || []).map((img, i) => `
+                  ${(product.images != null) ? (product.images || []).map((img, i) => `
                     <div class="carousel-item ${i === 0 ? 'active' : ''}">
                       <img 
                         src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
@@ -144,17 +172,25 @@ function createProductModal(product) {
                         alt="${product.name} - Imagem ${i + 1}"
                         style="object-fit: contain; max-height: 400px;">
                     </div>
-                  `).join('')}
-                </div>
+                  `).join('') : 
+                    `<div class="carousel-item}">
+                      <img 
+                        src="https://img.icons8.com/color/96/no-image.png"
+                        class="d-block w-100"
+                        alt="${product.name} - Sem imagens"
+                        style="object-fit: contain; width="100%"; height="100%";">
+                    </div>`}
+                
+                  </div>
 
-                ${(product.images?.length || 0) > 1 ? `
+                ${(product.images != null) ? (product.images.length || 0) > 1 ? `
                   <button class="carousel-control-prev" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                   </button>
                   <button class="carousel-control-next" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                   </button>
-                ` : ''}
+                ` : '' : ''}
               </div>
 
               <div class="mt-3">
@@ -180,4 +216,3 @@ function createProductModal(product) {
 
   return modalContainer.firstElementChild;
 }
-

@@ -1,3 +1,13 @@
+/**
+ * Renderiza o markup da página de login.
+ * Retorna um template string para ser inserido no DOM pelo router.
+ * 
+ * Responsabilidade:
+ * - Exibir formulário de autenticação do usuário.
+ * 
+ * Observação:
+ * - A lógica do login fica separada em initLogin() para manter o padrão SPA modular.
+ */
 export default function loginPage() {
   return `
     <section class="login">
@@ -42,41 +52,41 @@ export async function initLogin() {
         <button type="button" id="voltar">Voltar</button>
       </form>`
 
-      let voltar = document.getElementById(`voltar`);
-      voltar.addEventListener('click', (e) => {
-        location.reload();
-      })
+    let voltar = document.getElementById(`voltar`);
+    voltar.addEventListener('click', (e) => {
+      location.reload();
+    })
 
-      let recuperarPasswordForm = document.getElementById('recuperar-password-form')
-      recuperarPasswordForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        let email = document.getElementById('email').value
-        let body = {
-          'email': email
-        };
-        let request = await fetch('api/login/request_recover_password.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
+    let recuperarPasswordForm = document.getElementById('recuperar-password-form')
+    recuperarPasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let email = document.getElementById('email').value
+      let body = {
+        'email': email
+      };
+      let request = await fetch('api/login/request_recover_password.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
 
-        let response = await request.json();
+      let response = await request.json();
 
-        if (response.success == true) {
-          alert('Solicitação bem sucedida!');
-          escreverNovaSenha(div);
-        } else {
-          alert('Usuário não cadastrado ou email inválido.');
-        }
+      if (response.success == true) {
+        alert('Solicitação bem sucedida!');
+        escreverNovaSenha(div);
+      } else {
+        alert('Usuário não cadastrado ou email inválido.');
+      }
 
-      })
+    })
   }
 
   function escreverNovaSenha(div) {
     div.innerHTML = '';
-    div.innerHTML =  `
+    div.innerHTML = `
       <h2>Recuperar Senha</h2>
       <form id="recuperar-password-form">
         <label for="email">Email:</label>
@@ -93,49 +103,50 @@ export async function initLogin() {
         <button type="button" id="voltar">Voltar</button>
       </form>`
 
-      let voltar = document.getElementById(`voltar`);
-      voltar.addEventListener('click', () => {
-        criarCampoDeSolicitarCodigo(div);
-      })
+    let voltar = document.getElementById(`voltar`);
+    voltar.addEventListener('click', () => {
+      criarCampoDeSolicitarCodigo(div);
+    })
 
-      let recuperarPasswordForm = document.getElementById('recuperar-password-form')
-      recuperarPasswordForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        let email = document.getElementById('email').value;
-        let code = document.getElementById('code').value;
-        let password = document.getElementById('password').value;
+    let recuperarPasswordForm = document.getElementById('recuperar-password-form')
+    recuperarPasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let email = document.getElementById('email').value;
+      let code = document.getElementById('code').value;
+      let password = document.getElementById('password').value;
 
-        let body = {
-          'email': email,
-          'code': code,
-          'password': password,
-        };
+      let body = {
+        'email': email,
+        'code': code,
+        'password': password,
+      };
 
-        let request = await fetch('api/login/recover_password.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
+      let request = await fetch('api/login/recover_password.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
 
-        let response = await request.json();
+      let response = await request.json();
 
-        if (response.success == true) {
-          alert('Senha recuperada com sucesso!');
-          alert('Bora fazer login.');
-          location.reload();
-        } else {
-          alert('Falha! Verifique se o email ou código estão corretos.');
-        }
-      })
+      if (response.success == true) {
+        alert('Senha recuperada com sucesso!');
+        alert('Bora fazer login.');
+        location.reload();
+      } else {
+        alert('Falha! Verifique se o email ou código estão corretos.');
+      }
+    })
   }
 
   const form = document.getElementById('login-form');
-  if (!form) return;
+  if (!form) return; // Evita erro se função rodar fora da página de login
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
@@ -144,12 +155,10 @@ export async function initLogin() {
       'password': password,
     };
 
-
+    // Envia credenciais para API PHP de autenticação
     const request = await fetch('/api/login/login.php', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 
@@ -157,30 +166,26 @@ export async function initLogin() {
     console.log(response);
 
     if (response.success === true) {
+      // Armazena informações essenciais do usuário para persistência de sessão
       const role = response.role;
       const name = response.name;
       localStorage.setItem('user', JSON.stringify({ name, email, role }))
 
-      if (response.email_validate == false) { 
+      if (response.email_validate == false) {
         let div = document.getElementById('login');
         let confirm = window.confirm('Você deseja validar seu email?');
-        if (confirm) {
+        if (confirm == true) {
           criarCampoDeValidarEmail(div);
         } else {
           alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
-          let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
-          if (!confirm) {
-            criarCampoDeValidarEmail(div);
-          } else {
             window.location.hash = '#home';
             window.location.reload();
-          }
-        }
-        } else {
-          window.location.hash = '#home';
-          window.location.reload();
         }
       } else {
+        window.location.hash = '#home';
+        window.location.reload();
+      }
+    } else {
       alert('Email ou senha incorretos.');
     }
 

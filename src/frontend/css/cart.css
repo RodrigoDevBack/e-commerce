@@ -1,4 +1,18 @@
-/* cart */
+/* =============================================================================
+   cart.css
+   -----------------------------------------------------------------------------
+   Estilos para o componente de carrinho lateral (sidebar).
+   Inclui layout fixo, animações de abertura, estrutura de itens,
+   botões de ação e totalizador.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL DO CARRINHO
+   - Fixado no canto superior direito da viewport.
+   - Inicialmente oculto via translateX(100%).
+   - Desliza para dentro quando a classe `.open` é adicionada.
+   - Permite rolagem vertical e mantém z-index alto sobre o conteúdo.
+   --------------------------------------------------------------------------- */
 .cart {
   position: fixed;
   top: 80px;
@@ -7,24 +21,30 @@
   height: calc(100% - 100px);
   background: #fff;
   border-left: 1px solid #ddd;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transform: translateX(100%);
   transition: transform 0.3s ease;
   overflow-y: auto;
   z-index: 1000;
-  
 }
 
+/* Linha divisória para separar seções internas (itens, total, etc.) */
 .cart hr {
-    margin: 1rem 0;
-    border: none;
-    border-top: 1px solid #eee;
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid #eee;
 }
 
-/* Botão de limpar carrinho */
+/* ---------------------------------------------------------------------------
+   BOTÃO DE LIMPAR CARRINHO
+   - Usado para remover todos os itens de uma vez.
+   - Utiliza vermelho para reforçar a ação destrutiva.
+   - Hover aplica tom mais escuro para destaque visual.
+   --------------------------------------------------------------------------- */
 #clear-cart {
-  background-color: #ff4d4f; /* vermelho para ação de apagar */
+  background-color: #ff4d4f;
+  /* vermelho para ação de apagar */
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -36,29 +56,49 @@
 }
 
 #clear-cart:hover {
-  background-color: #e63946; /* tom mais escuro ao passar o mouse */
+  background-color: #e63946;
+  /* tom mais escuro ao passar o mouse */
 }
 
-/* Mantendo padrão dos outros botões do carrinho */
+/* Mantém o tamanho de fonte dos botões consistentes com o layout geral */
 .cart-actions button {
   font-size: 0.9rem;
 }
 
-
+/* ---------------------------------------------------------------------------
+   CONTAINER DE AÇÕES
+   - Agrupa botões de "Finalizar" e "Limpar".
+   - Garante espaçamento uniforme e alinhamento horizontal.
+   --------------------------------------------------------------------------- */
 .cart-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
+/* ---------------------------------------------------------------------------
+   ESTADO ABERTO DO CARRINHO
+   - Aplica transformação que traz o painel para dentro da tela.
+   --------------------------------------------------------------------------- */
 .cart.open {
   transform: translateX(0);
 }
-.cart h2 { 
-    margin-bottom: 1rem; 
-    font-size: 1.25rem; 
+
+/* ---------------------------------------------------------------------------
+   TÍTULO DO CARRINHO
+   - Tamanho e espaçamento adequados para destaque.
+   --------------------------------------------------------------------------- */
+.cart h2 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
 }
+
+/* ---------------------------------------------------------------------------
+   ITEM DO CARRINHO
+   - Estrutura base de cada produto listado.
+   - Usa flexbox para alinhar imagem e informações lado a lado.
+   --------------------------------------------------------------------------- */
 .cart-item {
   display: flex;
   align-items: center;
@@ -66,73 +106,117 @@
   margin-bottom: 0.75rem;
 }
 
+/* ---------------------------------------------------------------------------
+   MINIATURA (THUMB) DO ITEM
+   - Garante dimensões fixas e bordas arredondadas.
+   - Usa flexbox para centralizar imagem ou ícone SVG.
+   - overflow:hidden corta imagens fora do container.
+   --------------------------------------------------------------------------- */
 .cart-item .cart-thumb {
-  width: 60px;       /* largura da miniatura */
-  height: 60px;      /* altura da miniatura */
-  border-radius: 6px; 
-  flex-shrink: 0;    /* evita que encolha */
-  overflow: hidden;  /* corta qualquer excesso */
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Imagem da miniatura — cobre todo o espaço mantendo proporção */
 .cart-item .cart-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* mantém proporção da imagem */
+  object-fit: cover;
 }
 
+/* Suporte a ícones SVG de placeholder */
 .cart-item .cart-thumb svg {
   width: 100%;
   height: 100%;
 }
 
-.cart-item-name { 
-    font-weight: 500;
-    color: #333;
-} 
-.cart-item-quantity { 
-    color: #666; 
-    margin: 0 0.5rem;
+/* ---------------------------------------------------------------------------
+   INFORMAÇÕES DO ITEM
+   - Nome, quantidade e preço do produto.
+   --------------------------------------------------------------------------- */
+.cart-item-name {
+  font-weight: 500;
+  color: #333;
 }
-.cart-item-price { 
-    font-weight: 600; 
-    color: #0a7a3a
-; }
-.cart-total { 
-    margin-top: 1rem; 
-    font-size: 1.1rem;
-    font-weight: 600; 
-    text-align: right; }
-.cart-close-btn { 
-    position: absolute; 
-    top: 10px; left: 10px; 
-    background: none; 
-    border: none; 
-    font-size: 1.5rem; 
-    cursor: pointer; 
-    color: #666; }
 
-.btn { border: none; 
-    padding:8px 12px; 
-    border-radius:8px; 
-    cursor:pointer; 
-    background:#007bff; 
-    color:white; 
+.cart-item-quantity {
+  color: #666;
+  margin: 0 0.5rem;
 }
-.btn:hover { 
-    background:#0056b3; 
+
+.cart-item-price {
+  font-weight: 600;
+  color: #0a7a3a;
 }
-.btn-closer { 
-    border: none; 
-    padding:8px 12px; 
-    border-radius:8px; 
-    cursor:pointer; 
-    background:#007bff; 
-    color:white; 
+
+/* ---------------------------------------------------------------------------
+   TOTAL DO CARRINHO
+   - Exibe o valor total acumulado.
+   - Alinhado à direita para contraste com os itens.
+   --------------------------------------------------------------------------- */
+.cart-total {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
 }
-.btn-closer:hover { 
-    background:#0056b3;
-    color: white;
+
+/* ---------------------------------------------------------------------------
+   BOTÃO DE FECHAR CARRINHO
+   - Posicionado no topo à esquerda do painel.
+   - Ícone simples (geralmente “×” ou similar).
+   --------------------------------------------------------------------------- */
+.cart-close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
 }
+
+/* ---------------------------------------------------------------------------
+   BOTÕES GENÉRICOS (REUTILIZÁVEIS)
+   - Aplicam o padrão de cor azul do tema.
+   - Utilizados tanto em ações internas quanto no botão de fechar.
+   --------------------------------------------------------------------------- */
+.btn {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+}
+
+/* Hover do botão padrão */
+.btn:hover {
+  background: #0056b3;
+}
+
+/* Variante “btn-closer” (mesma aparência, sem redundância funcional) */
+.btn-closer {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+}
+
+.btn-closer:hover {
+  background: #0056b3;
+  color: white;
+}
+
+/* ============================================================================
+   FIM DO cart.css
+   ============================================================================ */

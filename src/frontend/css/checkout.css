@@ -1,9 +1,19 @@
-/* checkout.css */
+/* =============================================================================
+   checkout.css
+   -----------------------------------------------------------------------------
+   Módulo responsável pelo layout da página de checkout.
+   Estrutura baseada em flex containers, priorizando clareza visual e usabilidade.
+   Mantém consistência com o design system principal da loja.
+   ============================================================================= */
 
-/* Container principal da página de checkout */
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL
+   Define estrutura de layout base para formulário e resumo do carrinho.
+   --------------------------------------------------------------------------- */
 .checkout {
   display: flex;
   flex-wrap: wrap;
+  /* Permite que o carrinho desça abaixo do formulário em telas pequenas */
   gap: 2rem;
   padding: 2rem;
   font-family: Arial, sans-serif;
@@ -11,22 +21,29 @@
   background-color: #f9f9f9;
 }
 
-/* Formulário do checkout */
+/* ---------------------------------------------------------------------------
+   FORMULÁRIO DE CHECKOUT
+   Contém os campos do comprador (nome, endereço, pagamento etc.)
+   --------------------------------------------------------------------------- */
 .checkout form {
   flex: 2;
   background-color: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Título principal da página */
 .checkout h2 {
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   color: #2c3e50;
 }
 
-/* Grupos de campos */
+/* ---------------------------------------------------------------------------
+   CAMPOS DO FORMULÁRIO
+   Padrão de espaçamento e tipografia consistente.
+   --------------------------------------------------------------------------- */
 .checkout .form-group {
   margin-bottom: 1rem;
 }
@@ -47,13 +64,17 @@
   transition: border-color 0.3s;
 }
 
+/* Feedback visual em foco para acessibilidade */
 .checkout .form-group input:focus,
 .checkout .form-group select:focus {
   border-color: #27ae60;
   outline: none;
 }
 
-/* Botão do formulário */
+/* ---------------------------------------------------------------------------
+   BOTÃO DE ENVIO DO FORMULÁRIO
+   Ação principal de confirmação do checkout.
+   --------------------------------------------------------------------------- */
 .checkout form button[type="submit"] {
   margin-top: 1rem;
   padding: 0.8rem 1.5rem;
@@ -66,33 +87,39 @@
   transition: background-color 0.3s;
 }
 
+/* Efeito hover sutil para reforçar interatividade */
 .checkout form button[type="submit"]:hover {
   background-color: #219150;
 }
 
-/* Carrinho lateral */
+/* ---------------------------------------------------------------------------
+   RESUMO DO CARRINHO (LADO DIREITO)
+   Painel fixo com lista de produtos, total e botão de finalizar.
+   --------------------------------------------------------------------------- */
 .checkout-cart {
   flex: 1;
   background-color: #fff;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   min-width: 250px;
 }
 
+/* Título da seção de carrinho */
 .checkout-cart h3 {
   margin-bottom: 1rem;
   font-size: 1.4rem;
   color: #2c3e50;
 }
 
-/* Lista de itens */
+/* Lista de produtos */
 .checkout-cart ul {
   list-style: none;
   padding: 0;
   margin: 0 0 1rem 0;
 }
 
+/* Cada item do carrinho no resumo lateral */
 .checkout-cart li {
   display: flex;
   align-items: center;
@@ -102,6 +129,7 @@
   padding-bottom: 0.5rem;
 }
 
+/* Miniatura do produto */
 .checkout-cart li img.cart-thumb {
   width: 40px;
   height: 40px;
@@ -109,12 +137,16 @@
   border-radius: 6px;
 }
 
+/* Total geral */
 .checkout-cart p {
   font-weight: bold;
   margin-top: 1rem;
 }
 
-/* Botão de concluir compra */
+/* ---------------------------------------------------------------------------
+   BOTÃO DE CONCLUSÃO DE PEDIDO
+   Ação final do checkout (submete compra).
+   --------------------------------------------------------------------------- */
 #finalize-checkout-btn {
   margin-top: 1rem;
   width: 100%;
@@ -132,7 +164,10 @@
   background-color: #d35400;
 }
 
-/* Tela de sucesso do checkout */
+/* ---------------------------------------------------------------------------
+   TELA DE SUCESSO (PÓS-COMPRA)
+   Exibida após checkout concluído.
+   --------------------------------------------------------------------------- */
 .checkout-success {
   display: flex;
   flex-direction: column;
@@ -159,6 +194,7 @@
   margin-bottom: 20px;
 }
 
+/* Botão "voltar para a home" na tela de sucesso */
 #back-home-btn {
   padding: 12px 25px;
   font-size: 1rem;
@@ -174,7 +210,10 @@
   background-color: #0056b3;
 }
 
-/* Carrinho ao lado (checkout-cart) */
+/* ---------------------------------------------------------------------------
+   DUPLICATA DE checkout-cart (ajustes visuais)
+   Mantém consistência caso estilos sejam sobrepostos por outro módulo.
+   --------------------------------------------------------------------------- */
 .checkout-cart {
   background-color: #fff;
   border-radius: 12px;
@@ -227,11 +266,13 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s
-    ease;
+  transition: background-color 0.2s ease;
 }
 
-/* Responsividade */
+/* ---------------------------------------------------------------------------
+   RESPONSIVIDADE
+   Ajusta layout para telas pequenas.
+   --------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .checkout {
     flex-direction: column;
@@ -242,3 +283,61 @@
     margin-top: 2rem;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   ITENS DO CHECKOUT (LAYOUT HORIZONTAL)
+   Exibe imagem, nome, quantidade e preço em linha.
+   --------------------------------------------------------------------------- */
+.checkout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checkout-item img.cart-thumb {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.checkout-item-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 1rem;
+}
+
+/* Nome do produto */
+.checkout-item-name {
+  font-weight: bold;
+  color: #333;
+  flex: 2;
+}
+
+/* Quantidade */
+.checkout-item-qtd {
+  background-color: #27ae60;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 4px 10px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Preço */
+.checkout-item-price {
+  font-weight: bold;
+  color: #2c3e50;
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+   FIM DO checkout.css
+   ============================================================================ */

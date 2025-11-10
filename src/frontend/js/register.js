@@ -1,3 +1,7 @@
+/**
+ * Retorna o HTML da página de cadastro.
+ * @returns {string} Estrutura HTML da seção de registro
+ */
 export default function registerPage() {
   return `
     <section class="register">
@@ -20,13 +24,20 @@ export default function registerPage() {
   `;
 }
 
+/**
+ * Inicializa a lógica de cadastro de usuário.
+ * - Captura valores do formulário
+ * - Envia requisição POST para a API
+ * - Redireciona ou exibe mensagem de erro
+ */
 export async function initRegister() {
   const form = document.getElementById('register-form');
-  if (!form) return;
+  if (!form) return; // Sai se o formulário não estiver na página
 
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevê recarregamento padrão
 
+    // Captura dados do formulário e remove espaços extras
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
@@ -41,30 +52,25 @@ export async function initRegister() {
 
     const request = await fetch('/api/login/register.php', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 
     const response = await request.json();
 
+    // Verifica resposta da API
     if (response.success === true) {
       let div = document.getElementById('register');
       let confirm = window.confirm('Você deseja validar seu email?');
-      if (confirm) {
+      if (confirm == true) {
         criarCampoDeValidarEmail(div);
       } else {
         alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
-        let confirm = window.confirm('Tem certeza que vai deixar para outro momento?');
-        if (!confirm) {
-          criarCampoDeValidarEmail(div);
-        } else {
-          window.location.hash = '#home';
-          window.location.reload();
-        }
+        window.location.hash = '#home';
+        window.location.reload();
       }
     } else {
+      // Mostra alerta caso email já exista
       alert('Email já cadastrado.');
     }
   });

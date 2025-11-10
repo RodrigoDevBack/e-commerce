@@ -1,6 +1,53 @@
-/* reset simples */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html,body { height: 100%; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #222; background: #fafafa; }
+/* =============================================================================
+   base.css
+   -----------------------------------------------------------------------------
+   Camada fundamental de estilos globais.
+   Responsável por:
+   - Definir o reset visual padrão da aplicação.
+   - Aplicar tipografia, cores base e layout container.
+   - Estabelecer consistência entre navegadores.
+   ============================================================================= */
 
-.container { width: 90%; max-width: 1100px; margin: 0 auto; }
+/* ---------------------------------------------------------------------------
+   RESET GLOBAL
+   Remove margens e paddings padrões dos navegadores e aplica box-sizing
+   consistente (border-box), garantindo previsibilidade em cálculos de layout.
+   --------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+/* ---------------------------------------------------------------------------
+   HTML E BODY
+   Define a altura total, tipografia e cores padrão para o documento.
+   Mantém uma base neutra e leve, adequada para temas claros.
+   --------------------------------------------------------------------------- */
+html,
+body {
+    height: 100%;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #222;
+    /* Cor de texto base com bom contraste */
+    background: #fafafa;
+    /* Fundo neutro para destacar conteúdo */
+}
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PADRÃO
+   Define uma largura máxima e centraliza o conteúdo horizontalmente.
+   Reutilizado em múltiplos módulos (home, produtos, checkout, etc.).
+   --------------------------------------------------------------------------- */
+.container {
+    width: 90%;
+    /* Proporção flexível para telas menores */
+    max-width: 1100px;
+    /* Largura máxima para manter legibilidade */
+    margin: 0 auto;
+    /* Centraliza horizontalmente */
+}
+
+/* ============================================================================
+   FIM DO base.css
+   ============================================================================

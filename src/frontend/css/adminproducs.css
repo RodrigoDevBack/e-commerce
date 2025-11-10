@@ -1,4 +1,10 @@
-/* Container da página de admin */
+/* =============================================================================
+   admin-products.css — estilo completo moderno, sem alterar HTML
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   CONTAINER PRINCIPAL
+   --------------------------------------------------------------------------- */
 .admin-products {
   padding: 2rem;
   background: #f9f9f9;
@@ -6,26 +12,28 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  font-family: Arial, sans-serif;
 }
 
-/* Título da página */
+/* TÍTULO DA PÁGINA */
 .admin-products h2 {
   color: #007bff;
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
-/* Tabela de produtos */
+/* TABELA DE PRODUTOS */
 .admin-products table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  table-layout: fixed;
 }
 
-/* Cabeçalho da tabela */
+/* CABEÇALHO DA TABELA */
 .admin-products table thead th {
   background: #f0f0f0;
   color: #333;
@@ -33,9 +41,10 @@
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  vertical-align: middle;
 }
 
-/* Corpo da tabela */
+/* CORPO DA TABELA */
 .admin-products table tbody td {
   padding: 0.75rem;
   border-bottom: 1px solid #eee;
@@ -43,47 +52,69 @@
   color: #444;
 }
 
-/* Botões de ação dentro da tabela */
-.admin-products .btn {
-  padding: 0.4rem 0.6rem;
+/* COLUNA DE AÇÕES — centraliza botões e mantém espaçamento */
+.admin-products table tbody td:last-child {
+  display: flex;
+  justify-content: center;
+  /* centraliza horizontal */
+  align-items: center;
+  /* centraliza vertical */
+  gap: 0.5rem;
+  /* espaçamento entre botões */
+}
+
+/* BOTÕES MODERNOS (Editar/Excluir) */
+.admin-products table tbody td button.btn-edit,
+.admin-products table tbody td button.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.65rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 0.8rem;
-  margin-right: 0.3rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  transition: all 0.2s;
+  line-height: 1;
+  transition: all 0.2s ease;
 }
 
-/* Botão Editar */
-.admin-products .btn-edit {
-  background: #007bff; /* Azul do site */
+/* Ícones dentro dos botões */
+.admin-products table tbody td button.btn-edit i,
+.admin-products table tbody td button.btn-delete i {
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* Azul para editar */
+.admin-products table tbody td button.btn-edit {
+  background-color: #007bff;
   color: #fff;
 }
 
-.admin-products .btn-edit:hover {
-  background: #0056b3;
-  transform: scale(1.05);
+.admin-products table tbody td button.btn-edit:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.25);
 }
 
-/* Botão Excluir */
-.admin-products .btn-delete {
-  background: #dc3545; /* Vermelho */
+/* Vermelho para excluir */
+.admin-products table tbody td button.btn-delete {
+  background-color: #dc3545;
   color: #fff;
 }
 
-.admin-products .btn-delete:hover {
-  background: #c82333;
-  transform: scale(1.05);
+.admin-products table tbody td button.btn-delete:hover {
+  background-color: #b02a37;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
 }
 
-/* Botão de adicionar produto */
-#add-product-btn {
+/* BOTÃO "CRIAR PRODUTO" */
+.admin-products .btn.btn-primary {
   align-self: flex-start;
-  background: #28a745;
+  width: 120px;
+  background-color: #28a745;
   color: #fff;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
@@ -93,6 +124,214 @@
   transition: background 0.2s;
 }
 
-#add-product-btn:hover {
-  background: #218838;
+.admin-products .btn.btn-primary:hover {
+  background-color: #218838;
+}
+
+/* MODAL — mantém padrão Bootstrap, sem alterações */
+.admin-products .modal .modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* INPUTS E TEXTAREAS — consistência visual */
+.admin-products input.form-control,
+.admin-products textarea.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* BOTOES RESET/CRIAR DENTRO DO FORM */
+.admin-products button.btn-success,
+.admin-products button.btn-danger {
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-products button.btn-success:hover {
+  background-color: #218838;
+}
+
+.admin-products button.btn-danger:hover {
+  background-color: #b02a37;
+}
+
+
+/* =============================================================================
+   admin-modal-products-compact.css
+   ---------------------------------------------------------------------------
+   Ajuste de espaçamento interno e tamanho fixo para o preview no modal de edição.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   FORMULÁRIO DO MODAL
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem; /* menos espaçamento interno */
+  font-family: Arial, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   LABELS
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto label.form-label {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #333;
+  margin-bottom: 0.15rem;
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   IMAGENS ATUAIS DO PRODUTO
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto img {
+  width: 100%;
+  max-height: 250px; /* preview menor e fixo */
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: transform 0.15s;
+}
+
+.modal-body form#editar-produto img:hover {
+  transform: scale(1.01);
+}
+
+/* ---------------------------------------------------------------------------
+   CHECKBOXES
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.modal-body form#editar-produto .form-check-input {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.modal-body form#editar-produto .form-check-label {
+  font-size: 0.88rem;
+  color: #555;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------------
+   CARD DE PREVIEW DE IMAGEM
+   --------------------------------------------------------------------------- */
+#imagem-preview {
+  width: 100%;
+  max-height: 250px; /* tamanho fixo menor */
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  margin-bottom: 0.25rem;
+}
+
+/* ---------------------------------------------------------------------------
+   INPUTS E TEXTAREAS
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto input.form-control,
+.modal-body form#editar-produto textarea.form-control {
+  width: 100%;
+  padding: 0.35rem 0.45rem; /* menor padding */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.88rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTOES DE AÇÃO
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto button.btn {
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-right: 0.35rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTÕES SUCESSO / DANGER
+   --------------------------------------------------------------------------- */
+.modal-body form#editar-produto button.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.modal-body form#editar-produto button.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(33, 136, 56, 0.25);
+}
+
+.modal-body form#editar-produto button.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.modal-body form#editar-produto button.btn-danger:hover {
+  background-color: #b02a37;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.25);
+}
+
+/* ---------------------------------------------------------------------------
+   RESPONSIVIDADE
+   --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .modal-body form#editar-produto img,
+  #imagem-preview {
+    max-height: 180px;
+  }
+
+  .modal-body form#editar-produto input.form-control,
+  .modal-body form#editar-produto textarea.form-control {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .modal-body form#editar-produto button.btn {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.65rem;
+  }
+}
+/* =============================================================================
+   Ajuste para imagens atuais do produto no modal
+   Força tamanho fixo mesmo com inline style
+   ============================================================================= */
+.modal-body form#editar-produto img.d-block.w-100 {
+  width: 100%;           /* ocupa toda a largura do container */
+  max-width: 300px;      /* tamanho máximo fixo */
+  height: 200px !important;  /* força altura fixa */
+  object-fit: contain !important;  /* mantém proporção sem distorcer */
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* preview de upload inicialmente escondido */
+#imagem-preview {
+  display: none;
 }

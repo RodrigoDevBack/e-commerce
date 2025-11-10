@@ -1,3 +1,12 @@
+/**
+ * Módulo de administração de produtos.
+ * 
+ * Contém funções para renderizar a página de gerenciamento de produtos, 
+ * listar produtos existentes, criar novos produtos, editar produtos 
+ * existentes e remover produtos. Também gerencia os campos de upload 
+ * de imagens, preview de imagens, e interação com os modais de cadastro 
+ * e edição de produtos.
+ */
 export default function adminProductsPage() {
 
   return `
@@ -149,7 +158,7 @@ export async function initAdminProducts() {
       }
     })
 
-    
+
     novoProduto.querySelector(".btn-edits").addEventListener("click", () => {
       const modalEl = document.getElementById(`modal-edit-product-${product.id}`);
       let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -217,10 +226,15 @@ export async function initAdminProducts() {
     }
   })
 
-  const preview_image = document.getElementById('imagem-preview');
-  let images = document.querySelectorAll("#entrada-imagem");
-  let image = images[images.length - 1]
-  image.addEventListener('change', function (event) {
+const preview_image = document.getElementById('imagem-preview');
+preview_image.style.display = 'none'; // esconde por padrão
+preview_image.style.width = '300px';   // define largura fixa
+preview_image.style.height = '200px';  // define altura fixa
+preview_image.style.objectFit = 'contain'; // mantém proporção da imagem
+
+// Função para lidar com o preview de qualquer input de imagem
+function handlePreview(input) {
+  input.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -233,47 +247,40 @@ export async function initAdminProducts() {
       preview_image.style.display = 'none';
     }
   });
-
-  btnAdd.addEventListener('click', function () {
-    if (contador <= contador_limit) {
-      contador++
-      const novoCampo = document.createElement('div')
-      novoCampo.classList.add('mb-3')
-      novoCampo.innerHTML = `
-                <label class="form-label">Imagem-plus</label>
-                <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
-                `
-      image = novoCampo.querySelector('#entrada-imagem')
-      image.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            preview_image.src = e.target.result;
-            preview_image.style.display = 'block';
-          };
-          reader.readAsDataURL(file);
-        } else {
-          preview_image.style.display = 'none';
-        }
-      });
-      container.appendChild(novoCampo)
-    } else {
-      alert('O limite foi alcançado!')
-    }
-  })
-
-  btnRemove.addEventListener('click', function () {
-    if (container.children.length > 6) {
-      container.removeChild(container.lastElementChild)
-      previewImage.style.display = 'none'
-      contador--
-    } else {
-      alert('O limite foi alcançado!')
-    }
-  })
 }
 
+// Aplica a função a todos os inputs existentes
+document.querySelectorAll('#entrada-imagem').forEach(handlePreview);
+
+// Ao criar novos campos, chama handlePreview no novo input
+btnAdd.addEventListener('click', function () {
+  if (contador < contador_limit) {
+    contador++;
+    const novoCampo = document.createElement('div');
+    novoCampo.classList.add('mb-3');
+    novoCampo.innerHTML = `
+      <label class="form-label">Imagem-plus</label>
+      <input type="file" name="images" accept="image/*" class="form-control" id="entrada-imagem">
+    `;
+    const novoInput = novoCampo.querySelector('#entrada-imagem');
+    handlePreview(novoInput);
+    container.appendChild(novoCampo);
+  } else {
+    alert('O limite foi alcançado!');
+  }
+});
+
+// Remove campos de imagem
+btnRemove.addEventListener('click', function () {
+  if (container.children.length > 6) { // mantém pelo menos 6 campos
+    container.removeChild(container.lastElementChild);
+    preview_image.style.display = 'none';
+    contador--;
+  } else {
+    alert('Não é possível remover o último campo!');
+  }
+});
+}
 
 function createEditProductModal(product) {
 
@@ -294,7 +301,7 @@ function createEditProductModal(product) {
                 <div class="modal-body">
                     <form id="editar-produto" method="post" enctype="multipart/form-data">
                         <label class="form-label">Imagens atuais do produto</label> <br> <br>
-                        ${(product.images || []).map((img, i) => `
+                        ${(product.images != null) ? (product.images || []).map((img, i) => `
                             <img src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
                                 class="d-block w-100" alt="${product.name} - Imagem ${i + 1}"
                                 style="object-fit: contain; max-height: 400px;"> <br>
@@ -304,7 +311,7 @@ function createEditProductModal(product) {
                                     <label class="form-check-label">É para remover?</label><br> <br>
                                 </div>
                             </div>
-                        `).join('')}
+                        `).join('') : ''}
                         <br>
                         <div class="card" style="width: 100%;">
                             <img id="imagem-preview" alt="Imagem Preview">
@@ -361,12 +368,13 @@ function createEditProductModal(product) {
         </div>
     </div>
   `;
-  
+
   // Conta quantos campos de entrada de imagem no cadastro
   let countFieldsToImages = 1;
-
+  
   // Limite para a quantidade de entrada de imagem no cadastro
-  let limitImages = 6 - (product.images).length;
+  let qtd_images_exists = (product.images != null) ? (product.images).length : 0;
+  let limitImages = 6 - qtd_images_exists;
 
   // Lista para reunir as imagens para serem removidas
   let urlImagesForRemove = [];
@@ -381,14 +389,14 @@ function createEditProductModal(product) {
     checkbox.addEventListener('change', function () {
 
       // Se ativar a checkbox a url é capturada.
-      if(checkbox.checked) {
+      if (checkbox.checked) {
         limitImages++;
         urlImagesForRemove.push(checkbox.value);
         // Alerta o usuário se houver excedido o limite de imagens
         if (countFieldsToImages >= limitImages) {
           alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
         }
-        
+
       } else { // Se inativar a checkbox a url é removida da lista
         limitImages--;
         urlImagesForRemove = urlImagesForRemove.filter(value => value != checkbox.value);
@@ -467,7 +475,7 @@ function createEditProductModal(product) {
       countFieldsToImages--;
       // Alerta o usuário se houver excedido o limite de imagens
       if (countFieldsToImages >= limitImages) {
-          alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
+        alert(`Atenção! Limite de imagens excedido em ${countFieldsToImages - limitImages}`);
       }
     } else {
       alert('Limite de remoção alcançado');
@@ -481,7 +489,7 @@ function createEditProductModal(product) {
   let description = modalContainer.querySelector('#descricao-produto');
   let qtd = modalContainer.querySelector('#qtd-produto');
   let value = modalContainer.querySelector('#valor-produto');
-  
+
   // Aqui capturo as checkbox dos campos de texto do DOM
   const checkboxEditarNome = modalContainer.querySelector('#checkbox-editar-nome');
   const checkboxEditarDescricao = modalContainer.querySelector('#checkbox-editar-descricao');
@@ -489,7 +497,7 @@ function createEditProductModal(product) {
   const checkboxEditarValorProduto = modalContainer.querySelector('#checkbox-editar-valor-produto');
 
   checkboxEditarNome.addEventListener('change', function () {
-    if (checkboxEditarNome.checked){
+    if (checkboxEditarNome.checked) {
       // readOnly = false significa que o campo pode ser alterado
       name.readOnly = false
     } else {
@@ -501,7 +509,7 @@ function createEditProductModal(product) {
   });
 
   checkboxEditarDescricao.addEventListener('change', function () {
-    if (checkboxEditarDescricao.checked){
+    if (checkboxEditarDescricao.checked) {
       description.readOnly = false
     } else {
       description.value = product.description
@@ -510,7 +518,7 @@ function createEditProductModal(product) {
   });
 
   checkboxEditarQtd.addEventListener('change', function () {
-    if (checkboxEditarQtd.checked){
+    if (checkboxEditarQtd.checked) {
       qtd.readOnly = false
     } else {
       qtd.value = product.qtd
@@ -519,7 +527,7 @@ function createEditProductModal(product) {
   });
 
   checkboxEditarValorProduto.addEventListener('change', function () {
-    if (checkboxEditarValorProduto.checked){
+    if (checkboxEditarValorProduto.checked) {
       value.readOnly = false
     } else {
       value.value = product.price
@@ -546,7 +554,7 @@ function createEditProductModal(product) {
 
     // Executa a função de envio de dados para o php tratar e enviar para a API
     let response = await requestEditProduct(product.id, name, description, value, qtd, images, delImages)
-    
+
     // Trata a resposta da requisição
     if (response.response == true) {
       alert('Produto editado!');
@@ -561,47 +569,47 @@ function createEditProductModal(product) {
 
 
 async function requestEditProduct(id, nam, descriptio, valu, qt, image, urlsToDeleteImages) {
-  
-    let name = nam ?? null;
-    let description = descriptio ?? null;
-    let value = valu ?? null;
-    let qtd = qt ?? null;
-    let images = image ?? null;
-    let delImages = urlsToDeleteImages ?? null;
 
-    let formData = new FormData();
+  let name = nam ?? null;
+  let description = descriptio ?? null;
+  let value = valu ?? null;
+  let qtd = qt ?? null;
+  let images = image ?? null;
+  let delImages = urlsToDeleteImages ?? null;
 
-    formData.append('id', id)
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('price', parseFloat(value));
-    formData.append('qtd', parseInt(qtd));
-    formData.append('del_images[]', delImages)
-    
-    images.forEach((input) => {
-      if (input.files.length > 0) {
-        for (let i = 0; i < input.files.length; i++) {
-          formData.append('images[]', input.files[i]);
-        }
+  let formData = new FormData();
+
+  formData.append('id', id)
+  formData.append('name', name);
+  formData.append('description', description);
+  formData.append('price', parseFloat(value));
+  formData.append('qtd', parseInt(qtd));
+  formData.append('del_images[]', delImages)
+
+  images.forEach((input) => {
+    if (input.files.length > 0) {
+      for (let i = 0; i < input.files.length; i++) {
+        formData.append('images[]', input.files[i]);
       }
+    }
+  });
+
+  try {
+    const request = await fetch('/api/admin/edit_product.php', {
+      method: 'POST',
+      body: formData,
     });
 
-    try {
-      const request = await fetch('/api/admin/edit_product.php', {
-        method: 'POST',
-        body: formData,
-      });
+    if (!request.ok) return { 'response': 'Falha ao enviar os dados' };
 
-      if (!request.ok) return {'response': 'Falha ao enviar os dados'};
+    const response = await request.json();
 
-      const response = await request.json();
-
-      if (response.success == true) {
-        return {'response': true};
-      } else {
-        return {'response': 'Falha na requisição'};
-      }
-    } catch (erro) {
-      return {'response': erro}
+    if (response.success == true) {
+      return { 'response': true };
+    } else {
+      return { 'response': 'Falha na requisição' };
     }
+  } catch (erro) {
+    return { 'response': erro }
+  }
 }

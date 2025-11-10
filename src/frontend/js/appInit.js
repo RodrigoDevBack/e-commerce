@@ -1,14 +1,17 @@
 // appInit.js
 
-// Inicializa eventos globais do app
+/**
+ * Inicializa eventos globais da aplicação, como o roteamento
+ * e atualizações automáticas de UI.
+ */
 export function initApp(router) {
-  // Executa o roteamento ao carregar a página
+  // Executa o roteamento na primeira carga da página
   window.addEventListener('load', router);
 
-  // Atualiza o roteamento ao mudar o hash
+  // Reexecuta o roteamento quando o hash da URL muda
   window.addEventListener('hashchange', router);
 
-  // Atualiza o ano do footer dinamicamente
+  // Atualiza o ano exibido no footer, caso o elemento exista
   const yearElement = document.getElementById('year');
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
