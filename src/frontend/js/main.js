@@ -119,6 +119,7 @@ function updateMenu() {
     navRight.innerHTML = `
       <span class="user-btn">Olá, ${userData.name}</span>
       ${userData.role === 'admin' ? '<a href="#admin" class="nav-link">Gerenciar Produtos</a>' : ''}
+      <button class="nav-link">Ver Perfil</button>
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
 

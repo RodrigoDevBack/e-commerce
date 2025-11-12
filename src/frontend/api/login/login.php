@@ -43,7 +43,7 @@ if ($httpCode != 200) {
         'success' => true,
         'name' => $response['name'],
         'role' => $response['role'],
-        'email_validate' => $response['role']
+        'email_validate' => $response['email_validate']
     ];
     $response_user = json_encode($response_user);
     echo $response_user;

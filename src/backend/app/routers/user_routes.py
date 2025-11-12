@@ -84,7 +84,8 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
                     "access_token" : hash_token_user(user.id), 
                     "token_type" : "bearer",
                     "name" : user.name,
-                    "role" : 'user'
+                    "role" : 'user',
+                    "email_validate": user.status_email
                 }
         else:
             raise HTTPException(
