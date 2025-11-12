@@ -39,7 +39,7 @@ async def add_product_image(id: int = Form(...), image: UploadFile = File(...), 
     if not product:
         raise HTTPException(
             status.HTTP_404_NOT_FOUND,
-            detail= 'Product not found'
+            detail='Product not found'
         )
     
     if not product.images:
