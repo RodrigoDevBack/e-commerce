@@ -2,15 +2,19 @@
 Site e-commerce
 
 Como rodar:
-Iniciado o Docker(Se no windows, se contrário, continue com os próximos passos):
+Inicie o Docker desktop(Se no windows, se contrário, continue com os próximos passos):
 Entre na pasta e-commerce
 abra o terminal no diretório e-commerce
 digite:
 `docker compose up --build`
 
-Ele irá iniciar o backend na porta 5000
+O site será iniciado na porta 8000
 
-Acesse o Swagger da api pelo link:
+Link: http://localhost:8000
+
+A api será iniciada na porta 5000
+
+Acesse a interface da api pelo link:
 http://localhost:5000/docs
 
 
