@@ -1,25 +1,24 @@
 from pydantic import BaseModel, field_validator
-from typing import Optional, List
-from fastapi import UploadFile, File, Form
+from typing import Optional
 
-class Admin_Disable_User(BaseModel):
+class AdminDisableUser(BaseModel):
     gmail: str
     
 
-class Admin_Create_Product(BaseModel):
+class AdminCreateProduct(BaseModel):
     name: str
     description: str
     qtd: int
     price: float
 
-class Admin_Response_Product(BaseModel):
+class AdminResponseProduct(BaseModel):
     id: int
     name: str
     description: str
     qtd: int
     price: float
 
-class Admin_Update_Product(BaseModel):
+class AdminUpdateProduct(BaseModel):
     id: int
     name: Optional[str]
     description: Optional[str]
@@ -33,5 +32,5 @@ class Admin_Update_Product(BaseModel):
             return None
         return v
 
-class Admin_Delete_Product(BaseModel):
+class AdminDeleteProduct(BaseModel):
     id: int

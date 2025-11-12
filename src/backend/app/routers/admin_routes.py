@@ -3,7 +3,7 @@ from security.user_depends import get_user_admin
 from typing import Annotated, List, Optional
 from tortoise_models.model_user_db import User
 from tortoise_models.model_product_db import Product
-from pydantic_models.admin_dto import Admin_Create_Product, Admin_Disable_User, Admin_Update_Product, Admin_Delete_Product, Admin_Response_Product
+from pydantic_models.admin_dto import AdminCreateProduct, AdminDisableUser, AdminUpdateProduct, AdminDeleteProduct, AdminResponseProduct
 from pydantic_models.user_dto import UserResponseDTO
 from fastapi import HTTPException, status
 from integrations.image_save import add_image, delete_directory_product, delete_product_image
@@ -22,7 +22,7 @@ async def get_users(depends: Annotated[str, Depends(get_user_admin)]):
 
 
 @router_admin.patch('/disable-client-account')
-async def disable_client_account(user: Admin_Disable_User, depends: Annotated[str, Depends(get_user_admin)]):
+async def disable_client_account(user: AdminDisableUser, depends: Annotated[str, Depends(get_user_admin)]):
     use = await User.get_or_none(gmail = user.gmail)
     if user == None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail = 'User not exists')
@@ -53,8 +53,8 @@ async def add_product_image(id: int = Form(...), image: UploadFile = File(...), 
     await product.save()
     return True
 
-@router_admin.post('/create-product', response_model = Admin_Response_Product)
-async def create_product(data: Admin_Create_Product, depends =  Depends(get_user_admin)):
+@router_admin.post('/create-product', response_model = AdminResponseProduct)
+async def create_product(data: AdminCreateProduct, depends =  Depends(get_user_admin)):
     product = await Product.create(
         name = data.name,
         description = data.description,
@@ -64,8 +64,8 @@ async def create_product(data: Admin_Create_Product, depends =  Depends(get_user
     
     return product
 
-@router_admin.put('/edit-product', response_model=Admin_Update_Product)
-async def edit_product(data: Admin_Update_Product, depends = Depends(get_user_admin)):
+@router_admin.put('/edit-product', response_model=AdminUpdateProduct)
+async def edit_product(data: AdminUpdateProduct, depends = Depends(get_user_admin)):
     product_update = await Product.get_or_none(id = data.id)
     
     if not product_update:
@@ -114,7 +114,7 @@ async def edit_product_image(id: int = Form(...), del_image: str = Form(...), de
 
 
 @router_admin.delete('/delete-product')
-async def delete_product(product_id: Admin_Delete_Product, depends: Annotated[str, Depends(get_user_admin)]):
+async def delete_product(product_id: AdminDeleteProduct, depends: Annotated[str, Depends(get_user_admin)]):
     product_exists = await Product.get_or_none(id = product_id.id)
     if not product_exists:
         raise HTTPException(

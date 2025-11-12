@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from db.config_db import lifespan
-from routers import user_routes, admin_routes, client_app_routes, cart_routes
+from routers import user_routes, admin_routes, client_app_routes, cart_routes, address_routes
 from integrations.image_save import configure_image
 
 def config_app():
@@ -9,6 +9,7 @@ def config_app():
     app.include_router(router = admin_routes.router_admin, prefix="/admin")
     app.include_router(router = client_app_routes.router_client_app, prefix="/app")
     app.include_router(router = cart_routes.router_cart, prefix="/cart")
+    app.include_router(router = address_routes.router_address, prefix="/address")
     app = configure_image(app)
     return app
     
