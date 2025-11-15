@@ -7,9 +7,9 @@
 
 Este é um **e-commerce completo**, desenvolvido com:
 
-* **Backend:** FastAPI + Tortoise ORM
-* **Frontend:** HTML, CSS e JavaScript
-* **Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
+- **Backend:** FastAPI + Tortoise ORM
+- **Frontend:** HTML, CSS e JavaScript
+- **Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
 
 O objetivo é entregar uma solução limpa, escalável e pronta para evolução.
 
@@ -157,28 +157,28 @@ Após subir os containers:
 
 ## 📚 Documentação Completa
 
-Toda documentação do projeto está organizada dentro da pasta  **/docs/**.
+Toda documentação do projeto está organizada dentro da pasta **/docs/**.
 
-* 📄 [`docs/installation.md`]() – Instalação detalhada
-* 📄 [`docs/architecture.md`](docs/architecture.md) – Arquitetura do sistema
-* 📄 [`docs/backend.md`]() – Guia completo do backend
-* 📄 [`docs/frontend.md`]() – Guia do frontend
-* 📄 [`docs/api-reference.md`]() – Endpoints da API
-* 📄 [`docs/team.md`]() – Equipe e contribuições
-* 📄 [`docs/changelog.md`]() – Histórico de versões
+- 📄 [`docs/installation.md`]() – Instalação detalhada
+- 📄 [`docs/architecture.md`](docs/architecture.md) – Arquitetura do sistema
+- 📄 [`docs/backend.md`]() – Guia completo do backend
+- 📄 [`docs/frontend.md`]() – Guia do frontend
+- 📄 [`docs/api-reference.md`]() – Endpoints da API
+- 📄 [`docs/team.md`]() – Equipe e contribuições
+- 📄 [`docs/changelog.md`]() – Histórico de versões
 
 ---
 
 ## 🧩 Funcionalidades Principais
 
-* Cadastro/login com JWT
-* Carrinho de compras
-* Sistema de pedidos
-* CRUD completo de produtos
-* Envio de e-mails
-* Upload e exibição de imagens
-* Área administrativa
-* Layout responsivo
+- Cadastro/login com JWT
+- Carrinho de compras
+- Sistema de pedidos
+- CRUD completo de produtos
+- Envio de e-mails
+- Upload e exibição de imagens
+- Área administrativa
+- Layout responsivo
 
 ---
 
@@ -186,23 +186,22 @@ Toda documentação do projeto está organizada dentro da pasta  **/docs/**.
 
 ### Backend
 
-* FastAPI
-* Tortoise ORM
-* SQLite / PostgreSQL
-* JWT Auth
-* SMTP Email
+- FastAPI
+- Tortoise ORM
+- SQLite / PostgreSQL
+- JWT Auth
+- SMTP Email
 
 ### Frontend
 
-* HTML
-* CSS
-* JavaScript (Fetch API)
+- HTML
+- CSS
+- JavaScript (Fetch API)
 
 ---
 
 ## 👥 Equipe
 
-* **[@Rodrigo Moraes](https://github.com/RodrigoDevBack)** — Backend, API, Github
-* **[@Lucas Paiva](https://github.com/lucaspaiva-lp)** — Frontend, Documentação, Github
-* **[@Raian](https://github.com/lucaspaiva-lp)** — Frontend
-
+- **[@Rodrigo Moraes](https://github.com/RodrigoDevBack)** — Backend, API, Github
+- **[@Lucas Paiva](https://github.com/lucaspaiva-lp)** — Frontend, Documentação, Github
+- **[@Raian](https://github.com/lucaspaiva-lp)** — Design
