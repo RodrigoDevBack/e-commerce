@@ -21,7 +21,7 @@
     text-align: center;                  /* centraliza o texto */
     color: #e0e0e0;                      /* cor de texto suave, melhor contraste */
     font-size: 0.95rem;                  /* levemente maior para legibilidade */
-    font-family: 'Roboto', sans-serif;   /* fonte moderna */
+    font-family: var(--font-footer);   /* fonte moderna */
     position: relative;                  /* permite elementos posicionados dentro */
 }
 

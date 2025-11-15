@@ -1,34 +1,17 @@
 /* =============================================================================
    HEADER MODERNO - SPA FRIENDLY
-   -----------------------------------------------------------------------------
-   Cabeçalho principal com:
-     • Marca / logo
-     • Navegação principal
-     • Ações do usuário (login, cadastro, carrinho)
-   Estilo moderno, interativo e responsivo.
-   ============================================================================= */
-
-/* ---------------------------------------------------------------------------
-   CONTAINER PRINCIPAL (.site-header)
-   -----------------------------------------------------------------------------
-   Fundo branco, sombra suave e sticky no topo
-   --------------------------------------------------------------------------- */
+   ----------------------------------------------------------------------------- */
 .site-header {
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
+  background: var(--header-site-bg);
+  border-bottom: 1px solid var(--header-site-border);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px var(--header-site-shadow);
   padding: 0 1rem;
   transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* ---------------------------------------------------------------------------
-   CONTEÚDO INTERNO (.header-inner)
-   -----------------------------------------------------------------------------
-   Flex container entre logo, navegação e ações do usuário
-   --------------------------------------------------------------------------- */
 .header-inner {
   display: flex;
   align-items: center;
@@ -38,29 +21,19 @@
   margin: 0 auto;
 }
 
-/* ---------------------------------------------------------------------------
-   LOGO (.brand .logo)
-   -----------------------------------------------------------------------------
-   Fonte destacada, cor azul, hover com leve brilho
-   --------------------------------------------------------------------------- */
 .brand .logo {
   font-weight: 700;
   text-decoration: none;
-  color: #007bff;
+  color: var(--header-logo-color);
   font-size: 1.25rem;
   transition: color 0.3s, text-shadow 0.3s;
 }
 
 .brand .logo:hover {
-  color: #0056b3;
-  text-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+  color: var(--header-logo-hover);
+  text-shadow: 0 0 8px var(--header-logo-shadow-hover);
 }
 
-/* ---------------------------------------------------------------------------
-   NAVEGAÇÃO PRINCIPAL (.main-nav)
-   -----------------------------------------------------------------------------
-   Layout horizontal com espaçamento elegante entre links
-   --------------------------------------------------------------------------- */
 .main-nav {
   display: flex;
   gap: 1.5rem;
@@ -68,14 +41,9 @@
   align-items: center;
 }
 
-/* ---------------------------------------------------------------------------
-   LINKS DE NAVEGAÇÃO (.main-nav .nav-link)
-   -----------------------------------------------------------------------------
-   Hover suave com fundo claro e transição de cor
-   --------------------------------------------------------------------------- */
 .main-nav .nav-link {
   text-decoration: none;
-  color: #444;
+  color: var(--header-nav-link-color);
   padding: 0.5rem;
   border-radius: 8px;
   transition: all 0.3s;
@@ -83,16 +51,11 @@
 
 .main-nav .nav-link:hover,
 .main-nav .nav-link.active {
-  background: #f0f0f0;
-  color: #007bff;
+  background: var(--header-nav-link-bg-hover);
+  color: var(--header-nav-link-color-hover);
   transform: translateY(-2px);
 }
 
-/* ---------------------------------------------------------------------------
-   ÁREA DE AÇÕES DO USUÁRIO (.main-nav-right)
-   -----------------------------------------------------------------------------
-   Links de login, carrinho, perfil
-   --------------------------------------------------------------------------- */
 .main-nav-right {
   display: flex;
   align-items: center;
@@ -102,7 +65,7 @@
 
 .main-nav-right .nav-link {
   background: none;
-  color: #007bff;
+  color: var(--header-user-link-color);
   padding: 0.5rem;
   border-radius: 6px;
   text-decoration: none;
@@ -111,50 +74,40 @@
 
 .main-nav-right .nav-link:hover,
 .main-nav-right .nav-link.active {
-  background: #f0f0f0;
-  color: #007bff;
+  background: var(--header-user-link-bg-hover);
+  color: var(--header-user-link-color);
   transform: translateY(-1px);
 }
 
-/* ---------------------------------------------------------------------------
-   SEÇÃO DE DESTAQUE (.main-nav-right-right)
-   -----------------------------------------------------------------------------
-   Área para ações importantes, ex.: "Cadastrar-se"
-   --------------------------------------------------------------------------- */
 .main-nav-right-right {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid var(--header-cta-border-left);
   padding-left: 1rem;
   margin-left: 1rem;
 }
 
-/* BOTÃO DE CADASTRO */
 .main-nav-right-right .nav-link-cadastrar {
-  background: #007bff;
-  color: #fff;
+  background: var(--header-cta-bg);
+  color: var(--header-cta-color);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 6px var(--header-cta-shadow);
   transition: all 0.3s;
 }
 
 .main-nav-right-right .nav-link-cadastrar:hover,
 .main-nav-right-right .nav-link-cadastrar:active {
-  background: #0056b3;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+  background: var(--header-cta-bg-hover);
+  box-shadow: 0 4px 12px var(--header-cta-shadow-hover);
   transform: translateY(-2px);
 }
 
 /* =============================================================================
    RESPONSIVIDADE
-   -----------------------------------------------------------------------------
-   Ajustes de layout em tablets e smartphones
-   ============================================================================= */
-
-/* Tablets médios / desktops pequenos */
+   ----------------------------------------------------------------------------- */
 @media (max-width: 992px) {
   .main-nav {
     gap: 1rem;
@@ -165,7 +118,6 @@
   }
 }
 
-/* Tablets pequenos / smartphones grandes */
 @media (max-width: 600px) {
   .header-inner {
     flex-direction: column;
@@ -186,7 +138,6 @@
   }
 }
 
-/* Smartphones pequenos */
 @media (max-width: 480px) {
   .brand .logo {
     font-size: 1rem;

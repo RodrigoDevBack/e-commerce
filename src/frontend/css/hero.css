@@ -14,7 +14,7 @@
 .hero-wrapper {
     display: flex;
     justify-content: center;
-    padding: 40px 20px;
+    padding: var(--hero-wrapper-padding);
 }
 
 /* ===============================
@@ -26,15 +26,15 @@
     width: 90%;
     max-width: 1100px;
     height: 420px;
-    border-radius: 22px;
+    border-radius: var(--hero-swiper-border-radius);
     overflow: hidden;
     position: relative;
 
     /* Fundo semi-transparente e efeito blur */
-    background: #00000033;
+    background: var(--hero-swiper-bg);
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--hero-swiper-border);
+    box-shadow: 0 4px 18px var(--hero-swiper-shadow);
 }
 
 /* ===============================
@@ -52,7 +52,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    color: white;
+    color: var(--hero-slide-text-color);
     padding: 40px;
     position: relative;
 }
@@ -63,8 +63,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.5),
-                                rgba(0, 0, 0, 0.4));
+    background: linear-gradient(var(--hero-slide-overlay-start),
+                                var(--hero-slide-overlay-end));
 }
 
 /* Garante que o texto fique acima da sombra */
@@ -80,14 +80,14 @@
 .hero-slide h1 {
     font-size: 2.6rem;
     margin-bottom: 10px;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 10px var(--hero-slide-text-shadow);
 }
 
 .hero-slide p {
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 10px var(--hero-slide-text-shadow);
 }
 
 /* ===============================
@@ -95,11 +95,11 @@
    - Indica o slide ativo
    =============================== */
 .swiper-pagination-bullet {
-    background: white !important;
+    background: var(--hero-pagination-bullet) !important;
     opacity: 0.6;
 }
 
 .swiper-pagination-bullet-active {
-    background: #007bff !important;
+    background: var(--hero-pagination-bullet-active) !important;
     opacity: 1;
 }

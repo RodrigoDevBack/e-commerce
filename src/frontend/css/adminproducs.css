@@ -7,17 +7,17 @@
    --------------------------------------------------------------------------- */
 .admin-products {
   padding: 2rem;
-  background: #f9f9f9;
+  background: var(--admin-bg);
   min-height: 80vh;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-adminproducts);
 }
 
 /* TÍTULO DA PÁGINA */
 .admin-products h2 {
-  color: #007bff;
+  color: var(--admin-title-color);
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -26,41 +26,38 @@
 .admin-products table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: var(--admin-table-bg);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px var(--admin-table-shadow);
   table-layout: fixed;
 }
 
 /* CABEÇALHO DA TABELA */
 .admin-products table thead th {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--admin-table-header-bg);
+  color: var(--admin-table-header-color);
   font-weight: 600;
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--admin-table-header-border);
   vertical-align: middle;
 }
 
 /* CORPO DA TABELA */
 .admin-products table tbody td {
   padding: 0.75rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--admin-table-body-border);
   vertical-align: middle;
-  color: #444;
+  color: var(--admin-table-body-color);
 }
 
 /* COLUNA DE AÇÕES — centraliza botões e mantém espaçamento */
 .admin-products table tbody td:last-child {
   display: flex;
   justify-content: center;
-  /* centraliza horizontal */
   align-items: center;
-  /* centraliza vertical */
   gap: 0.5rem;
-  /* espaçamento entre botões */
 }
 
 /* BOTÕES MODERNOS (Editar/Excluir) */
@@ -88,34 +85,34 @@
 
 /* Azul para editar */
 .admin-products table tbody td button.btn-edit {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--admin-btn-edit-bg);
+  color: var(--admin-btn-edit-color);
 }
 
 .admin-products table tbody td button.btn-edit:hover {
-  background-color: #0056b3;
+  background-color: var(--admin-btn-edit-hover);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 2px 6px var(--admin-btn-edit-shadow-hover);
 }
 
 /* Vermelho para excluir */
 .admin-products table tbody td button.btn-delete {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: var(--admin-btn-delete-bg);
+  color: var(--admin-btn-delete-color);
 }
 
 .admin-products table tbody td button.btn-delete:hover {
-  background-color: #b02a37;
+  background-color: var(--admin-btn-delete-hover);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 2px 6px var(--admin-btn-delete-shadow-hover);
 }
 
 /* BOTÃO "CRIAR PRODUTO" */
 .admin-products .btn.btn-primary {
   align-self: flex-start;
   width: 120px;
-  background-color: #28a745;
-  color: #fff;
+  background-color: var(--admin-btn-create-bg);
+  color: var(--admin-btn-create-color);
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
   border: none;
@@ -125,7 +122,7 @@
 }
 
 .admin-products .btn.btn-primary:hover {
-  background-color: #218838;
+  background-color: var(--admin-btn-create-hover);
 }
 
 /* MODAL — mantém padrão Bootstrap, sem alterações */
@@ -140,7 +137,7 @@
   width: 100%;
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--admin-input-border);
   font-size: 0.9rem;
   margin-top: 0.25rem;
 }
@@ -159,19 +156,16 @@
 }
 
 .admin-products button.btn-success:hover {
-  background-color: #218838;
+  background-color: var(--admin-btn-success-hover);
 }
 
 .admin-products button.btn-danger:hover {
-  background-color: #b02a37;
+  background-color: var(--admin-btn-danger-hover);
 }
 
-
-/* =============================================================================
+/* ============================================================================ 
    admin-modal-products-compact.css
-   ---------------------------------------------------------------------------
-   Ajuste de espaçamento interno e tamanho fixo para o preview no modal de edição.
-   ============================================================================= */
+   ============================================================================ */
 
 /* ---------------------------------------------------------------------------
    FORMULÁRIO DO MODAL
@@ -179,7 +173,7 @@
 .modal-body form#editar-produto {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem; /* menos espaçamento interno */
+  gap: 0.6rem;
   font-family: Arial, sans-serif;
 }
 
@@ -189,7 +183,7 @@
 .modal-body form#editar-produto label.form-label {
   font-weight: 600;
   font-size: 0.92rem;
-  color: #333;
+  color: var(--admin-label-color);
   margin-bottom: 0.15rem;
   display: block;
 }
@@ -199,11 +193,11 @@
    --------------------------------------------------------------------------- */
 .modal-body form#editar-produto img {
   width: 100%;
-  max-height: 250px; /* preview menor e fixo */
+  max-height: 250px;
   object-fit: contain;
   border-radius: 8px;
   margin-bottom: 0.25rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px var(--admin-img-shadow);
   transition: transform 0.15s;
 }
 
@@ -228,7 +222,7 @@
 
 .modal-body form#editar-produto .form-check-label {
   font-size: 0.88rem;
-  color: #555;
+  color: var(--admin-checkbox-label);
   cursor: pointer;
 }
 
@@ -237,10 +231,10 @@
    --------------------------------------------------------------------------- */
 #imagem-preview {
   width: 100%;
-  max-height: 250px; /* tamanho fixo menor */
+  max-height: 250px;
   object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px var(--admin-img-shadow);
   margin-bottom: 0.25rem;
 }
 
@@ -250,9 +244,9 @@
 .modal-body form#editar-produto input.form-control,
 .modal-body form#editar-produto textarea.form-control {
   width: 100%;
-  padding: 0.35rem 0.45rem; /* menor padding */
+  padding: 0.35rem 0.45rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--admin-input-border);
   font-size: 0.88rem;
   margin-bottom: 0.25rem;
 }
@@ -274,25 +268,25 @@
    BOTÕES SUCESSO / DANGER
    --------------------------------------------------------------------------- */
 .modal-body form#editar-produto button.btn-success {
-  background-color: #28a745;
-  color: #fff;
+  background-color: var(--admin-btn-success-bg);
+  color: var(--admin-btn-success-color);
 }
 
 .modal-body form#editar-produto button.btn-success:hover {
-  background-color: #218838;
+  background-color: var(--admin-btn-success-hover);
   transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(33, 136, 56, 0.25);
+  box-shadow: 0 2px 5px var(--admin-btn-success-shadow-hover);
 }
 
 .modal-body form#editar-produto button.btn-danger {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: var(--admin-btn-danger-bg);
+  color: var(--admin-btn-danger-color);
 }
 
 .modal-body form#editar-produto button.btn-danger:hover {
-  background-color: #b02a37;
+  background-color: var(--admin-btn-danger-hover);
   transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 2px 5px var(--admin-btn-danger-shadow-hover);
 }
 
 /* ---------------------------------------------------------------------------
@@ -315,23 +309,24 @@
     padding: 0.35rem 0.65rem;
   }
 }
+
 /* =============================================================================
    Ajuste para imagens atuais do produto no modal
    Força tamanho fixo mesmo com inline style
    ============================================================================= */
 .modal-body form#editar-produto img.d-block.w-100 {
-  width: 100%;           /* ocupa toda a largura do container */
-  max-width: 300px;      /* tamanho máximo fixo */
-  height: 200px !important;  /* força altura fixa */
-  object-fit: contain !important;  /* mantém proporção sem distorcer */
+  width: 100%;
+  max-width: 300px;
+  height: 200px !important;
+  object-fit: contain !important;
   border-radius: 8px;
   margin-bottom: 0.25rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px var(--admin-img-shadow);
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-/* preview de upload inicialmente escondido */
+
 #imagem-preview {
   display: none;
 }
