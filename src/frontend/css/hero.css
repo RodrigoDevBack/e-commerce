@@ -1,78 +1,105 @@
-/* Container geral para centralizar como um quadro */
+/* ============================================================================
+   HERO COMPONENT
+   ---------------------------------------------------------------------------
+   Estilos gerais para o componente hero, incluindo container, slides, títulos
+   e paginação. Responsável por criar o efeito de slideshow elegante e legível.
+   ============================================================================
+*/
+
+/* ===============================
+   Container do Hero
+   - Centraliza o conteúdo horizontalmente.
+   - Define espaçamento interno.
+   =============================== */
 .hero-wrapper {
-   display: flex;
-   justify-content: center;
-   padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
 }
 
-/* QUADRO centralizado */
+/* ===============================
+   Swiper Container
+   - Quadro principal do slideshow.
+   - Define dimensões, borda, arredondamento e efeito de vidro.
+   =============================== */
 .hero-swiper {
-   width: 90%;
-   max-width: 1100px;
-   /* aqui você controla a largura do quadro */
-   height: 420px;
-   border-radius: 22px;
-   overflow: hidden;
-   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-   background: #00000033;
-   /* leve transparência */
-   backdrop-filter: blur(6px);
-   /* efeito premium */
-   border: 1px solid rgba(255, 255, 255, 0.15);
+    width: 90%;
+    max-width: 1100px;
+    height: 420px;
+    border-radius: 22px;
+    overflow: hidden;
+    position: relative;
+
+    /* Fundo semi-transparente e efeito blur */
+    background: #00000033;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
-/* Cada slide */
+/* ===============================
+   Cada Slide
+   - Ocupa todo o quadro.
+   - Define background e centraliza conteúdo.
+   =============================== */
 .hero-slide {
-   width: 100%;
-   height: 100%;
-   background-size: cover;
-   background-position: center;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
 
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   text-align: center;
-   color: white;
-   padding: 40px;
-
-   position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 40px;
+    position: relative;
 }
 
-/* Sombra por cima da imagem para o texto ficar visível */
+/* Sombra sobre a imagem
+   - Garante legibilidade do texto em slides com imagens claras ou escuras */
 .hero-slide::before {
-   content: "";
-   position: absolute;
-   inset: 0;
-   background: linear-gradient(rgba(0, 0, 0, 0.5),
-         rgba(0, 0, 0, 0.4));
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5),
+                                rgba(0, 0, 0, 0.4));
 }
 
+/* Garante que o texto fique acima da sombra */
 .hero-slide * {
-   position: relative;
-   z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
-/* Títulos bonitos */
+/* ===============================
+   Tipografia dos Slides
+   - Títulos e descrições com sombra suave para destaque
+   =============================== */
 .hero-slide h1 {
-   font-size: 2.6rem;
-   margin-bottom: 10px;
-   text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
 .hero-slide p {
-   font-size: 1.2rem;
-   max-width: 600px;
-   margin: 0 auto;
-   text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
-/* Dots abaixo do quadro */
+/* ===============================
+   Paginação (Dots do Swiper)
+   - Indica o slide ativo
+   =============================== */
 .swiper-pagination-bullet {
-   background: white !important;
-   opacity: 0.6;
+    background: white !important;
+    opacity: 0.6;
 }
 
 .swiper-pagination-bullet-active {
-   background: #ffd700 !important;
-   opacity: 1;
+    background: #007bff !important;
+    opacity: 1;
 }

@@ -1,18 +1,17 @@
 /* =============================================================================
-   header.css
+   HEADER MODERNO - SPA FRIENDLY
    -----------------------------------------------------------------------------
-   Estilos para o cabeçalho principal do site.
-   Responsável por exibir a marca, navegação primária e ações do usuário
-   (login, cadastro, ícones, etc.), mantendo-se fixo no topo durante o scroll.
+   Cabeçalho principal com:
+     • Marca / logo
+     • Navegação principal
+     • Ações do usuário (login, cadastro, carrinho)
+   Estilo moderno, interativo e responsivo.
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
-   CONTAINER PRINCIPAL DO CABEÇALHO (.site-header)
-   ---------------------------------------------------------------------------
-   • background: mantém fundo branco, destacando o conteúdo.  
-   • border-bottom + box-shadow: criam separação sutil do restante da página.  
-   • position: sticky mantém o cabeçalho fixo no topo ao rolar a tela.  
-   • z-index elevado garante sobreposição em relação a outros elementos.  
+   CONTAINER PRINCIPAL (.site-header)
+   -----------------------------------------------------------------------------
+   Fundo branco, sombra suave e sticky no topo
    --------------------------------------------------------------------------- */
 .site-header {
   background: #fff;
@@ -20,15 +19,15 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   padding: 0 1rem;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 /* ---------------------------------------------------------------------------
-   CONTEÚDO INTERNO DO CABEÇALHO (.header-inner)
-   ---------------------------------------------------------------------------
-   • Define layout flexível entre marca, navegação e ações.  
-   • Centraliza e limita largura para manter alinhamento responsivo.  
+   CONTEÚDO INTERNO (.header-inner)
+   -----------------------------------------------------------------------------
+   Flex container entre logo, navegação e ações do usuário
    --------------------------------------------------------------------------- */
 .header-inner {
   display: flex;
@@ -40,57 +39,59 @@
 }
 
 /* ---------------------------------------------------------------------------
-   MARCA / LOGOTIPO (.brand .logo)
-   ---------------------------------------------------------------------------
-   • Fonte destacada e cor primária reforçam a identidade visual.  
-   • text-decoration removido para aparência limpa.  
+   LOGO (.brand .logo)
+   -----------------------------------------------------------------------------
+   Fonte destacada, cor azul, hover com leve brilho
    --------------------------------------------------------------------------- */
 .brand .logo {
   font-weight: 700;
   text-decoration: none;
   color: #007bff;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.brand .logo:hover {
+  color: #0056b3;
+  text-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
 /* ---------------------------------------------------------------------------
    NAVEGAÇÃO PRINCIPAL (.main-nav)
-   ---------------------------------------------------------------------------
-   • Layout horizontal simples com espaçamento entre links.  
-   • Configurado para se alinhar à esquerda da logo.  
+   -----------------------------------------------------------------------------
+   Layout horizontal com espaçamento elegante entre links
    --------------------------------------------------------------------------- */
 .main-nav {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-left: 1rem;
   align-items: center;
-  justify-content: flex-start;
 }
 
 /* ---------------------------------------------------------------------------
-   LINKS DE NAVEGAÇÃO PRINCIPAL (.main-nav .nav-link)
-   ---------------------------------------------------------------------------
-   • Visual limpo com transição suave de hover.  
-   • Estado “.active” replica o estilo de hover para consistência visual.  
+   LINKS DE NAVEGAÇÃO (.main-nav .nav-link)
+   -----------------------------------------------------------------------------
+   Hover suave com fundo claro e transição de cor
    --------------------------------------------------------------------------- */
 .main-nav .nav-link {
   text-decoration: none;
   color: #444;
   padding: 0.5rem;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
+  border-radius: 8px;
+  transition: all 0.3s;
 }
 
-.main-nav .nav-link.active,
-.main-nav .nav-link:hover {
+.main-nav .nav-link:hover,
+.main-nav .nav-link.active {
   background: #f0f0f0;
   color: #007bff;
+  transform: translateY(-2px);
 }
 
 /* ---------------------------------------------------------------------------
-   ÁREA À DIREITA (Login e Ações do Usuário) (.main-nav-right)
-   ---------------------------------------------------------------------------
-   • Contém os links de autenticação e outros atalhos (ex.: carrinho, perfil).  
-   • “margin-left: auto” empurra o grupo para a extremidade direita.  
+   ÁREA DE AÇÕES DO USUÁRIO (.main-nav-right)
+   -----------------------------------------------------------------------------
+   Links de login, carrinho, perfil
    --------------------------------------------------------------------------- */
 .main-nav-right {
   display: flex;
@@ -99,28 +100,26 @@
   margin-left: auto;
 }
 
-/* Links padrão da área direita */
 .main-nav-right .nav-link {
   background: none;
   color: #007bff;
   padding: 0.5rem;
   border-radius: 6px;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.3s;
 }
 
-/* Estados de interação (hover / ativo) */
 .main-nav-right .nav-link:hover,
 .main-nav-right .nav-link.active {
   background: #f0f0f0;
   color: #007bff;
+  transform: translateY(-1px);
 }
 
 /* ---------------------------------------------------------------------------
-   SEÇÃO DIREITA SECUNDÁRIA (.main-nav-right-right)
-   ---------------------------------------------------------------------------
-   • Usada para ações de destaque como “Cadastrar-se”.  
-   • Inclui separador visual com border-left para delimitar áreas.  
+   SEÇÃO DE DESTAQUE (.main-nav-right-right)
+   -----------------------------------------------------------------------------
+   Área para ações importantes, ex.: "Cadastrar-se"
    --------------------------------------------------------------------------- */
 .main-nav-right-right {
   display: flex;
@@ -131,23 +130,79 @@
   margin-left: 1rem;
 }
 
-/* Botão de destaque (ex.: “Cadastrar”) */
+/* BOTÃO DE CADASTRO */
 .main-nav-right-right .nav-link-cadastrar {
   background: #007bff;
   color: #fff;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s;
 }
 
-/* Interações do botão de cadastro */
 .main-nav-right-right .nav-link-cadastrar:hover,
 .main-nav-right-right .nav-link-cadastrar:active {
   background: #0056b3;
-  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+  transform: translateY(-2px);
 }
 
-/* ============================================================================
-   FIM DO header.css
-   ============================================================================
+/* =============================================================================
+   RESPONSIVIDADE
+   -----------------------------------------------------------------------------
+   Ajustes de layout em tablets e smartphones
+   ============================================================================= */
+
+/* Tablets médios / desktops pequenos */
+@media (max-width: 992px) {
+  .main-nav {
+    gap: 1rem;
+    font-size: 0.95rem;
+  }
+  .brand .logo {
+    font-size: 1.15rem;
+  }
+}
+
+/* Tablets pequenos / smartphones grandes */
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .main-nav {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-left: 0;
+  }
+
+  .main-nav-right-right {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+/* Smartphones pequenos */
+@media (max-width: 480px) {
+  .brand .logo {
+    font-size: 1rem;
+  }
+
+  .main-nav {
+    gap: 0.6rem;
+  }
+
+  .main-nav-right .nav-link,
+  .main-nav-right-right .nav-link-cadastrar {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* =============================================================================
+   FIM DO HEADER MODERNO
+   ============================================================================= */
