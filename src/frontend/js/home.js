@@ -1,15 +1,15 @@
 /**
  * Inicializa a Home carregando produtos em destaque no carrossel.
- * 
+ *
  * Fluxo:
  * - Busca produtos destacados no backend
  * - Converte resposta em JSON
  * - Cria elementos <li> para cada produto e insere no carrossel
- * 
+ *
  * Observação:
  * - Executa apenas quando a Home está no DOM (SPA)
  * - Depende da API: /api/product/get_featured_products.php
- * 
+ *
  * Melhorias futuras:
  * - Tratamento de erro com try/catch
  * - Placeholder loading / skeleton UI
@@ -17,13 +17,35 @@
  */
 
 export default function homePage() {
-  return `
-    <section class="hero">
-      <div class="container">
-        <h1>Bem-vindo à Loja</h1>
-        <p>Loja virtual minimalista — navegue pelos produtos e faça seu pedido.</p>
+  return (
+    `
+    <section class="hero-wrapper">
+  <div class="hero-swiper swiper">
+    <div class="swiper-wrapper">
+
+      <div class="swiper-slide hero-slide" data-bg="./img/background_loja.jpg">
+        <h1>Seja bem-vindo!</h1>
+        <p>Navegue pelos nossos produtos...</p>
       </div>
-    </section>
+
+      <div class="swiper-slide hero-slide" data-bg="./img/slide2.jpg">
+        <h1>Promoções Exclusivas</h1>
+        <p>Ofertas especiais da semana.</p>
+      </div>
+
+      <div class="swiper-slide hero-slide">
+        <h1>Novidades</h1>
+        <p>Confira os lançamentos.</p>
+      </div>
+
+    </div>
+
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+  ` +
+    `
 
     <section class="carousel-section">
       <div class="container">
@@ -38,9 +60,9 @@ export default function homePage() {
         </div>
       </div>
     </section>
-  `;
+  `
+  );
 }
-
 
 /**
  * Inicializa o carrossel da Home com produtos em destaque.
@@ -59,7 +81,6 @@ export default function homePage() {
  * @returns {Promise<void>} Não retorna valor
  */
 export async function initHomePage() {
-
   const productList = document.getElementById(`product-list`);
   // Se o elemento não existe, significa que não estamos na Home
   if (!productList) return;
@@ -78,10 +99,10 @@ export async function initHomePage() {
   let data = JSON.parse(products);
 
   // Para cada produto, cria um card dentro do carrossel
-  data.forEach(product => {
+  data.forEach((product) => {
     let li = document.createElement("li");
     li.classList.add("carousel-slide");
-// R: Slide do carrossel na Home
+    // R: Slide do carrossel na Home
     li.innerHTML = `
       <div class="product-card">
         <div class="thumb">
@@ -99,5 +120,21 @@ export async function initHomePage() {
     `;
 
     productList.appendChild(li);
+  });
+  document.querySelectorAll(".hero-slide").forEach((slide) => {
+    slide.style.backgroundImage = "url('https://picsum.photos/800/400')";
+  });
+
+  // inicia o swiper
+  new Swiper(".hero-swiper", {
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+    },
   });
 }
