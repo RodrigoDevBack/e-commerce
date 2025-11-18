@@ -222,7 +222,7 @@ function initCart() {
       let productName = item.product.name || item.name;
       let thumbHTML = '';
       if (item.product.images && item.product.images.length > 0) {
-        thumbHTML = `<img src="http://api.singlotown.com.br/images_products/${item.product.name}/${item.product.images[0]}" alt="${productName}" class="cart-thumb">`;
+        thumbHTML = `<img src="http://127.0.0.1:5000/images_products/${item.product.name}/${item.product.images[0]}" alt="${productName}" class="cart-thumb">`;
       } else {
         thumbHTML = `<img src="https://img.icons8.com/color/96/no-image.png" alt="${productName}" class="cart-thumb">`;
       }
