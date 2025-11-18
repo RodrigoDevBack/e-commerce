@@ -1,35 +1,17 @@
 /* =============================================================================
-   header.css
-   -----------------------------------------------------------------------------
-   Estilos para o cabeçalho principal do site.
-   Responsável por exibir a marca, navegação primária e ações do usuário
-   (login, cadastro, ícones, etc.), mantendo-se fixo no topo durante o scroll.
-   ============================================================================= */
-
-/* ---------------------------------------------------------------------------
-   CONTAINER PRINCIPAL DO CABEÇALHO (.site-header)
-   ---------------------------------------------------------------------------
-   • background: mantém fundo branco, destacando o conteúdo.  
-   • border-bottom + box-shadow: criam separação sutil do restante da página.  
-   • position: sticky mantém o cabeçalho fixo no topo ao rolar a tela.  
-   • z-index elevado garante sobreposição em relação a outros elementos.  
-   --------------------------------------------------------------------------- */
+   HEADER MODERNO - SPA FRIENDLY
+   ----------------------------------------------------------------------------- */
 .site-header {
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
+  background: var(--header-site-bg);
+  border-bottom: 1px solid var(--header-site-border);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px var(--header-site-shadow);
   padding: 0 1rem;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* ---------------------------------------------------------------------------
-   CONTEÚDO INTERNO DO CABEÇALHO (.header-inner)
-   ---------------------------------------------------------------------------
-   • Define layout flexível entre marca, navegação e ações.  
-   • Centraliza e limita largura para manter alinhamento responsivo.  
-   --------------------------------------------------------------------------- */
 .header-inner {
   display: flex;
   align-items: center;
@@ -39,59 +21,41 @@
   margin: 0 auto;
 }
 
-/* ---------------------------------------------------------------------------
-   MARCA / LOGOTIPO (.brand .logo)
-   ---------------------------------------------------------------------------
-   • Fonte destacada e cor primária reforçam a identidade visual.  
-   • text-decoration removido para aparência limpa.  
-   --------------------------------------------------------------------------- */
 .brand .logo {
   font-weight: 700;
   text-decoration: none;
-  color: #007bff;
-  font-size: 1.125rem;
+  color: var(--header-logo-color);
+  font-size: 1.25rem;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
-/* ---------------------------------------------------------------------------
-   NAVEGAÇÃO PRINCIPAL (.main-nav)
-   ---------------------------------------------------------------------------
-   • Layout horizontal simples com espaçamento entre links.  
-   • Configurado para se alinhar à esquerda da logo.  
-   --------------------------------------------------------------------------- */
+.brand .logo:hover {
+  color: var(--header-logo-hover);
+  text-shadow: 0 0 8px var(--header-logo-shadow-hover);
+}
+
 .main-nav {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-left: 1rem;
   align-items: center;
-  justify-content: flex-start;
 }
 
-/* ---------------------------------------------------------------------------
-   LINKS DE NAVEGAÇÃO PRINCIPAL (.main-nav .nav-link)
-   ---------------------------------------------------------------------------
-   • Visual limpo com transição suave de hover.  
-   • Estado “.active” replica o estilo de hover para consistência visual.  
-   --------------------------------------------------------------------------- */
 .main-nav .nav-link {
   text-decoration: none;
-  color: #444;
+  color: var(--header-nav-link-color);
   padding: 0.5rem;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
+  border-radius: 8px;
+  transition: all 0.3s;
 }
 
-.main-nav .nav-link.active,
-.main-nav .nav-link:hover {
-  background: #f0f0f0;
-  color: #007bff;
+.main-nav .nav-link:hover,
+.main-nav .nav-link.active {
+  background: var(--header-nav-link-bg-hover);
+  color: var(--header-nav-link-color-hover);
+  transform: translateY(-2px);
 }
 
-/* ---------------------------------------------------------------------------
-   ÁREA À DIREITA (Login e Ações do Usuário) (.main-nav-right)
-   ---------------------------------------------------------------------------
-   • Contém os links de autenticação e outros atalhos (ex.: carrinho, perfil).  
-   • “margin-left: auto” empurra o grupo para a extremidade direita.  
-   --------------------------------------------------------------------------- */
 .main-nav-right {
   display: flex;
   align-items: center;
@@ -99,55 +63,97 @@
   margin-left: auto;
 }
 
-/* Links padrão da área direita */
 .main-nav-right .nav-link {
   background: none;
-  color: #007bff;
+  color: var(--header-user-link-color);
   padding: 0.5rem;
   border-radius: 6px;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.3s;
 }
 
-/* Estados de interação (hover / ativo) */
 .main-nav-right .nav-link:hover,
 .main-nav-right .nav-link.active {
-  background: #f0f0f0;
-  color: #007bff;
+  background: var(--header-user-link-bg-hover);
+  color: var(--header-user-link-color);
+  transform: translateY(-1px);
 }
 
-/* ---------------------------------------------------------------------------
-   SEÇÃO DIREITA SECUNDÁRIA (.main-nav-right-right)
-   ---------------------------------------------------------------------------
-   • Usada para ações de destaque como “Cadastrar-se”.  
-   • Inclui separador visual com border-left para delimitar áreas.  
-   --------------------------------------------------------------------------- */
 .main-nav-right-right {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid var(--header-cta-border-left);
   padding-left: 1rem;
   margin-left: 1rem;
 }
 
-/* Botão de destaque (ex.: “Cadastrar”) */
 .main-nav-right-right .nav-link-cadastrar {
-  background: #007bff;
-  color: #fff;
+  background: var(--header-cta-bg);
+  color: var(--header-cta-color);
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px var(--header-cta-shadow);
+  transition: all 0.3s;
 }
 
-/* Interações do botão de cadastro */
 .main-nav-right-right .nav-link-cadastrar:hover,
 .main-nav-right-right .nav-link-cadastrar:active {
-  background: #0056b3;
-  color: #fff;
+  background: var(--header-cta-bg-hover);
+  box-shadow: 0 4px 12px var(--header-cta-shadow-hover);
+  transform: translateY(-2px);
 }
 
-/* ============================================================================
-   FIM DO header.css
-   ============================================================================
+/* =============================================================================
+   RESPONSIVIDADE
+   ----------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .main-nav {
+    gap: 1rem;
+    font-size: 0.95rem;
+  }
+  .brand .logo {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .main-nav {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-left: 0;
+  }
+
+  .main-nav-right-right {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand .logo {
+    font-size: 1rem;
+  }
+
+  .main-nav {
+    gap: 0.6rem;
+  }
+
+  .main-nav-right .nav-link,
+  .main-nav-right-right .nav-link-cadastrar {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* =============================================================================
+   FIM DO HEADER MODERNO
+   ============================================================================= */
