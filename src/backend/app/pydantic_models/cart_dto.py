@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 
 class GmailUser(BaseModel):
@@ -20,9 +20,6 @@ class UserBase(BaseModel):
     name: str
     gmail: str
     admin: bool
-    
-    class Config:
-        from_attributes = True
 
 
 class ProductBase(BaseModel):
@@ -30,9 +27,7 @@ class ProductBase(BaseModel):
     name: str
     description: str
     price: float
-    
-    class Config:
-        from_attributes = True
+    images: Optional[List[str]] = None
 
 
 class OrderBase(BaseModel):
@@ -40,15 +35,9 @@ class OrderBase(BaseModel):
     qtd: int
     unity_price: float
     product: ProductBase
-    
-    class Config:
-        from_attributes = True
 
 
 class ResponseCart(BaseModel):
     id: int
     user: UserBase
     orders: List[OrderBase]
-    
-    class Config:
-        from_attributes = True 

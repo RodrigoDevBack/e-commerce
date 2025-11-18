@@ -9,7 +9,7 @@ from security.user_depends import combine_verify
 
 
 router_address = APIRouter(
-    tags = ['Adress'],
+    tags = ['Address'],
     responses = {404: {'Description': 'Not found'}}
     )
 
@@ -39,20 +39,31 @@ async def create_address(data: address_dto.CreateAddress, credential: Annotated[
         
     if address:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, detail='Address already created')
-
-    address = await Address.create(
+    
+    if data.Complemento == None or data.Complemento == '' or data.Complemento == 'string':
+        address = await Address.create(
                                     user=user,
                                     CEP= data.CEP, 
                                     Logradouro=data.Logradouro, 
                                     Numero = data.Numero, 
-                                    Complemento = data.Complemento,
+                                    Complemento = '',
                                     Bairro = data.Bairro,
                                     Cidade = data.Cidade,
                                     Estado = data.Estado,
-                                    Pais = data.Pais
                                     )
+    else:
+        address = await Address.create(
+                                        user=user,
+                                        CEP= data.CEP, 
+                                        Logradouro=data.Logradouro, 
+                                        Numero = data.Numero, 
+                                        Complemento = data.Complemento,
+                                        Bairro = data.Bairro,
+                                        Cidade = data.Cidade,
+                                        Estado = data.Estado,
+                                        )
     
-    return status.HTTP_201_CREATED
+    return {status.HTTP_201_CREATED}
 
 
 @router_address.patch('/edit')
@@ -81,8 +92,6 @@ async def edit_address(data: address_dto.EditAddress, credential: Annotated[int,
         address.Cidade = data.Cidade
     if data.Estado != None and data.Estado != '' and data.Estado != 'string':
         address.Estado = data.Estado
-    if data.Pais != None and data.Pais != '' and data.Pais != 'string':
-        address.Pais = data.Pais
     
     await address.save()
     

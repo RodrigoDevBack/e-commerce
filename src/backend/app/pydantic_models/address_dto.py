@@ -9,18 +9,16 @@ class AddressResponse(BaseModel):
     Bairro: str
     Cidade: str
     Estado: str
-    Pais: str
 
 
 class CreateAddress(BaseModel):
     CEP: str
     Logradouro: str
     Numero: int
-    Complemento: str
+    Complemento: Optional[str]
     Bairro: str
     Cidade: str
     Estado: str
-    Pais: str
 
 
 class EditAddress(BaseModel):
@@ -31,4 +29,3 @@ class EditAddress(BaseModel):
     Bairro: Optional[str]
     Cidade: Optional[str]
     Estado: Optional[str]
-    Pais: Optional[str]

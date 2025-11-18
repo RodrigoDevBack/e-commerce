@@ -29,6 +29,7 @@ export default function produtosPage() {
  */
 export async function initProductsList() {
   const productList = document.getElementById("product-list");
+  if (!productList) return;
   productList.innerHTML = "";
 
   const request = await fetch("/api/product/get_all_products.php");
@@ -123,7 +124,7 @@ function createProductCard(product) {
     data-product-id="${product.id}">
     Ver detalhes
   </button>
-  <button class="btn add-to-cart">Adicionar ao carrinho</button>
+  <button class="btn add-to-cart" value="${product.id}">Adicionar ao carrinho</button>
 `;
 
 
@@ -136,6 +137,14 @@ function createProductCard(product) {
     modal.show();
   });
 
+  li.querySelector(".add-to-cart").addEventListener("click", async () => {
+    const success = await add_product_cart(product.id, 1);
+    if (success) {
+      alert('Produto adicionado ao carrinho!');
+    } else {
+      alert('Falha ao adicionar produto ao carrinho.');
+    }
+  });
   return li;
 }
 
@@ -202,7 +211,7 @@ function createProductModal(product) {
               </div>
 
               <div class="text-center mt-3">
-                <button class="btn btn-success card-add-to-cart" id="add-cart-${product.id}">
+                <button class="btn btn-success card-add-to-cart" value="${product.id}" id="add-cart-${product.id}">
                   Adicionar ao carrinho
                 </button>
               </div>
@@ -214,5 +223,31 @@ function createProductModal(product) {
     </div>
   `;
 
+  modalContainer.querySelector(`#add-cart-${product.id}`).addEventListener('click', async () => {
+    const success = await add_product_cart(product.id, 1);
+    if (success) {
+      alert('Produto adicionado ao carrinho!');
+    }
+    else {
+      alert('Falha ao adicionar produto ao carrinho.');
+    }
+  });
+
   return modalContainer.firstElementChild;
+}
+
+
+async function add_product_cart(id, qtd) {
+  let request = await fetch('/api/cart/add_product_cart.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, qtd })
+  });
+
+  let response = await request.json();
+
+  if (response.success == true) {
+    return true;
+  }
+  return false;
 }
