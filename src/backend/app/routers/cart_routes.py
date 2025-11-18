@@ -20,7 +20,10 @@ from tortoise_models.model_user_db import User
 from tortoise_models.model_history_order_db import OrderHistory
 
 
-router_cart = APIRouter(tags=["Cart"], responses={404: {"Description": "Not found"}})
+router_cart = APIRouter(
+    tags=["Cart"],
+    responses={404: {"Description": "Not found"}}
+)
 
 
 async def _serialize_cart_snapshot(cart: Cart) -> dict:
@@ -130,7 +133,9 @@ async def add_product_cart(
 ):
     user = await User.get(id=credential)
     product = await Product.filter(id=add.product_id).first()
-
+    if not product:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='Product not exists')
+    
     cart = await Cart.filter(user=user).first()
     if not cart:
         cart = await Cart.create(user=user)
@@ -170,3 +175,16 @@ async def remove_product_cart(
         return {"deleted_order_id": deleted_id}
     else:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Product not exists in cart")
+
+@router_cart.delete("/delete-all")
+async def remove_all_products_cart(credential: Annotated[str, Depends(combine_verify)]):
+    user = await User.get_or_none(id=credential)
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+
+    cart = await Cart.get_or_none(user=user)
+    if not cart:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='Cart not exists')
+
+    await Order.filter(cart=cart).delete()
+    return status.HTTP_200_OK

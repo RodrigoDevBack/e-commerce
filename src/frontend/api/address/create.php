@@ -6,13 +6,18 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $data = [
-    'product_id' => (int)$data['id'],
-    'qtd' => (int)$data['qtd']
-];
+    'CEP' => $data['CEP'],
+    'Logradouro' => $data['Logradouro'], 
+    'Numero' => (int)$data['Numero'],
+    'Complemento' => $data['Complemento'] ?? null,
+    'Bairro' => $data['Bairro'],
+    'Cidade' => $data['Cidade'],
+    'Estado' => $data['Estado'],
+    ];
 
 $data = json_encode($data);
 
-$url = 'http://backend:5000/cart/add';
+$url = 'http://backend:5000/address/create';
 
 $cURL = curl_init($url);
 

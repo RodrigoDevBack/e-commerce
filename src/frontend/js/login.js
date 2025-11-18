@@ -170,7 +170,7 @@ export async function initLogin() {
       const role = response.role;
       const name = response.name;
       localStorage.setItem('user', JSON.stringify({ name, email, role }))
-
+      synCartUser();
       if (response.email_validate == false) {
         let div = document.getElementById('login');
         let confirm = window.confirm('Você deseja validar seu email?');
@@ -178,12 +178,10 @@ export async function initLogin() {
           criarCampoDeValidarEmail(div);
         } else {
           alert('Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento.');
-            window.location.hash = '#home';
-            window.location.reload();
+          window.location.hash = '#home';
         }
       } else {
         window.location.hash = '#home';
-        window.location.reload();
       }
     } else {
       alert('Email ou senha incorretos.');
@@ -229,12 +227,41 @@ export async function initLogin() {
       if (response.success == true) {
         alert('Email verificado com sucesso!')
         window.location.hash = '#home';
-        window.location.reload();
-
       } else {
         alert('Código ou email inválidos.')
       }
     })
   }
 
+}
+
+async function synCartUser() {
+  let itens_localStorage = localStorage.getItem('cart');
+  itens_localStorage = itens_localStorage ? JSON.parse(itens_localStorage) : [];
+
+  if (itens_localStorage) {
+    for (const item of itens_localStorage) {
+      let body = {
+        'id': item.id,
+        'qtd': item.qtd || 1,
+      };
+      await fetch('/api/cart/add_product_cart.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+  } else {
+    null;
+  }
+
+  let request = await fetch('/api/cart/get_products_cart.php');
+  let response = await request.json();
+  itens_localStorage ? localStorage.removeItem('cart') : null;
+
+  let cart = JSON.parse(response).orders;
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  console.log(localStorage.getItem('cart'));
 }

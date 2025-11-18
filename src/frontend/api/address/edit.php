@@ -6,19 +6,24 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $data = [
-    'product_id' => (int)$data['id'],
-    'qtd' => (int)$data['qtd']
-];
+    'CEP' => $data['CEP'] ?? null,
+    'Logradouro' => $data['Logradouro'] ?? null, 
+    'Numero' => $data['Numero'] ?? null,
+    'Complemento' => $data['Complemento'] ?? null,
+    'Bairro' => $data['Bairro'] ?? null,
+    'Cidade' => $data['Cidade'] ?? null,
+    'Estado' => $data['Estado'] ?? null,
+    ];
 
 $data = json_encode($data);
 
-$url = 'http://backend:5000/cart/add';
+$url = 'http://backend:5000/address/edit';
 
 $cURL = curl_init($url);
 
 curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 
-curl_setopt($cURL, CURLOPT_POST, true);
+curl_setopt($cURL, CURLOPT_CUSTOMREQUEST, 'PATCH');
 
 curl_setopt($cURL, CURLOPT_POSTFIELDS, $data);
 
