@@ -18,10 +18,10 @@
   max-width: 400px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
-  border: 1px solid #e6e6e6;
+  background: var(--login-bg);
+  border: 1px solid var(--login-border);
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--login-shadow);
 }
 
 /* ---------------------------------------------------------------------------
@@ -34,7 +34,7 @@
 .login h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--login-title-color);
 }
 
 /* ---------------------------------------------------------------------------
@@ -48,7 +48,7 @@
   width: 100%;
   padding: 0.6rem 0.75rem;
   margin-bottom: 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--login-input-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -57,8 +57,8 @@
 /* Estado de foco dos inputs: reforço visual da interação ativa */
 .login input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  border-color: var(--login-primary);
+  box-shadow: 0 0 0 2px var(--login-primary-shadow);
 }
 
 /* ---------------------------------------------------------------------------
@@ -71,7 +71,7 @@
 .login label {
   display: block;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--login-label-color);
   margin-bottom: 0.3rem;
 }
 
@@ -86,8 +86,8 @@
 .login button {
   width: 100%;
   padding: 0.75rem;
-  background: #007bff;
-  color: #fff;
+  background: var(--login-primary);
+  color: var(--login-button-text);
   font-weight: 600;
   font-size: 1rem;
   border-radius: 8px;
@@ -97,7 +97,7 @@
 }
 
 .login button:hover {
-  background: #0056b3;
+  background: var(--login-primary-hover);
 }
 
 /* ---------------------------------------------------------------------------
@@ -109,7 +109,7 @@
    • Estilo discreto mas consistente com o tema principal azul. */
 .main-nav-right .user-btn {
   font-weight: 600;
-  color: #007bff;
+  color: var(--login-primary);
   padding: 0.3rem 0.5rem;
 }
 
@@ -121,8 +121,8 @@
    --------------------------------------------------------------------------- */
 .main-nav-right .sair-btn {
   background: none;
-  border: 1px solid #007bff;
-  color: #007bff;
+  border: 1px solid var(--login-primary);
+  color: var(--login-primary);
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
   cursor: pointer;
@@ -130,8 +130,8 @@
 }
 
 .main-nav-right .sair-btn:hover {
-  background: #007bff;
-  color: #fff;
+  background: var(--login-primary);
+  color: var(--login-button-text);
 }
 
 /* ============================================================================

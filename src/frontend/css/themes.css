@@ -1,0 +1,403 @@
+/* =============================================================================
+   VARIÁVEIS DE COR - ROOT
+   ---------------------------------------------------------------------------
+   Define as cores principais usadas no site, incluindo o header.
+   ============================================================================= */
+/* ---------------------------------------------------------------------------
+   ORDEM DAS VARIÁVEIS DE COR:
+   1. BASE.CSS
+   2. HEADER.CSS
+   3. ADMINPRODUCTS.CSS
+   4. CAROUSEL.CSS
+   5. CART.CSS
+   6. CHECKOUT.CSS
+   7. FOOTER.CSS
+   8. HERO.CSS
+   9. LOGIN.CSS
+   10. PRODUCTS.CSS
+   11. REGISTER.CSS
+   --------------------------------------------------------------------------- */
+
+:root {
+/* 
+=============================================================================
+BASE.CSS — cores e fundos base da aplicação
+============================================================================= */
+    --base-bg: #ffffff;         /* Fundo geral da aplicação */
+
+
+/* 
+=============================================================================
+HEADER.CSS — cores e sombras para o header moderno
+============================================================================= */
+
+    /* -------------------------------------------------------------------------
+    Container principal (.site-header)
+    ------------------------------------------------------------------------- */
+    --header-site-bg: #fff;                     /* Fundo do header */
+    --header-site-border: #e6e6e6;             /* Borda inferior do header */
+    --header-site-shadow: rgba(255, 255, 255, 0.08); /* Sombra do header */
+
+    /* -------------------------------------------------------------------------
+    Logo (.brand .logo)
+    ------------------------------------------------------------------------- */
+    --header-logo-color: #007bff;              /* Cor do texto da logo */
+    --header-logo-hover: #0056b3;              /* Cor da logo ao hover */
+    --header-logo-shadow-hover: rgba(0, 123, 255, 0.6); /* Sombra ao hover da logo */
+
+    /* -------------------------------------------------------------------------
+    Navegação principal (.main-nav .nav-link)
+    ------------------------------------------------------------------------- */
+    --header-nav-link-color: #444;             /* Cor do texto dos links */
+    --header-nav-link-bg-hover: #f0f0f0;       /* Fundo ao hover dos links */
+    --header-nav-link-color-hover: #007bff;    /* Cor do link ao hover */
+
+    /* -------------------------------------------------------------------------
+    Área de ações do usuário (.main-nav-right .nav-link)
+    ------------------------------------------------------------------------- */
+    --header-user-link-color: #007bff;         /* Cor dos links da área de usuário */
+    --header-user-link-bg-hover: #f0f0f0;      /* Fundo ao hover da área de usuário */
+
+    /* -------------------------------------------------------------------------
+    Seção de destaque / botão cadastrar (.main-nav-right-right .nav-link-cadastrar)
+    ------------------------------------------------------------------------- */
+    --header-cta-bg: #007bff;                  /* Fundo do botão cadastrar */
+    --header-cta-bg-hover: #0056b3;            /* Fundo hover do botão cadastrar */
+    --header-cta-color: #fff;                  /* Cor do texto do botão cadastrar */
+    --header-cta-shadow: rgba(0, 123, 255, 0.3);       /* Sombra do botão cadastrar */
+    --header-cta-shadow-hover: rgba(0, 123, 255, 0.5); /* Sombra hover do botão cadastrar */
+
+    /* -------------------------------------------------------------------------
+    Borda da seção de destaque (.main-nav-right-right)
+    ------------------------------------------------------------------------- */
+    --header-cta-border-left: #ddd;            /* Borda esquerda da seção de destaque */
+
+
+/* 
+=============================================================================
+ADMIN PRODUCTS — cores e sombras para a página de produtos do admin
+============================================================================= 
+*/
+    --admin-bg: #f9f9f9;                       /* Fundo geral da página admin-products */
+    --admin-title-color: #007bff;              /* Cor do título H2 da página */
+
+    /* -------------------------------------------------------------------------
+       TABELA DE PRODUTOS
+       ------------------------------------------------------------------------- */
+    --admin-table-bg: #fff;                    /* Fundo da tabela */
+    --admin-table-shadow: rgba(0, 0, 0, 0.05); /* Sombra da tabela */
+    --admin-table-header-bg: #f0f0f0;          /* Fundo do cabeçalho da tabela */
+    --admin-table-header-color: #333;          /* Cor do texto do cabeçalho */
+    --admin-table-header-border: #ddd;         /* Borda inferior do cabeçalho */
+    --admin-table-body-border: #eee;           /* Borda inferior do corpo da tabela */
+    --admin-table-body-color: #444;            /* Cor do texto do corpo da tabela */
+
+    /* -------------------------------------------------------------------------
+       BOTÕES EDIT / DELETE
+       ------------------------------------------------------------------------- */
+    --admin-btn-edit-bg: #007bff;              /* Fundo botão editar */
+    --admin-btn-edit-color: #fff;              /* Texto botão editar */
+    --admin-btn-edit-hover: #0056b3;           /* Fundo hover botão editar */
+    --admin-btn-edit-shadow-hover: rgba(0, 123, 255, 0.25); /* Sombra hover botão editar */
+
+    --admin-btn-delete-bg: #dc3545;            /* Fundo botão excluir */
+    --admin-btn-delete-color: #fff;            /* Texto botão excluir */
+    --admin-btn-delete-hover: #b02a37;         /* Fundo hover botão excluir */
+    --admin-btn-delete-shadow-hover: rgba(220, 53, 69, 0.25); /* Sombra hover botão excluir */
+
+    /* -------------------------------------------------------------------------
+       BOTÃO CRIAR PRODUTO
+       ------------------------------------------------------------------------- */
+    --admin-btn-create-bg: #28a745;            /* Fundo botão criar produto */
+    --admin-btn-create-color: #fff;            /* Texto botão criar produto */
+    --admin-btn-create-hover: #218838;         /* Fundo hover botão criar produto */
+
+    /* -------------------------------------------------------------------------
+       INPUTS / TEXTAREAS
+       ------------------------------------------------------------------------- */
+    --admin-input-border: #ccc;                /* Borda inputs e textareas */
+
+    /* -------------------------------------------------------------------------
+       BOTÕES FORMULÁRIO MODAL — SUCCESS / DANGER
+       ------------------------------------------------------------------------- */
+    --admin-btn-success-bg: #28a745;           /* Fundo botão sucesso */
+    --admin-btn-success-color: #fff;           /* Texto botão sucesso */
+    --admin-btn-success-hover: #218838;        /* Fundo hover botão sucesso */
+    --admin-btn-success-shadow-hover: rgba(33, 136, 56, 0.25); /* Sombra hover */
+
+    --admin-btn-danger-bg: #dc3545;            /* Fundo botão perigo */
+    --admin-btn-danger-color: #fff;            /* Texto botão perigo */
+    --admin-btn-danger-hover: #b02a37;         /* Fundo hover botão perigo */
+    --admin-btn-danger-shadow-hover: rgba(220, 53, 69, 0.25); /* Sombra hover */
+
+    /* -------------------------------------------------------------------------
+       LABELS E CHECKBOXES
+       ------------------------------------------------------------------------- */
+    --admin-label-color: #333;                 /* Cor dos labels */
+    --admin-checkbox-label: #555;              /* Cor do label dos checkboxes */
+
+    /* -------------------------------------------------------------------------
+       IMAGENS
+       ------------------------------------------------------------------------- */
+    --admin-img-shadow: rgba(0,0,0,0.1);       /* Sombra das imagens */
+
+
+/* 
+=============================================================================
+CAROUSEL.CSS — cores e sombras do carrossel de produtos
+============================================================================= */
+
+    /* -------------------------------------------------------------------------
+    Botões de navegação
+    ------------------------------------------------------------------------- */
+    --carousel-btn-bg: #fff;                     /* Fundo padrão dos botões */
+    --carousel-btn-border: #ddd;                 /* Borda dos botões */
+    --carousel-btn-color: #007bff;               /* Cor do ícone/texto dos botões */
+    --carousel-btn-shadow: rgba(0, 0, 0, 0.15);  /* Sombra do botão */
+    --carousel-btn-hover-bg: #007bff;            /* Fundo ao passar o mouse */
+    --carousel-btn-hover-color: #fff;            /* Cor ao passar o mouse */
+
+    /* -------------------------------------------------------------------------
+    Cartão de produto
+    ------------------------------------------------------------------------- */
+    --carousel-card-bg: #fff;                    /* Fundo do cartão */
+    --carousel-card-border: #eee;                /* Borda do cartão */
+    --carousel-card-shadow: rgba(0, 0, 0, 0.05); /* Sombra do cartão */
+    --carousel-card-title-color: #444;           /* Cor do título do produto */
+    --carousel-card-text-color: #555;            /* Cor do texto secundário (quantidade, etc.) */
+    --carousel-card-price-color: #0a7a3a;        /* Cor do preço */
+
+    /* -------------------------------------------------------------------------
+    Miniatura do produto
+    ------------------------------------------------------------------------- */
+    --carousel-thumb-bg: #fff;                   /* Fundo da miniatura, se necessário */
+
+/* 
+=============================================================================
+CART — variáveis de cores e sombras para o carrinho lateral
+============================================================================= */
+    
+    /* -------------------------------------------------------------------------
+    CONTAINER PRINCIPAL DO CARRINHO
+    ------------------------------------------------------------------------- */
+    --cart-bg: #fff;                       /* Fundo do painel do carrinho */
+    --cart-border: #ddd;                   /* Borda esquerda do carrinho */
+    --cart-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra do carrinho */
+    --cart-hr-border: #eee;                /* Cor da linha divisória horizontal */
+
+    /* -------------------------------------------------------------------------
+    BOTÃO LIMPAR CARRINHO
+    ------------------------------------------------------------------------- */
+    --cart-clear-bg: #ff4d4f;              /* Fundo do botão limpar */
+    --cart-clear-color: #fff;              /* Cor do texto do botão limpar */
+    --cart-clear-hover: #e63946;           /* Fundo do botão limpar ao hover */
+
+    /* -------------------------------------------------------------------------
+    ITENS DO CARRINHO
+    ------------------------------------------------------------------------- */
+    --cart-item-name-color: #333;          /* Cor do nome do produto */
+    --cart-item-quantity-color: #666;      /* Cor da quantidade do produto */
+    --cart-item-price-color: #0a7a3a;      /* Cor do preço do produto */
+
+    /* -------------------------------------------------------------------------
+    BOTÃO FECHAR CARRINHO
+    ------------------------------------------------------------------------- */
+    --cart-close-btn-color: #666;          /* Cor do botão de fechar */
+
+    /* -------------------------------------------------------------------------
+    BOTÕES GENÉRICOS (REUTILIZÁVEIS)
+    ------------------------------------------------------------------------- */
+    --btn-bg: #007bff;                     /* Fundo dos botões padrões */
+    --btn-color: #fff;                      /* Cor do texto dos botões */
+    --btn-hover-bg: #0056b3;               /* Fundo dos botões ao hover */
+
+
+/* 
+=============================================================================
+CHECKOUT — variáveis de cores e sombras para a página de checkout
+============================================================================= */
+
+    /* -------------------------------------------------------------------------
+    CONTAINER PRINCIPAL
+    ------------------------------------------------------------------------- */
+    --checkout-bg: #f9f9f9;                  /* Fundo geral do checkout */
+    --checkout-color: #333;                  /* Cor do texto principal */
+
+    /* -------------------------------------------------------------------------
+    FORMULÁRIO DE CHECKOUT
+    ------------------------------------------------------------------------- */
+    --checkout-form-bg: #fff;                /* Fundo do formulário */
+    --checkout-form-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Sombra do formulário */
+    --checkout-form-h2-color: #2c3e50;      /* Cor do título H2 do formulário */
+    --checkout-input-border: #ccc;          /* Borda inputs/selects */
+    --checkout-input-focus-border: #27ae60; /* Borda em foco */
+
+    /* -------------------------------------------------------------------------
+    BOTÃO DE ENVIO DO FORMULÁRIO
+    ------------------------------------------------------------------------- */
+    --checkout-btn-submit-bg: #27ae60;      /* Fundo do botão submit */
+    --checkout-btn-submit-color: #fff;      /* Cor do texto do botão submit */
+    --checkout-btn-submit-hover: #219150;   /* Fundo do botão submit ao hover */
+
+    /* -------------------------------------------------------------------------
+    RESUMO DO CARRINHO
+    ------------------------------------------------------------------------- */
+    --checkout-cart-bg: #fff;                /* Fundo do resumo lateral */
+    --checkout-cart-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Sombra do resumo */
+    --checkout-cart-h3-color: #2c3e50;      /* Cor do título H3 */
+    --checkout-cart-li-border: #eee;        /* Borda inferior dos itens */
+    --checkout-cart-li-color: #555;         /* Cor do texto dos itens */
+    --checkout-cart-p-color: #333;          /* Cor do total */
+
+    /* -------------------------------------------------------------------------
+    BOTÃO DE CONCLUSÃO DE PEDIDO
+    ------------------------------------------------------------------------- */
+    --checkout-btn-finalize-bg: #e67e22;    /* Fundo botão finalizar */
+    --checkout-btn-finalize-color: #fff;    /* Cor do texto botão finalizar */
+    --checkout-btn-finalize-hover: #d35400; /* Fundo botão finalizar ao hover */
+
+    /* -------------------------------------------------------------------------
+    TELA DE SUCESSO (PÓS-COMPRA)
+    ------------------------------------------------------------------------- */
+    --checkout-success-bg: #f9f9f9;          /* Fundo do container de sucesso */
+    --checkout-success-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra da tela */
+    --checkout-success-h2-color: #333;      /* Cor do H2 de sucesso */
+    --checkout-success-p-color: #555;       /* Cor do parágrafo de sucesso */
+
+    /* -------------------------------------------------------------------------
+    BOTÃO "VOLTAR PARA HOME"
+    ------------------------------------------------------------------------- */
+    --checkout-btn-back-bg: #007bff;        /* Fundo botão voltar */
+    --checkout-btn-back-color: #fff;        /* Cor do texto botão voltar */
+    --checkout-btn-back-hover: #0056b3;     /* Fundo botão voltar ao hover */
+
+    /* -------------------------------------------------------------------------
+    ITENS DO CHECKOUT
+    ------------------------------------------------------------------------- */
+    --checkout-item-name-color: #333;       /* Cor do nome do produto */
+    --checkout-item-qtd-bg: #27ae60;        /* Fundo quantidade */
+    --checkout-item-qtd-color: #fff;        /* Cor do texto quantidade */
+    --checkout-item-price-color: #2c3e50;   /* Cor do preço */
+
+
+/* ---------------------------------------------------------------------------
+FOOTER COLORS
+Cores, fundos e destaques utilizados no rodapé.
+--------------------------------------------------------------------------- */
+    --footer-bg: rgba(20, 20, 20, 0.85);            /* fundo do container principal */
+    --footer-border-top: rgba(255, 255, 255, 0.15); /* borda superior sutil */
+    --footer-color: #e0e0e0;                        /* cor do texto do rodapé */
+    --footer-highlight-color: #259dff;             /* cor do destaque dentro do rodapé */
+    --footer-highlight-bg: rgba(255, 215, 0, 0.1); /* fundo do destaque */
+    --footer-link-color: #007bff;                  /* cor padrão dos links */
+    --footer-link-hover: #ffffff;                  /* cor dos links ao passar o mouse */
+
+
+/* ---------------------------------------------------------------------------
+HERO COMPONENT COLORS
+Cores, sombras, gradientes e bordas utilizadas no componente hero.
+--------------------------------------------------------------------------- */
+    --hero-slide-text-color: #ffffff;          /* cor do texto dos slides */
+    --hero-slide-text-shadow: rgba(0, 0, 0, 0.7); /* sombra do texto dos slides */
+    --hero-slide-overlay-start: rgba(0, 0, 0, 0.5); /* gradiente início do overlay */
+    --hero-slide-overlay-end: rgba(0, 0, 0, 0.4);   /* gradiente fim do overlay */
+    --hero-swiper-bg: #00000033;               /* fundo do container swiper */
+    --hero-swiper-border: rgba(255, 255, 255, 0.15); /* borda do container swiper */
+    --hero-swiper-shadow: rgba(0, 0, 0, 0.25); /* sombra do container swiper */
+    --hero-swiper-border-radius: 22px;        /* borda arredondada do swiper */
+    --hero-pagination-bullet: #ffffff;        /* cor dos bullets inativos */
+    --hero-pagination-bullet-active: #007bff; /* cor do bullet ativo */
+    --hero-wrapper-padding: 40px 20px;        /* padding do wrapper do hero */
+
+
+/* ---------------------------------------------------------------------------
+LOGIN PAGE COLORS
+Cores utilizadas na página de login, incluindo fundo, bordas, textos e botões.
+--------------------------------------------------------------------------- */
+    --login-bg: #fff;                    /* fundo do container principal */
+    --login-border: #e6e6e6;             /* borda do container principal */
+    --login-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* sombra do container */
+    --login-title-color: #333;           /* cor do título h2 */
+    --login-input-border: #ddd;          /* borda dos inputs */
+    --login-primary: #007bff;            /* cor principal (botões, destaque) */
+    --login-primary-hover: #0056b3;      /* hover do botão principal */
+    --login-primary-shadow: rgba(0, 123, 255, 0.2); /* sombra do foco do input */
+    --login-button-text: #fff;           /* texto dos botões */
+    --login-label-color: #555;           /* cor dos labels dos inputs */
+
+
+/* ---------------------------------------------------------------------------
+PRODUCTS PAGE COLORS
+Paleta de cores usada na página de produtos: fundo, textos, bordas, botões.
+--------------------------------------------------------------------------- */
+    --products-bg: #f9f9f9;            /* fundo da seção principal */
+    --products-title: #007bff;         /* cor do título da seção */
+    --products-card-bg: #fff;          /* fundo do card */
+    --products-card-border: #eee;      /* borda do card */
+    --products-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* sombra do card */
+    --products-text: #333;             /* cor do texto principal do card */
+    --products-subtext: #555;          /* cor do texto secundário do card */
+    --products-price: #0a7a3a;         /* cor do preço */
+    --products-btn-bg: #007bff;        /* fundo do botão */
+    --products-btn-hover: #0056b3;     /* hover do botão */
+    --products-btn-text: #fff;         /* texto do botão */
+    --products-filter-border: #ddd;    /* borda do select do filtro */
+    --products-filter-text: #444;      /* cor do texto do filtro */
+    --products-filter-focus-shadow: rgba(0, 123, 255, 0.2); /* sombra do select em foco */
+
+
+/* ---------------------------------------------------------------------------
+REGISTER PAGE COLORS & STYLES
+Paleta de cores e estilos usados na página de cadastro: fundo, textos, bordas,
+inputs, botão principal e hover.
+--------------------------------------------------------------------------- */
+
+    /* Container principal */
+    --register-bg: #fff;                    /* fundo do formulário */
+    --register-border: #ddd;                /* borda do formulário */
+    --register-radius: 12px;                /* arredondamento do formulário */
+    --register-shadow: 0 4px 12px rgba(0,0,0,0.05); /* sombra do container */
+    --register-padding: 1.5rem 2rem;        /* padding interno do formulário */
+    --register-max-width: 400px;            /* largura máxima do formulário */
+    --register-margin: 2rem auto;           /* centraliza e adiciona espaçamento vertical */
+
+    /* Título do formulário */
+    --register-title-color: #333;           /* cor do título */
+    --register-title-font-size: 1.5rem;     /* tamanho da fonte do título */
+
+    /* Inputs */
+    --register-input-border: #ddd;          /* borda padrão do input */
+    --register-input-border-radius: 8px;    /* borda arredondada do input */
+    --register-input-padding: 0.6rem 0.75rem; /* padding interno do input */
+    --register-input-font-size: 1rem;       /* tamanho da fonte do input */
+    --register-input-focus-border: #28a745; /* cor da borda ao focar */
+    --register-input-focus-shadow: rgba(40,167,69,0.15); /* sombra ao focar */
+
+    /* Botão principal */
+    --register-btn-bg: #28a745;             /* fundo do botão */
+    --register-btn-bg-hover: #218838;       /* fundo do botão ao passar o mouse */
+    --register-btn-text: #fff;              /* cor do texto do botão */
+    --register-btn-font-weight: 600;        /* peso da fonte do botão */
+    --register-btn-font-size: 1rem;         /* tamanho da fonte do botão */
+    --register-btn-radius: 8px;             /* borda arredondada do botão */
+    --register-btn-padding: 0.65rem;        /* padding interno do botão */
+
+}
+
+
+/* =============================================================================
+   VARIÁVEIS DE TIPOGRAFIA - ROOT
+   ---------------------------------------------------------------------------
+   Define fontes e tamanhos principais usados no site.
+   ============================================================================= */
+:root {
+    /* BASE.CSS */
+    --font-base: open-sans, sans-serif;
+    /* ADMINPRODUCTS.CSS */
+    --font-adminproducts: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* CHECKOUT.CSS */
+    --font-checkout: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* FOOTER.CSS */
+    --font-footer: 'Roboto', sans-serif;
+}
+/* =============================================================================

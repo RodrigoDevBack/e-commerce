@@ -19,9 +19,9 @@
   right: 0;
   width: 350px;
   height: calc(100% - 100px);
-  background: #fff;
-  border-left: 1px solid #ddd;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  background: var(--cart-bg);
+  border-left: 1px solid var(--cart-border);
+  box-shadow: var(--cart-shadow);
   padding: 1rem;
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -33,7 +33,7 @@
 .cart hr {
   margin: 1rem 0;
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--cart-hr-border);
 }
 
 /* ---------------------------------------------------------------------------
@@ -43,9 +43,9 @@
    - Hover aplica tom mais escuro para destaque visual.
    --------------------------------------------------------------------------- */
 #clear-cart {
-  background-color: #ff4d4f;
+  background-color: var(--cart-clear-bg);
   /* vermelho para ação de apagar */
-  color: #fff;
+  color: var(--cart-clear-color);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -56,7 +56,7 @@
 }
 
 #clear-cart:hover {
-  background-color: #e63946;
+  background-color: var(--cart-clear-hover);
   /* tom mais escuro ao passar o mouse */
 }
 
@@ -142,17 +142,17 @@
    --------------------------------------------------------------------------- */
 .cart-item-name {
   font-weight: 500;
-  color: #333;
+  color: var(--cart-item-name-color);
 }
 
 .cart-item-quantity {
-  color: #666;
+  color: var(--cart-item-quantity-color);
   margin: 0 0.5rem;
 }
 
 .cart-item-price {
   font-weight: 600;
-  color: #0a7a3a;
+  color: var(--cart-item-price-color);
 }
 
 /* ---------------------------------------------------------------------------
@@ -180,7 +180,7 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #666;
+  color: var(--cart-close-btn-color);
 }
 
 /* ---------------------------------------------------------------------------
@@ -193,13 +193,13 @@
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  background: #007bff;
-  color: white;
+  background: var(--btn-bg);
+  color: var(--btn-color);
 }
 
 /* Hover do botão padrão */
 .btn:hover {
-  background: #0056b3;
+  background: var(--btn-hover-bg);
 }
 
 /* Variante “btn-closer” (mesma aparência, sem redundância funcional) */
@@ -208,13 +208,13 @@
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  background: #007bff;
-  color: white;
+  background: var(--btn-bg);
+  color: var(--btn-color);
 }
 
 .btn-closer:hover {
-  background: #0056b3;
-  color: white;
+  background: var(--btn-hover-bg);
+  color: var(--btn-color);
 }
 
 /* ============================================================================

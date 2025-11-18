@@ -19,6 +19,8 @@
    dos componentes e que regras de sobrescrita (como responsive.css) funcionem
    corretamente.
    --------------------------------------------------------------------------- */
+@import url('themes.css');
+/* Variáveis globais de cores e tipografia */
 @import url('base.css');
 /* Reset e variáveis globais */
 @import url('header.css');

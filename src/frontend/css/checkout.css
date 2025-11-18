@@ -16,7 +16,7 @@
   /* Permite que o carrinho desça abaixo do formulário em telas pequenas */
   gap: 2rem;
   padding: 2rem;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-checkout);
   color: #333;
   background-color: #f9f9f9;
 }

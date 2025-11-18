@@ -63,22 +63,22 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #fff;
-  border: 1px solid #ddd;
-  color: #007bff;
+  background: var(--carousel-btn-bg);
+  border: 1px solid var(--carousel-btn-border);
+  color: var(--carousel-btn-color);
   font-size: 1.5rem;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 5px var(--carousel-btn-shadow);
   transition: background 0.2s, color 0.2s, transform 0.1s;
 }
 
 /* Hover: realça o botão e adiciona leve aumento para feedback de interação */
 .carousel-btn:hover {
-  background: #007bff;
-  color: #fff;
+  background: var(--carousel-btn-hover-bg);
+  color: var(--carousel-btn-hover-color);
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -99,15 +99,15 @@
    Organiza imagem, título, quantidade e preço em coluna flexível.
    --------------------------------------------------------------------------- */
 .product-card {
-  background: #fff;
-  border: 1px solid #eee;
+  background: var(--carousel-card-bg);
+  border: 1px solid var(--carousel-card-border);
   border-radius: 10px;
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   height: 100%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px var(--carousel-card-shadow);
   align-items: center;   /* centraliza todos os elementos horizontalmente */
   text-align: center;    /* centraliza texto de h3 e p */
 }
@@ -131,7 +131,7 @@
 .product-card h3 {
   font-size: 1.2rem;    /* tamanho adequado */
   font-weight: 600;
-  color: #444;
+  color: var(--carousel-card-title-color);
   margin: 0;            /* remove margem padrão */
 }
 
@@ -141,12 +141,12 @@
 .product-card p {
   margin: 0;            /* remove margem padrão para alinhamento */
   font-size: 0.95rem;
-  color: #555;
+  color: var(--carousel-card-text-color);
 }
 
 .product-price {
   font-weight: 600;
-  color: #0a7a3a;       /* verde do preço */
+  color: var(--carousel-card-price-color);       /* verde do preço */
 }
 /* ============================================================================
    FIM DO ARQUIVO: carousel.css

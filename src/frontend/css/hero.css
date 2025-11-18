@@ -1,67 +1,105 @@
-/* =============================================================================
-   hero.css
-   -----------------------------------------------------------------------------
-   Seção principal de destaque (Hero Banner)
-   Responsável por criar uma introdução visualmente marcante no topo da homepage,
-   com texto centralizado sobre imagem de fundo e camada de sobreposição escura.
-   ============================================================================= */
-
-/* ---------------------------------------------------------------------------
-   CONTAINER DO HERO (.hero)
-   ---------------------------------------------------------------------------
-   • Altura fixa (500px) cria impacto visual consistente no topo da página.  
-   • Flexbox centraliza o conteúdo (texto) vertical e horizontalmente.  
-   • radial-gradient sobreposto à imagem fornece contraste para leitura.  
-   • background-size: cover mantém proporção sem distorções.  
-   • color: branco para legibilidade sobre o fundo escuro.  
-   --------------------------------------------------------------------------- */
-.hero {
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  background-image:
-    radial-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
-    url('/assets/images/background_loja.jpg');
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #fff;
-}
-
-/* ---------------------------------------------------------------------------
-   TÍTULO PRINCIPAL (.hero h1)
-   ---------------------------------------------------------------------------
-   • Tamanho grande (2.5rem) destaca o título principal da loja.  
-   • text-shadow adiciona profundidade e melhora contraste.  
-   • margin-bottom fornece espaçamento natural para o subtítulo.  
-   --------------------------------------------------------------------------- */
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-}
-
-/* ---------------------------------------------------------------------------
-   SUBTÍTULO / DESCRIÇÃO (.hero p)
-   ---------------------------------------------------------------------------
-   • Fonte média para leitura equilibrada.  
-   • text-shadow mantém legibilidade sobre fundos claros.  
-   • max-width limita a largura do texto, evitando linhas longas.  
-   • margin centraliza horizontalmente.  
-   --------------------------------------------------------------------------- */
-.hero p {
-  font-size: 1.2rem;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 /* ============================================================================
-   FIM DO hero.css
+   HERO COMPONENT
+   ---------------------------------------------------------------------------
+   Estilos gerais para o componente hero, incluindo container, slides, títulos
+   e paginação. Responsável por criar o efeito de slideshow elegante e legível.
    ============================================================================
 */
+
+/* ===============================
+   Container do Hero
+   - Centraliza o conteúdo horizontalmente.
+   - Define espaçamento interno.
+   =============================== */
+.hero-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: var(--hero-wrapper-padding);
+}
+
+/* ===============================
+   Swiper Container
+   - Quadro principal do slideshow.
+   - Define dimensões, borda, arredondamento e efeito de vidro.
+   =============================== */
+.hero-swiper {
+    width: 90%;
+    max-width: 1100px;
+    height: 420px;
+    border-radius: var(--hero-swiper-border-radius);
+    overflow: hidden;
+    position: relative;
+
+    /* Fundo semi-transparente e efeito blur */
+    background: var(--hero-swiper-bg);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--hero-swiper-border);
+    box-shadow: 0 4px 18px var(--hero-swiper-shadow);
+}
+
+/* ===============================
+   Cada Slide
+   - Ocupa todo o quadro.
+   - Define background e centraliza conteúdo.
+   =============================== */
+.hero-slide {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: var(--hero-slide-text-color);
+    padding: 40px;
+    position: relative;
+}
+
+/* Sombra sobre a imagem
+   - Garante legibilidade do texto em slides com imagens claras ou escuras */
+.hero-slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(var(--hero-slide-overlay-start),
+                                var(--hero-slide-overlay-end));
+}
+
+/* Garante que o texto fique acima da sombra */
+.hero-slide * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===============================
+   Tipografia dos Slides
+   - Títulos e descrições com sombra suave para destaque
+   =============================== */
+.hero-slide h1 {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px var(--hero-slide-text-shadow);
+}
+
+.hero-slide p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 0 10px var(--hero-slide-text-shadow);
+}
+
+/* ===============================
+   Paginação (Dots do Swiper)
+   - Indica o slide ativo
+   =============================== */
+.swiper-pagination-bullet {
+    background: var(--hero-pagination-bullet) !important;
+    opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--hero-pagination-bullet-active) !important;
+    opacity: 1;
+}
