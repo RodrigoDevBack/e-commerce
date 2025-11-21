@@ -1,3 +1,4 @@
+from itertools import product
 from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Form
 from security.user_depends import get_user_admin
 from typing import Annotated, List, Optional
@@ -6,7 +7,7 @@ from tortoise_models.model_product_db import Product
 from pydantic_models.admin_dto import AdminCreateProduct, AdminDisableUser, AdminUpdateProduct, AdminDeleteProduct, AdminResponseProduct
 from pydantic_models.user_dto import UserResponseDTO
 from fastapi import HTTPException, status
-from integrations.image_save import add_image, delete_directory_product, delete_product_image
+from integrations.image_save import add_image, delete_directory_product, delete_product_image, move_images_a_new_path, clear_images
 
 
 router_admin = APIRouter(
@@ -75,11 +76,17 @@ async def edit_product(data: AdminUpdateProduct, depends = Depends(get_user_admi
         )
     
     if data.name != None:
+        falha = move_images_a_new_path(product_update.name, data.name)
+        if falha != True:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail= f"Ao mover as imagens ocorreu uma falha misteriosa.")
         product_update.name = data.name
+            
     if data.description != None:
         product_update.description = data.description
+        
     if data.qtd != None:
         product_update.qtd = data.qtd
+        
     if data.price != None:
         product_update.price = data.price
         

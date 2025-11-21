@@ -40,6 +40,12 @@
       <div class="main-nav-right-right">
         <a href="#register" class="nav-link-cadastrar">Cadastra-se</a>
       </div>
+      <!-- Botão do carrinho (navbar compacta) -->
+      <button id="open-cart-nav" class="cart-nav-btn" aria-label="Abrir carrinho" title="Carrinho">🛒</button>
+      <!-- Hamburger (mobile) - positioned on the right -->
+      <button id="nav-toggle" class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <!-- Mobile menu (cloned dynamically) -->
+      <nav id="mobile-menu" class="mobile-menu" aria-hidden="true"></nav>
     </div>
   </header>
 
@@ -64,8 +70,8 @@
     </div>
   </div>
 
-  <!-- Botão fixo para abrir carrinho -->
-  <button id="open-cart" class="btn" style="position:fixed;top:10%;right:5%;">Carrinho</button>
+  <!-- Botão fixo para abrir carrinho (apenas desktop) -->
+  <button id="open-cart" class="btn cart-desktop-btn" style="position:fixed;top:10%;right:5%;">Carrinho</button>
 
   <!-- Rodapé do site -->
   <footer class="site-footer">

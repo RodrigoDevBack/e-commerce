@@ -1,3 +1,4 @@
+from csv import Error
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import os, shutil, time
@@ -41,3 +42,32 @@ def add_image(name_product, file) -> str:
     with open(file_loc, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
         return new_name_file
+
+def move_images_a_new_path(name_product_old, name_product_new) -> bool:
+    path_old = f"/app/integrations/images_products/{name_product_old}"
+    path_new = f"/app/integrations/images_products/{name_product_new}"
+    try:
+        if not os.path.exists(path_new):
+            create_new_directory_product(name_product_new)
+        else:
+            return True
+        
+        images = os.listdir(path_old)
+        
+        for i in images:
+            shutil.move(f'{path_old}/{i}', path_new)
+        
+        os.removedirs(path_old)
+        return True
+    except Exception:
+        return False
+    
+
+def clear_images(name_product, name_image):
+    path_product = f"/app/integrations/images_products/{name_product}"
+    images = os.listdir(path_product)
+    if name_image not in images:
+        return False
+    else:
+        return True
+    

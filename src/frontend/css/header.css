@@ -8,15 +8,18 @@
   top: 0;
   z-index: 50;
   box-shadow: 0 2px 6px var(--header-site-shadow);
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   transition: background 0.3s, box-shadow 0.3s;
+  min-height: auto;
 }
 
 .header-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  grid-template-rows: auto auto;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 0;
+  gap: 0.3rem 0.4rem;
+  padding: 0.2rem 0;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -118,39 +121,248 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
+  .site-header {
+    padding: 0.15rem 0.4rem;
+  }
+
   .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-rows: auto;
+    align-items: center;
+    gap: 0.2rem 0.35rem;
+    padding: 0.15rem 0;
   }
 
+  /* Logo: coluna 1 */
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  .brand .logo {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* Espaço vazio entre logo e botões */
   .main-nav {
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-left: 0;
+    display: none;
   }
 
-  .main-nav-right-right {
-    border-left: none;
-    padding-left: 0;
+  /* Ver Perfil + Sair: coluna 3-4, alinhados à direita */
+  .main-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
     margin-left: 0;
+    order: unset;
+    grid-column: 3 / 5;
+    grid-row: 1;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    justify-self: end;
+  }
+
+  /* Cart button: coluna 5 */
+  .cart-nav-btn {
+    grid-column: 5;
+    grid-row: 1;
+  }
+
+  /* Hamburger ABSOLUTAMENTE no canto superior direito: coluna 6 */
+  .nav-toggle {
+    display: inline-flex !important;
+    grid-column: 6;
+    grid-row: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.35rem;
+    margin: 0;
+    flex: 0 0 auto;
+    height: fit-content;
+    order: unset;
+    justify-self: end;
+  }
+
+  .main-nav-right .nav-link {
+    padding: 0.2rem 0.35rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    display: inline-block;
+    color: var(--header-user-link-color);
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .main-nav-right .nav-link:hover {
+    background: var(--header-user-link-bg-hover);
+    border-radius: 4px;
+  }
+
+  .sair-btn {
+    padding: 0.2rem 0.35rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    background: none;
+    border: none;
+    color: var(--header-user-link-color);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .sair-btn:hover {
+    background: var(--header-user-link-bg-hover);
+    border-radius: 4px;
+  }
+
+  /* Hide register and secondary nav */
+  .main-nav-right-right {
+    display: none;
+  }
+
+  /* Show cart button in navbar */
+  .cart-nav-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide desktop cart button when nav is compact */
+  .cart-desktop-btn {
+    display: none !important;
+  }
+
+  /* Keep offcanvas out of header flow */
+  .header-inner .offcanvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+  }
+
+  /* Extra small: 420px e abaixo */
+  @media (max-width: 420px) {
+    .brand .logo {
+      font-size: 0.85rem;
+    }
+
+    .nav-toggle {
+      font-size: 1rem;
+      padding: 0.15rem 0.3rem;
+    }
+
+    .main-nav-right .nav-link,
+    .sair-btn {
+      padding: 0.15rem 0.3rem;
+      font-size: 0.75rem;
+    }
+
+    .cart-nav-btn {
+      font-size: 1rem;
+      padding: 0.15rem 0.3rem;
+    }
   }
 }
 
-@media (max-width: 480px) {
-  .brand .logo {
-    font-size: 1rem;
+/* Hamburger and mobile menu styles (slide from right) */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  color: var(--header-nav-link-color);
+}
+
+/* Botão do carrinho na navbar (compacto) */
+.cart-nav-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  color: var(--header-nav-link-color);
+  transition: all 0.3s;
+  pointer-events: auto;
+}
+
+.cart-nav-btn:hover {
+  transform: scale(1.1);
+  color: var(--header-logo-hover);
+}
+
+.cart-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.mobile-menu {
+  display: none; /* toggled via JS */
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  max-width: 85vw;
+  background: var(--header-site-bg);
+  box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(.2,.8,.2,1), visibility 320ms;
+  z-index: 1050;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu .nav-link,
+.mobile-menu .nav-link-cadastrar {
+  display: block;
+  padding: 0.6rem 0.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--header-nav-link-color);
+}
+
+/* Close button inside mobile menu */
+.mobile-menu .mobile-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* On small screens hide regular navs and show hamburger */
+@media (max-width: 992px) {
+  .main-nav { 
+    display: none; 
+  }
+  .main-nav-right-right { 
+    display: none; 
+  }
+}
+
+/* Desktop: show cart button fixed, hide navbar cart */
+@media (min-width: 1001px) {
+  .cart-nav-btn {
+    display: none !important;
   }
 
-  .main-nav {
-    gap: 0.6rem;
-  }
-
-  .main-nav-right .nav-link,
-  .main-nav-right-right .nav-link-cadastrar {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+  .cart-desktop-btn {
+    display: inline-block !important;
   }
 }
 

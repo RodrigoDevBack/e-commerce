@@ -11,6 +11,139 @@ import { initCheckout } from './checkout.js';
 const app = document.getElementById('app');
 const navLinks = document.querySelectorAll('.nav-link');
 
+// Mobile menu: toggle + sync
+function initMobileMenu() {
+  const navToggle = document.getElementById('nav-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (!navToggle || !mobileMenu) return;
+
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function openMenu() {
+    mobileMenu.classList.add('open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    navToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  navToggle.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('open')) closeMenu(); else openMenu();
+  });
+
+  // close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+  });
+
+  // Close when clicking any link inside
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target.matches('a.nav-link') || e.target.matches('a.nav-link-cadastrar') || e.target.matches('button.mobile-close')) {
+      closeMenu();
+    }
+  });
+}
+
+// Build mobile menu content from existing navs (called from updateMenu)
+function updateMobileMenu() {
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (!mobileMenu) return;
+
+  // Clone left nav links
+  const leftNav = document.querySelector('.main-nav');
+  const rightNav = document.querySelector('.main-nav-right');
+  const rightRight = document.querySelector('.main-nav-right-right');
+  const userData = JSON.parse(localStorage.getItem('user'));
+
+  let html = '';
+  html += `<button class="mobile-close" aria-label="Fechar menu">×</button>`;
+
+  if (leftNav) {
+    leftNav.querySelectorAll('a.nav-link').forEach(a => {
+      html += `<a href="${a.getAttribute('href')}" class="nav-link">${a.textContent}</a>`;
+    });
+  }
+
+  if (rightNav) {
+    rightNav.querySelectorAll('a.nav-link, button.nav-link').forEach(el => {
+      // Skip "Ver Perfil" button since it's already on navbar
+      if (el.textContent.trim() === 'Ver Perfil') return;
+      
+      if (el.tagName.toLowerCase() === 'a') {
+        html += `<a href="${el.getAttribute('href')}" class="nav-link">${el.textContent}</a>`;
+      } else {
+        html += `<button class="nav-link" type="button">${el.textContent}</button>`;
+      }
+    });
+  }
+
+  // Add admin link if user is logged in and is admin
+  if (userData && userData.role === 'admin') {
+    html += `<a href="#admin" class="nav-link">Gerenciar Produtos</a>`;
+  }
+
+  // Only show register link if user is NOT logged in
+  if (!userData && rightRight) {
+    rightRight.querySelectorAll('a, button').forEach(el => {
+      if (el.tagName.toLowerCase() === 'a') {
+        html += `<a href="${el.getAttribute('href')}" class="nav-link-cadastrar">${el.textContent}</a>`;
+      } else {
+        html += `<button class="nav-link-cadastrar" type="button">${el.textContent}</button>`;
+      }
+    });
+  }
+
+  // Add logout button if user is logged in
+  if (userData) {
+    html += `<button id="mobile-logout-btn" class="nav-link-cadastrar">Sair</button>`;
+  }
+
+  // Add cart button in mobile menu
+  html += `<button id="mobile-cart-btn" class="nav-link" type="button">🛒 Carrinho</button>`;
+
+  mobileMenu.innerHTML = html;
+
+  // Attach logout event if present
+  const mobileLogoutBtn = mobileMenu.querySelector('#mobile-logout-btn');
+  if (mobileLogoutBtn) {
+    mobileLogoutBtn.addEventListener('click', async () => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('cart');
+      window.cart = [];
+      await fetch('api/login/logout.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      window.location.hash = '#home';
+      window.location.reload();
+    });
+  }
+
+  // Attach cart event in mobile menu - close menu when opening cart
+  const mobileCCartBtn = mobileMenu.querySelector('#mobile-cart-btn');
+  if (mobileCCartBtn) {
+    mobileCCartBtn.addEventListener('click', () => {
+      const navToggle = document.getElementById('nav-toggle');
+      const mobileMenuElement = document.getElementById('mobile-menu');
+      mobileMenuElement.classList.remove('open');
+      mobileMenuElement.setAttribute('aria-hidden', 'true');
+      navToggle.setAttribute('aria-expanded', 'false');
+      
+      // Open cart
+      const cartElement = document.getElementById('cart');
+      if (cartElement) {
+        cartElement.classList.add('open');
+      }
+    });
+  }
+}
+
+
 /**
  * Define o link de navegação ativo baseado no hash da URL
  * @param {string} hash - Hash atual da URL
@@ -87,28 +220,10 @@ function updateMenu() {
 
   if (userData) {
     initCart();
-    // Usuário logado → mostra saudação e botão sair
+    // Usuário logado → mostra Ver Perfil e botão Sair
     navRight.innerHTML = `
-      <span class="user-btn">Olá, ${userData.name}</span>
-      ${userData.role === 'admin' ? '<a href="#admin" class="nav-link">Gerenciar Produtos</a>' : ''}
       <button type='button' class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPerfil" aria-controls="offcanvasPerfil">Ver Perfil</button>
       <button id="logout-btn" class="sair-btn">Sair</button>
-      
-      <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
-        aria-labelledby="offcanvasTitlePerfil">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasTitlePerfil">Perfil</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div id="info-perfil">
-                <!-- Informações do perfil serão carregadas aqui -->
-                <p>Nome: ${userData.name}</p>
-                <p>Email: ${userData.email}</p>
-                <p>Função: ${userData.role}</p>
-            </div>
-        </div>
-    </div>
     `;
 
     // Garante que o botão de cadastro some completamente
@@ -139,11 +254,42 @@ function updateMenu() {
       updateMenu(); // Atualiza o menu após logout
     });
   }
+
+  // Create offcanvas perfil outside of header to avoid height inflation
+  let existingOffcanvas = document.getElementById('offcanvasPerfil');
+  if (existingOffcanvas) {
+    existingOffcanvas.remove();
+  }
+
+  if (userData) {
+    const offcanvasHTML = `
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
+        aria-labelledby="offcanvasTitlePerfil">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasTitlePerfil">Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="info-perfil">
+                <!-- Informações do perfil serão carregadas aqui -->
+                <p>Nome: ${userData.name}</p>
+                <p>Email: ${userData.email}</p>
+                <p>Função: ${userData.role}</p>
+            </div>
+        </div>
+    </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', offcanvasHTML);
+  }
+
+  // ensure mobile menu mirrors changes
+  updateMobileMenu();
 }
 
 
 /** Inicializa o SPA e módulos principais */
 initApp(router);
+initMobileMenu();
 initCarousel();
 initHomePage();
 initProductsList();
@@ -193,12 +339,28 @@ function initCart() {
   let cartItemsElement = document.getElementById('cart-items');
   let cartTotalElement = document.getElementById('cart-total');
   let openCartBtn = document.getElementById('open-cart');
+  let openCartNavBtn = document.getElementById('open-cart-nav');
   let closeCartBtn = document.getElementById('close-cart');
   let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
   updateCart();
   if (!cartElement || !openCartBtn || !closeCartBtn) return;
 
-  openCartBtn.addEventListener('click', () => cartElement.classList.add('open'));
+  function openCart() {
+    cartElement.classList.add('open');
+    // Close mobile menu if open when opening cart
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    if (mobileMenu && mobileMenu.classList.contains('open')) {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  openCartBtn.addEventListener('click', openCart);
+  if (openCartNavBtn) {
+    openCartNavBtn.addEventListener('click', openCart);
+  }
   closeCartBtn.addEventListener('click', () => cartElement.classList.remove('open'));
 
   /**
@@ -286,10 +448,29 @@ function initCartLoggedOut() {
   let cartItemsElement = document.getElementById('cart-items');
   let cartTotalElement = document.getElementById('cart-total');
   let openCartBtn = document.getElementById('open-cart');
+  let openCartNavBtn = document.getElementById('open-cart-nav');
   let closeCartBtn = document.getElementById('close-cart');
   let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
   updateCart();
   if (!cartElement || !openCartBtn || !closeCartBtn) return;
+
+  function openCart() {
+    cartElement.classList.add('open');
+    // Close mobile menu if open when opening cart
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    if (mobileMenu && mobileMenu.classList.contains('open')) {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  openCartBtn.addEventListener('click', openCart);
+  if (openCartNavBtn) {
+    openCartNavBtn.addEventListener('click', openCart);
+  }
+  closeCartBtn.addEventListener('click', () => cartElement.classList.remove('open'));
 
   /**
    * Atualiza visualmente o carrinho
