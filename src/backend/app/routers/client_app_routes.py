@@ -1,7 +1,6 @@
-from time import struct_time
 from typing import List
 from fastapi import APIRouter
-from pydantic_models.product_dto import Product_Response
+from pydantic_models.product_dto import ProductResponse
 from tortoise_models.model_product_db import Product
 
 router_client_app = APIRouter(
@@ -9,7 +8,7 @@ router_client_app = APIRouter(
     responses = {404: {'Description': 'Not found'}}
 )
 
-@router_client_app.get('/get-products', response_model= List[Product_Response])
+@router_client_app.get('/get-products', response_model= List[ProductResponse])
 async def get_products():
     products = await Product.all()
     return products

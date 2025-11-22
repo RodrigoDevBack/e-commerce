@@ -6,7 +6,6 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $data = [
-    'gmail' => $_SESSION['gmail'],
     'id' => $data['id']
 ];
 
@@ -24,7 +23,6 @@ curl_setopt($cURL, CURLOPT_POSTFIELDS, $data);
 
 curl_setopt($cURL, CURLOPT_HTTPHEADER, [ 
     'Content-Type: application/json',
-    'Content-Length: ' . strlen($data),
     'Authorization: Bearer ' . ($_SESSION['token'] ?? '')
 ]);
 

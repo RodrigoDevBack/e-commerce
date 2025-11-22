@@ -10,8 +10,7 @@ load_dotenv()
 async def lifespan(app: FastAPI):
     await Tortoise.init(
         db_url= f"postgres://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}",
-        modules= {'models': ['tortoise_models.model_user_db', 'tortoise_models.model_cart_db', 'tortoise_models.model_product_db', 'tortoise_models.model_order_db']},
-        #'tortoise_models.model_hystory_order_db'
+        modules= {'models': ['tortoise_models.model_user_db', 'tortoise_models.model_cart_db', 'tortoise_models.model_product_db', 'tortoise_models.model_order_db', 'tortoise_models.model_history_order_db', 'tortoise_models.model_address_db']},
     )
     await Tortoise.generate_schemas()
     yield

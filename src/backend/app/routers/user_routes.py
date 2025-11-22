@@ -84,7 +84,8 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
                     "access_token" : hash_token_user(user.id), 
                     "token_type" : "bearer",
                     "name" : user.name,
-                    "role" : 'user'
+                    "role" : 'user',
+                    "email_validate": user.status_email
                 }
         else:
             raise HTTPException(
@@ -99,7 +100,7 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
 
 
 @router_user.post('/validate_email')
-async def validate_emai(user: user_dto.UserValidateEmail, depends: Annotated[str, Depends(combine_verify)]):
+async def validate_emai(user: user_dto.UserValidateEmail):
     if validate_email(user.email):
         pass
     else:

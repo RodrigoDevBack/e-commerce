@@ -3,11 +3,11 @@ from tortoise import fields
 from .model_user_db import User
 
 
-class Order_History(Model):
+class OrderHistory(Model):
     id = fields.IntField(primary_key = True)
     
     user: fields.ForeignKeyRelation[User] = fields.ForeignKeyField(
-        'models.User', related_name = 'carts'
+        'models.User', related_name = 'orderHistory'
     )
     
-    orders = fields.JSONField(null = True)
+    orders = fields.JSONField()

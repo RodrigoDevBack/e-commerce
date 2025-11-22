@@ -105,20 +105,37 @@ export async function initHomePage() {
     // R: Slide do carrossel na Home
     li.innerHTML = `
       <div class="product-card">
+      
+        ${(product.images != null) ? `
         <div class="thumb">
           <img 
             src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
             width="100%" height="100%" 
             alt="${product.name}" 
             style="object-fit: contain; border-radius: 8px;">
-        </div>
+        </div>` : 
+        `<div class="thumb">
+          <img 
+            src="https://img.icons8.com/color/96/no-image.png" 
+            width="100%" height="100%" 
+            alt="${product.name} sem imagens" 
+            style="object-fit: contain; border-radius: 8px;">
+        </div>`}
+
         <h3>${product.name}</h3>
         <p>Disponivel: ${product.qtd}</p>
         <p class="product-price">R$ ${product.price}</p>
-        <button class="btn add-to-cart">Adicionar ao carrinho</button>
+        <button class="btn add-to-cart" value="${product.id}">Adicionar ao carrinho</button>
       </div>
     `;
-
+    li.querySelector(".btn.add-to-cart").addEventListener("click", async () => {
+      const success = await add_product_cart(product.id, 1);
+      if (success) {
+        alert('Produto adicionado ao carrinho!');
+      } else {
+        alert('Falha ao adicionar produto ao carrinho.');
+      }
+    });
     productList.appendChild(li);
   });
   document.querySelectorAll(".hero-slide").forEach((slide) => {
@@ -138,3 +155,20 @@ export async function initHomePage() {
     },
   });
 }
+
+
+async function add_product_cart(id, qtd) {
+  let request = await fetch('/api/cart/add_product_cart.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, qtd })
+  });
+
+  let response = await request.json();
+
+  if (response.success == true) {
+    return true;
+  }
+  return false;
+}
+

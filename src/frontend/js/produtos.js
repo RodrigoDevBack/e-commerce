@@ -29,6 +29,7 @@ export default function produtosPage() {
  */
 export async function initProductsList() {
   const productList = document.getElementById("product-list");
+  if (!productList) return;
   productList.innerHTML = "";
 
   const request = await fetch("/api/product/get_all_products.php");
@@ -97,13 +98,22 @@ function createProductCard(product) {
   li.classList.add("product-item");
 // R: Tela de todos os produtos
  li.innerHTML = `
-  <div class="thumb">
+  ${(product.images != null) ? 
+  `<div class="thumb">
     <img 
       src="http://127.0.0.1:5000/images_products/${product.name}/${product.images[0]}" 
       width="100%" height="100%" 
       alt="${product.name}" 
       style="object-fit: contain; border-radius: 8px;">
-  </div>
+  </div>` : 
+  `<div class="thumb">
+    <img 
+      src="https://img.icons8.com/color/96/no-image.png"
+      width="100%" height="100%"
+      alt="${product.name} - Sem imagens"
+      style="object-fit: contain; border-radius: 8px;">
+  </div>`}
+  
   <div class="product-item-content">
     <h3>${product.name}</h3>
     <p>Disponível: ${product.qtd}</p>
@@ -114,7 +124,7 @@ function createProductCard(product) {
     data-product-id="${product.id}">
     Ver detalhes
   </button>
-  <button class="btn add-to-cart">Adicionar ao carrinho</button>
+  <button class="btn add-to-cart" value="${product.id}">Adicionar ao carrinho</button>
 `;
 
 
@@ -127,6 +137,14 @@ function createProductCard(product) {
     modal.show();
   });
 
+  li.querySelector(".add-to-cart").addEventListener("click", async () => {
+    const success = await add_product_cart(product.id, 1);
+    if (success) {
+      alert('Produto adicionado ao carrinho!');
+    } else {
+      alert('Falha ao adicionar produto ao carrinho.');
+    }
+  });
   return li;
 }
 
@@ -155,7 +173,7 @@ function createProductModal(product) {
             <div class="card p-3 shadow-sm">
               <div id="carousel-${product.id}" class="carousel slide">
                 <div class="carousel-inner">
-                  ${(product.images || []).map((img, i) => `
+                  ${(product.images != null) ? (product.images || []).map((img, i) => `
                     <div class="carousel-item ${i === 0 ? 'active' : ''}">
                       <img 
                         src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
@@ -163,17 +181,25 @@ function createProductModal(product) {
                         alt="${product.name} - Imagem ${i + 1}"
                         style="object-fit: contain; max-height: 400px;">
                     </div>
-                  `).join('')}
-                </div>
+                  `).join('') : 
+                    `<div class="carousel-item}">
+                      <img 
+                        src="https://img.icons8.com/color/96/no-image.png"
+                        class="d-block w-100"
+                        alt="${product.name} - Sem imagens"
+                        style="object-fit: contain; width="100%"; height="100%";">
+                    </div>`}
+                
+                  </div>
 
-                ${(product.images?.length || 0) > 1 ? `
+                ${(product.images != null) ? (product.images.length || 0) > 1 ? `
                   <button class="carousel-control-prev" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                   </button>
                   <button class="carousel-control-next" style="filter: invert(1) brightness(2);" type="button" data-bs-target="#carousel-${product.id}" data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                   </button>
-                ` : ''}
+                ` : '' : ''}
               </div>
 
               <div class="mt-3">
@@ -185,7 +211,7 @@ function createProductModal(product) {
               </div>
 
               <div class="text-center mt-3">
-                <button class="btn btn-success card-add-to-cart" id="add-cart-${product.id}">
+                <button class="btn btn-success card-add-to-cart" value="${product.id}" id="add-cart-${product.id}">
                   Adicionar ao carrinho
                 </button>
               </div>
@@ -197,5 +223,31 @@ function createProductModal(product) {
     </div>
   `;
 
+  modalContainer.querySelector(`#add-cart-${product.id}`).addEventListener('click', async () => {
+    const success = await add_product_cart(product.id, 1);
+    if (success) {
+      alert('Produto adicionado ao carrinho!');
+    }
+    else {
+      alert('Falha ao adicionar produto ao carrinho.');
+    }
+  });
+
   return modalContainer.firstElementChild;
+}
+
+
+async function add_product_cart(id, qtd) {
+  let request = await fetch('/api/cart/add_product_cart.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, qtd })
+  });
+
+  let response = await request.json();
+
+  if (response.success == true) {
+    return true;
+  }
+  return false;
 }

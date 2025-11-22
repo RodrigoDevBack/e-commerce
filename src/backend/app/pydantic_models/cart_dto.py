@@ -1,19 +1,17 @@
-from pydantic import BaseModel, field_validator
-from typing import Optional, List
+from pydantic import BaseModel
+from typing import List, Optional
 
 
-class Gmail_User(BaseModel):
+class GmailUser(BaseModel):
     gmail: str
 
 
-class Add_Product_Cart(BaseModel):
-    gmail: str
+class AddProductCart(BaseModel):
     product_id: int
     qtd: int
 
 
-class Delete_Product_Cart(BaseModel):
-    gmail: str
+class DeleteProductCart(BaseModel):
     product_id: int
 
 
@@ -22,9 +20,6 @@ class UserBase(BaseModel):
     name: str
     gmail: str
     admin: bool
-    
-    class Config:
-        from_attributes = True
 
 
 class ProductBase(BaseModel):
@@ -32,9 +27,7 @@ class ProductBase(BaseModel):
     name: str
     description: str
     price: float
-    
-    class Config:
-        from_attributes = True
+    images: Optional[List[str]] = None
 
 
 class OrderBase(BaseModel):
@@ -42,15 +35,9 @@ class OrderBase(BaseModel):
     qtd: int
     unity_price: float
     product: ProductBase
-    
-    class Config:
-        from_attributes = True
 
 
-class Response_Cart(BaseModel):
+class ResponseCart(BaseModel):
     id: int
     user: UserBase
     orders: List[OrderBase]
-    
-    class Config:
-        from_attributes = True 

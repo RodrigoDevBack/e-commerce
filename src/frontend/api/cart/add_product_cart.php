@@ -1,13 +1,13 @@
 <?php
+session_start();
 
 header('Content-Type: application/json');
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 $data = [
-    'gmail' => $_SESSION['gmail'],
-    'product_id' => $data['id'],
-    'qtd' => $data['qtd']
+    'product_id' => (int)$data['id'],
+    'qtd' => (int)$data['qtd']
 ];
 
 $data = json_encode($data);
