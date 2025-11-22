@@ -3,13 +3,13 @@ session_start();
 
 header('Content-type: application/json');
 
-$url = 'http://backend:5000/cart/get';
+$url = 'http://backend:5000/address/delete';
 
 $cURL = curl_init($url);
 
 curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 
-curl_setopt($cURL, CURLOPT_HTTPGET, true);
+curl_setopt($cURL, CURLOPT_CUSTOMREQUEST, 'DELETE');
 
 curl_setopt($cURL, CURLOPT_HTTPHEADER, [ 
     'Content-Type: application/json',
@@ -25,8 +25,8 @@ if ($httpCode != 200) {
     $response_user = json_encode($response_user);
     echo $response_user;
 } else {
-    $response = json_encode($response);
-    echo $response;
+    $response = json_decode($response, true);
+    $response_user = ['success' => true,];
+    $response_user = json_encode($response_user);
+    echo $response_user;
 }
-
- 

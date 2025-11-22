@@ -41,5 +41,3 @@ if ($httpCode != 200) {
     $response_user = json_encode($response_user);
     echo $response_user;
 }
-
-curl_close($cURL);

@@ -40,4 +40,4 @@ if ($httpCode != 200) {
     echo $response_user;
 }
 
-curl_close($cURL);
+ 

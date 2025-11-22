@@ -23,4 +23,4 @@ if ($httpCode != 200) {
     echo json_encode($response);
 }
 
-curl_close($cURL);
+ 

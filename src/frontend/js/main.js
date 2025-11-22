@@ -218,7 +218,7 @@ function router() {
 /**
  * Atualiza o menu de navegação com base no usuário logado
  */
-function updateMenu() {
+async function updateMenu() {
   const userData = JSON.parse(localStorage.getItem("user"));
   const navRight = document.querySelector(".main-nav-right");
   const registerLink = document.querySelector(".nav-link-cadastrar");
@@ -227,7 +227,11 @@ function updateMenu() {
     initCart();
     // Usuário logado → mostra Ver Perfil e botão Sair
     navRight.innerHTML = `
-      ${userData.role === 'admin' ? '<a href="#admin" class="nav-link admin-only">Gerenciar Produtos</a>' : ''}
+      ${
+        userData.role === "admin"
+          ? '<a href="#admin" class="nav-link admin-only">Gerenciar Produtos</a>'
+          : ""
+      }
       <button type='button' class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPerfil" aria-controls="offcanvasPerfil">Ver Perfil</button>
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
@@ -268,7 +272,10 @@ function updateMenu() {
   }
 
   if (userData) {
-
+    let request = await fetch("/api/address/get.php", {
+      credentials: "same-origin",
+    });
+    let response = await request.json();
     const offcanvasHTML = `
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
         aria-labelledby="offcanvasTitlePerfil">
@@ -286,8 +293,6 @@ function updateMenu() {
             
             <div id="campo-validar-email"></div> <br>
 
-            <div id="alterar-senha-perfil"></div> <br>
-
             <div id="hitorico-pedidos-perfil"> </div> <br>
 
             <div id="endereco-perfil"> </div> <br>
@@ -295,28 +300,209 @@ function updateMenu() {
         </div>
     </div>
     `;
-    
+
     document.body.insertAdjacentHTML("beforeend", offcanvasHTML);
     criarCampoDeValidarEmail();
+    carregarEnderecoPerfil(response);
   }
   // ensure mobile menu mirrors changes
   updateMobileMenu();
 }
+
+async function carregarEnderecoPerfil(response) {
+  const enderecoDiv = document.getElementById("endereco-perfil");
+
+  if (response.success == false) {
+    let element = document.createElement("div");
+    element.innerHTML = `<hr> <h3>Sem endereço cadastrado</h3> <br> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modelAddressRegister">Cadastrar Endereço</button>`;
+    let offCanva = document.createElement('div');
+    offCanva.innerHTML = `
+    <div class="modal fade" id="modelAddressRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Endereço</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                <form id="address-form">
+                  <label for="zip" class="form-label">CEP:</label> <br>
+                  <input type="text" class="form-control" id="cep" name="cep" required> <br>
+
+                  <label for="street" class="form-label">Rua:</label><br>
+                  <input type="text" class="form-control" id="logradouro" name="logradouro" required> <br>
+
+                  <label for="number" class="form-label">Número:</label> <br>
+                  <input type="text" class="form-control" id="numero" name="numero" required> <br>
+                  
+                  <label for="address" class="form-label">Complemento:</label> <br>
+                  <input type="text" class="form-control" id="complemento" name="complemento"> <br>
+                  
+                  <label for="address" class="form-label">Bairro:</label> <br>
+                  <input type="text" class="form-control" id="bairro" name="bairro" required> <br>
+                  
+                  <label for="city" class="form-label">Cidade:</label> <br>
+                  <input type="text" class="form-control" id="cidade" name="cidade" required> <br>
+                  
+                  <label for="state" class="form-label">Estado:</label> <br>
+                  <input type="text" class="form-control" id="estado" name="estado" required> <br>
+                </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <button type="submit" form="address-form" class="btn btn-primary" id="save-address">Salvar Endereço</button>
+                </div>
+              </div>
+        </div>
+    </div>`;
+    let addressForm = offCanva.querySelector('#address-form');
+    let saveAddressBtn = offCanva.querySelector('#save-address');
+
+    const cep = offCanva.querySelector('#cep')
+    cep.addEventListener('change', () => {
+      pesquisacep(cep.value)
+    })
+
+    function limpa_formulário_cep() {
+      //Limpa valores do formulário de cep.
+      offCanva.querySelector('#logradouro').value=("");
+      offCanva.querySelector('#bairro').value=("");
+      offCanva.querySelector('#cidade').value=("");
+      offCanva.querySelector('#estado').value=("");
+    }
+
+    function meu_callback(conteudo) {
+      if (!("erro" in conteudo)) {
+        //Atualiza os campos com os valores.
+        offCanva.querySelector('#logradouro').value=(conteudo.logradouro);
+        offCanva.querySelector('#bairro').value=(conteudo.bairro);
+        offCanva.querySelector('#cidade').value=(conteudo.localidade);
+        offCanva.querySelector('#estado').value=(conteudo.estado);
+      } //end if.
+      else {
+        //CEP não Encontrado.
+        limpa_formulário_cep();
+        alert("CEP não encontrado.");
+      }
+    }
+        
+    async function pesquisacep(valor) {
+
+      //Nova variável "cep" somente com dígitos.
+      var cep = valor.replace(/\D/g, '');
+
+      //Verifica se campo cep possui valor informado.
+      if (cep != "") {
+
+        //Expressão regular para validar o CEP.
+        var validacep = /^[0-9]{8}$/;
+
+        //Valida o formato do CEP.
+        if(validacep.test(cep)) {
+
+          //Preenche os campos com "..." enquanto consulta webservice.
+          offCanva.querySelector('#logradouro').value="...";
+          offCanva.querySelector('#bairro').value="...";
+          offCanva.querySelector('#cidade').value="...";
+          offCanva.querySelector('#estado').value="...";
+
+          //Sincroniza com o callback.
+          let request = await fetch('https://viacep.com.br/ws/'+ cep + '/json/');
+          let response = await request.json();
+          meu_callback(response)
+
+        } //end if.
+        else {
+          //cep é inválido.
+          limpa_formulário_cep();
+          alert("Formato de CEP inválido.");
+        }
+      } //end if.
+      else {
+        //cep sem valor, limpa formulário.
+        limpa_formulário_cep();
+      }
+    };
+    
+    addressForm.appendChild(element);
+
+      saveAddressBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        let addressData = {
+          CEP: offCanva.querySelector('#cep').value,
+          Logradouro: offCanva.querySelector('#logradouro').value,
+          Numero: offCanva.querySelector('#numero').value,
+          Complemento: offCanva.querySelector('#complemento').value || '',
+          Bairro: offCanva.querySelector('#bairro').value,
+          Cidade: offCanva.querySelector('#cidade').value,
+          Estado: offCanva.querySelector('#estado').value,
+        }
+        let response = await fetch('/api/address/create.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(addressData)
+        })
+        let result = await response.json()
+        if (result.success) {
+          alert('Endereço salvo com sucesso!')
+          window.location.reload();
+        } else {
+          alert('Erro ao salvar endereço.')
+        }
+      })
+
+    enderecoDiv.appendChild(element);
+    document.body.appendChild(offCanva);
+  } else {
+    let item = document.createElement('div')
+    item.innerHTML = `<hr>
+            <p><strong>Endereço cadastrado:</strong></p>
+            <p>${response.Logradouro}, ${response.Numero} ${response.Complemento ? '- ' + response.Complemento : ''}</p>
+            <p>${response.Bairro} - ${response.Cidade}/${response.Estado}</p>
+            <p>CEP: ${response.CEP}</p>
+            <form id="delete-address">
+              <button type="submit" form="delete-address" class="btn btn-outline-danger" style="background-color: red;" id="address-delete">Deletar</button>
+            </form>
+    `;
+    let addressDelete = item.querySelector('#delete-address');
+    addressDelete.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      let request = await fetch('/api/address/delete.php');
+
+      let response = await request.json();
+
+      if (response.success == true) {
+        alert('Endereço deletado.');
+        window.location.reload();
+      } else {
+        alert('Falha ao tentar deletar o endereço.');
+      }
+    });
+    
+    enderecoDiv.appendChild(item);
+  }
+}
+
 function criarCampoDeValidarEmail() {
   const div = document.getElementById("campo-validar-email");
 
   let userData = JSON.parse(localStorage.getItem("user"));
-  if (userData.email_validate == false) { 
+  if (userData.email_validate == false) {
     const campoHTML = document.createElement("div");
     campoHTML.innerHTML = `
     <hr>
     <h3>Validação de email</h3>
     <form id="validate-email-form">
-      <label for="email">Email:</label> <br>
-      <input type="email" id="email" required> <br>
-      <label for="code">Código de validação:</label> <br>
-      <input type="text" id="code" required> <br> <br>
-      <button type="submit">Validar</button> 
+      <label for="email" class="form-label">Email:</label> <br>
+      <input type="email" class="form-control" id="email" required> <br>
+      <label for="code" class="form-label">Código de validação:</label> <br>
+      <input type="text" class="form-control" id="code" required> <br>
+      <button type="submit" class="btn btn-secondary">Validar</button> 
     </form>
     <hr>
   `;
@@ -355,7 +541,7 @@ function criarCampoDeValidarEmail() {
   } else {
     div.innerHTML = "<hr><p>Seu email já foi validado.</p>";
   }
-  }
+}
 
 /** Inicializa o SPA e módulos principais */
 initApp(router);
