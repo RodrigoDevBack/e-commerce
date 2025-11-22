@@ -227,7 +227,11 @@ function updateMenu() {
     initCart();
     // Usuário logado → mostra Ver Perfil e botão Sair
     navRight.innerHTML = `
-      ${userData.role === 'admin' ? '<a href="#admin" class="nav-link admin-only">Gerenciar Produtos</a>' : ''}
+      ${
+        userData.role === "admin"
+          ? '<a href="#admin" class="nav-link admin-only">Gerenciar Produtos</a>'
+          : ""
+      }
       <button type='button' class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPerfil" aria-controls="offcanvasPerfil">Ver Perfil</button>
       <button id="logout-btn" class="sair-btn">Sair</button>
     `;
@@ -268,7 +272,6 @@ function updateMenu() {
   }
 
   if (userData) {
-
     const offcanvasHTML = `
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
         aria-labelledby="offcanvasTitlePerfil">
@@ -286,8 +289,6 @@ function updateMenu() {
             
             <div id="campo-validar-email"></div> <br>
 
-            <div id="alterar-senha-perfil"></div> <br>
-
             <div id="hitorico-pedidos-perfil"> </div> <br>
 
             <div id="endereco-perfil"> </div> <br>
@@ -295,18 +296,59 @@ function updateMenu() {
         </div>
     </div>
     `;
-    
+
     document.body.insertAdjacentHTML("beforeend", offcanvasHTML);
     criarCampoDeValidarEmail();
+    carregarHistoricoPedidos();
+    carregarEnderecoPerfil();
   }
   // ensure mobile menu mirrors changes
   updateMobileMenu();
 }
+
+async function carregarEnderecoPerfil() {
+  let request = await fetch('/api/address/get.php', {
+    credentials: 'same-origin'
+  });
+  let response = await request.json();
+  const enderecoDiv = document.getElementById("endereco-perfil");
+  let userData = JSON.parse(localStorage.getItem("user"));
+  enderecoDiv.innerHTML = "<h3>Endereço de Entrega</h3>";
+  if (userData.address) {
+    enderecoDiv.innerHTML += `
+      <p>${userData.address.street}, ${userData.address.number}</p>
+      <p>${userData.address.city} - ${userData.address.state}, ${userData.address.zip}</p>
+    `;
+  } else {
+    let element = document.createElement('div');
+    element.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#modelAddressRegister">Adicionar Endereço</button>`;
+    const modalHTML = ` 
+    <div class="modal fade" id="modelAddressRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Endereço</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body"></div>
+                <div class="modal-footer"></div>
+              </div>
+        </div>
+    </div>
+`;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+    enderecoDiv.appendChild(element);
+  }
+}
+
 function criarCampoDeValidarEmail() {
   const div = document.getElementById("campo-validar-email");
 
   let userData = JSON.parse(localStorage.getItem("user"));
-  if (userData.email_validate == false) { 
+  if (userData.email_validate == false) {
     const campoHTML = document.createElement("div");
     campoHTML.innerHTML = `
     <hr>
@@ -355,7 +397,7 @@ function criarCampoDeValidarEmail() {
   } else {
     div.innerHTML = "<hr><p>Seu email já foi validado.</p>";
   }
-  }
+}
 
 /** Inicializa o SPA e módulos principais */
 initApp(router);

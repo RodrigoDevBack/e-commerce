@@ -32,7 +32,7 @@ $response = curl_exec($cURL);
 
 $httpCode = curl_getinfo($cURL, CURLINFO_HTTP_CODE);
 
-curl_close($cURL);
+ 
 
 if ($httpCode !== 200) {
     echo json_encode(['success' => false]);
@@ -71,7 +71,7 @@ if (isset($_FILES['images'])) {
             ]);
 
             $response_image = curl_exec($cURL);
-            curl_close($cURL);
+             
             }
         }
 }

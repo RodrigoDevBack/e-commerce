@@ -28,4 +28,4 @@ if ($httpCode != 200) {
     echo $response;
 }
 
-curl_close($cURL);
+ 
