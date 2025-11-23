@@ -82,7 +82,7 @@ async def get_history(credential: Annotated[str, Depends(combine_verify)]):
     history = await OrderHistory.get_or_none(user=user)
 
     if not history or not history.orders:
-        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="No content in History")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No content in History")
 
     # Retornar o histórico do pedido como um dicionário serializado
     return {"id": history.id, "user": history.user_id, "orders": history.orders}

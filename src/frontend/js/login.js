@@ -169,7 +169,8 @@ export async function initLogin() {
       // Armazena informações essenciais do usuário para persistência de sessão
       const role = response.role;
       const name = response.name;
-      localStorage.setItem('user', JSON.stringify({ name, email, role }))
+      const email_validate = response.email_validate; 
+      localStorage.setItem('user', JSON.stringify({ name, email, role, email_validate }))
       synCartUser();
       if (response.email_validate == false) {
         let div = document.getElementById('login');

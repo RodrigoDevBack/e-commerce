@@ -12,8 +12,7 @@ curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($cURL, CURLOPT_HTTPGET, true);
 
 curl_setopt($cURL, CURLOPT_HTTPHEADER, [ 
-    'Content-Type: application/json',
-    'Content-Length: ' . strlen($data),
+    'Content-Type: application/json',   
     'Authorization: Bearer ' . ($_SESSION['token'] ?? '')
 ]);
 
@@ -29,4 +28,4 @@ if ($httpCode != 200) {
     echo $response;
 }
 
-curl_close($cURL);
+ 

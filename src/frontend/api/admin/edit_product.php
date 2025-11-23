@@ -31,7 +31,7 @@ curl_setopt($cURL, CURLOPT_HTTPHEADER, [
 
 $response = curl_exec($cURL);
 $httpCode = curl_getinfo($cURL, CURLINFO_HTTP_CODE);
-curl_close($cURL);
+ 
 
 
 if ($httpCode !== 200) {
@@ -63,7 +63,7 @@ if (isset($_POST['del_images'])) {
         ]);
 
         $response_image = curl_exec($cURL);
-        curl_close($cURL);
+         
     }
 }
 if (isset($_FILES['images'])) {
@@ -93,7 +93,7 @@ if (isset($_FILES['images'])) {
             ]);
 
             $response_image = curl_exec($cURL);
-            curl_close($cURL);
+             
             }
         }
 }
