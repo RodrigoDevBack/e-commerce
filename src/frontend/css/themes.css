@@ -296,6 +296,13 @@ CHECKOUT — variáveis de cores e sombras para a página de checkout
     --checkout-btn-back-hover: #0056b3;     /* Fundo botão voltar ao hover */
 
     /* -------------------------------------------------------------------------
+    BOTÃO "CADASTRAR ENDEREÇO"
+    ------------------------------------------------------------------------- */
+    --checkout-btn-add-address-bg: #007bff;        /* Fundo botão cadastrar endereço */
+    --checkout-btn-add-address-color: #fff;        /* Cor do texto */
+    --checkout-btn-add-address-hover: #0056b3;     /* Fundo ao passar o mouse */
+
+    /* -------------------------------------------------------------------------
     ITENS DO CHECKOUT
     ------------------------------------------------------------------------- */
     --checkout-item-name-color: #333;       /* Cor do nome do produto */

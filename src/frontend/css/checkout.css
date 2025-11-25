@@ -165,6 +165,26 @@
 }
 
 /* ---------------------------------------------------------------------------
+   BOTÃO CADASTRAR ENDEREÇO
+   --------------------------------------------------------------------------- */
+#save-address-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--checkout-btn-add-address-bg);
+  color: var(--checkout-btn-add-address-color);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#save-address-btn:hover {
+  background-color: var(--checkout-btn-add-address-hover);
+}
+
+/* ---------------------------------------------------------------------------
    TELA DE SUCESSO (PÓS-COMPRA)
    Exibida após checkout concluído.
    --------------------------------------------------------------------------- */
