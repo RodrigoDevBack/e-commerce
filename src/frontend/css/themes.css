@@ -71,6 +71,30 @@ HEADER.CSS — cores e sombras para o header moderno
     Borda da seção de destaque (.main-nav-right-right)
     ------------------------------------------------------------------------- */
     --header-cta-border-left: #ddd;            /* Borda esquerda da seção de destaque */
+    /* -------------------------------------------------------------------------
+    Botão "Perfil" (exclusivo)
+    -------------------------------------------------------------------------- */
+    --profile-btn-bg: #007bff;           /* fundo padrão */
+    --profile-btn-color: #ffffff;        /* cor do texto */
+    --profile-btn-bg-hover: #0056b3;     /* fundo ao passar o mouse */
+    --profile-btn-color-hover: #ffffff;  /* cor do texto ao hover */
+    --profile-btn-shadow: rgba(0, 123, 255, 0.3);
+    --profile-btn-shadow-hover:  rgba(0, 123, 255, 0.5);
+    
+    /* ---------------------------------------------------------------------------
+    VARIÁVEIS OFFCANVAS PERFIL
+    -------------------------------------------------------------------------- */
+    --offcanvas-bg: #ffffff;
+    --offcanvas-color: #333333;
+    --offcanvas-shadow: rgba(0,0,0,0.12);
+    --offcanvas-border: #e6e6e6;
+
+    --offcanvas-header-bg: #f7f7f7;
+    --offcanvas-header-color: #007bff;
+
+    --offcanvas-close-color: #666666;
+
+    --offcanvas-block-bg: #f9f9f9;
 
 
 /* 
