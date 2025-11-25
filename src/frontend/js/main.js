@@ -6,149 +6,11 @@ import cadastroPage, { initRegister } from "./register.js";
 import adminProductsPage, { initAdminProducts } from "./adminProducts.js";
 import { initApp } from "./appInit.js";
 import { initCheckout } from "./checkout.js";
+import { initMobileMenu, updateMobileMenu } from "./menu.js";
 
 /** Elementos principais da aplicação SPA */
 const app = document.getElementById("app");
 const navLinks = document.querySelectorAll(".nav-link");
-
-// Mobile menu: toggle + sync
-function initMobileMenu() {
-  const navToggle = document.getElementById("nav-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  if (!navToggle || !mobileMenu) return;
-
-  function closeMenu() {
-    mobileMenu.classList.remove("open");
-    mobileMenu.setAttribute("aria-hidden", "true");
-    navToggle.setAttribute("aria-expanded", "false");
-  }
-
-  function openMenu() {
-    mobileMenu.classList.add("open");
-    mobileMenu.setAttribute("aria-hidden", "false");
-    navToggle.setAttribute("aria-expanded", "true");
-  }
-
-  navToggle.addEventListener("click", () => {
-    if (mobileMenu.classList.contains("open")) closeMenu();
-    else openMenu();
-  });
-
-  // close on ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && mobileMenu.classList.contains("open"))
-      closeMenu();
-  });
-
-  // Close when clicking any link inside
-  mobileMenu.addEventListener("click", (e) => {
-    if (
-      e.target.matches("a.nav-link") ||
-      e.target.matches("a.nav-link-cadastrar") ||
-      e.target.matches("button.mobile-close")
-    ) {
-      closeMenu();
-    }
-  });
-}
-
-// Build mobile menu content from existing navs (called from updateMenu)
-function updateMobileMenu() {
-  const mobileMenu = document.getElementById("mobile-menu");
-  if (!mobileMenu) return;
-
-  // Clone left nav links
-  const leftNav = document.querySelector(".main-nav");
-  const rightNav = document.querySelector(".main-nav-right");
-  const rightRight = document.querySelector(".main-nav-right-right");
-  const userData = JSON.parse(localStorage.getItem("user"));
-
-  let html = "";
-  html += `<button class="mobile-close" aria-label="Fechar menu">×</button>`;
-
-  if (leftNav) {
-    leftNav.querySelectorAll("a.nav-link").forEach((a) => {
-      html += `<a href="${a.getAttribute("href")}" class="nav-link">${
-        a.textContent
-      }</a>`;
-    });
-  }
-
-  if (rightNav) {
-    rightNav.querySelectorAll("a.nav-link, button.nav-link").forEach((el) => {
-      // Skip "Ver Perfil" button since it's already on navbar
-      if (el.textContent.trim() === "Ver Perfil") return;
-
-      if (el.tagName.toLowerCase() === "a") {
-        html += `<a href="${el.getAttribute("href")}" class="nav-link">${
-          el.textContent
-        }</a>`;
-      } else {
-        html += `<button class="nav-link" type="button">${el.textContent}</button>`;
-      }
-    });
-  }
-
-  // Only show register link if user is NOT logged in
-  if (!userData && rightRight) {
-    rightRight.querySelectorAll("a, button").forEach((el) => {
-      if (el.tagName.toLowerCase() === "a") {
-        html += `<a href="${el.getAttribute(
-          "href"
-        )}" class="nav-link-cadastrar">${el.textContent}</a>`;
-      } else {
-        html += `<button class="nav-link-cadastrar" type="button">${el.textContent}</button>`;
-      }
-    });
-  }
-
-  // Add logout button if user is logged in
-  if (userData) {
-    html += `<button id="mobile-logout-btn" class="nav-link-cadastrar">Sair</button>`;
-  }
-
-  // Add cart button in mobile menu
-  html += `<button id="mobile-cart-btn" class="nav-link" type="button">🛒 Carrinho</button>`;
-
-  mobileMenu.innerHTML = html;
-
-  // Attach logout event if present
-  const mobileLogoutBtn = mobileMenu.querySelector("#mobile-logout-btn");
-  if (mobileLogoutBtn) {
-    mobileLogoutBtn.addEventListener("click", async () => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("cart");
-      window.cart = [];
-      await fetch("api/login/logout.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      window.location.hash = "#home";
-      window.location.reload();
-    });
-  }
-
-  // Attach cart event in mobile menu - close menu when opening cart
-  const mobileCCartBtn = mobileMenu.querySelector("#mobile-cart-btn");
-  if (mobileCCartBtn) {
-    mobileCCartBtn.addEventListener("click", () => {
-      const navToggle = document.getElementById("nav-toggle");
-      const mobileMenuElement = document.getElementById("mobile-menu");
-      mobileMenuElement.classList.remove("open");
-      mobileMenuElement.setAttribute("aria-hidden", "true");
-      navToggle.setAttribute("aria-expanded", "false");
-
-      // Open cart
-      const cartElement = document.getElementById("cart");
-      if (cartElement) {
-        cartElement.classList.add("open");
-      }
-    });
-  }
-}
 
 /**
  * Define o link de navegação ativo baseado no hash da URL
@@ -306,6 +168,7 @@ async function updateMenu() {
     carregarEnderecoPerfil(response);
   }
   // ensure mobile menu mirrors changes
+  initMobileMenu();
   updateMobileMenu();
 }
 
@@ -315,7 +178,7 @@ async function carregarEnderecoPerfil(response) {
   if (response.success == false) {
     let element = document.createElement("div");
     element.innerHTML = `<hr> <h3>Sem endereço cadastrado</h3> <br> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modelAddressRegister">Cadastrar Endereço</button>`;
-    let offCanva = document.createElement('div');
+    let offCanva = document.createElement("div");
     offCanva.innerHTML = `
     <div class="modal fade" id="modelAddressRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -357,29 +220,29 @@ async function carregarEnderecoPerfil(response) {
               </div>
         </div>
     </div>`;
-    let addressForm = offCanva.querySelector('#address-form');
-    let saveAddressBtn = offCanva.querySelector('#save-address');
+    let addressForm = offCanva.querySelector("#address-form");
+    let saveAddressBtn = offCanva.querySelector("#save-address");
 
-    const cep = offCanva.querySelector('#cep')
-    cep.addEventListener('change', () => {
-      pesquisacep(cep.value)
-    })
+    const cep = offCanva.querySelector("#cep");
+    cep.addEventListener("change", () => {
+      pesquisacep(cep.value);
+    });
 
     function limpa_formulário_cep() {
       //Limpa valores do formulário de cep.
-      offCanva.querySelector('#logradouro').value=("");
-      offCanva.querySelector('#bairro').value=("");
-      offCanva.querySelector('#cidade').value=("");
-      offCanva.querySelector('#estado').value=("");
+      offCanva.querySelector("#logradouro").value = "";
+      offCanva.querySelector("#bairro").value = "";
+      offCanva.querySelector("#cidade").value = "";
+      offCanva.querySelector("#estado").value = "";
     }
 
     function meu_callback(conteudo) {
       if (!("erro" in conteudo)) {
         //Atualiza os campos com os valores.
-        offCanva.querySelector('#logradouro').value=(conteudo.logradouro);
-        offCanva.querySelector('#bairro').value=(conteudo.bairro);
-        offCanva.querySelector('#cidade').value=(conteudo.localidade);
-        offCanva.querySelector('#estado').value=(conteudo.estado);
+        offCanva.querySelector("#logradouro").value = conteudo.logradouro;
+        offCanva.querySelector("#bairro").value = conteudo.bairro;
+        offCanva.querySelector("#cidade").value = conteudo.localidade;
+        offCanva.querySelector("#estado").value = conteudo.estado;
       } //end if.
       else {
         //CEP não Encontrado.
@@ -387,32 +250,30 @@ async function carregarEnderecoPerfil(response) {
         alert("CEP não encontrado.");
       }
     }
-        
-    async function pesquisacep(valor) {
 
+    async function pesquisacep(valor) {
       //Nova variável "cep" somente com dígitos.
-      var cep = valor.replace(/\D/g, '');
+      var cep = valor.replace(/\D/g, "");
 
       //Verifica se campo cep possui valor informado.
       if (cep != "") {
-
         //Expressão regular para validar o CEP.
         var validacep = /^[0-9]{8}$/;
 
         //Valida o formato do CEP.
-        if(validacep.test(cep)) {
-
+        if (validacep.test(cep)) {
           //Preenche os campos com "..." enquanto consulta webservice.
-          offCanva.querySelector('#logradouro').value="...";
-          offCanva.querySelector('#bairro').value="...";
-          offCanva.querySelector('#cidade').value="...";
-          offCanva.querySelector('#estado').value="...";
+          offCanva.querySelector("#logradouro").value = "...";
+          offCanva.querySelector("#bairro").value = "...";
+          offCanva.querySelector("#cidade").value = "...";
+          offCanva.querySelector("#estado").value = "...";
 
           //Sincroniza com o callback.
-          let request = await fetch('https://viacep.com.br/ws/'+ cep + '/json/');
+          let request = await fetch(
+            "https://viacep.com.br/ws/" + cep + "/json/"
+          );
           let response = await request.json();
-          meu_callback(response)
-
+          meu_callback(response);
         } //end if.
         else {
           //cep é inválido.
@@ -424,66 +285,68 @@ async function carregarEnderecoPerfil(response) {
         //cep sem valor, limpa formulário.
         limpa_formulário_cep();
       }
-    };
-    
+    }
+
     addressForm.appendChild(element);
 
-      saveAddressBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        let addressData = {
-          CEP: offCanva.querySelector('#cep').value,
-          Logradouro: offCanva.querySelector('#logradouro').value,
-          Numero: offCanva.querySelector('#numero').value,
-          Complemento: offCanva.querySelector('#complemento').value || '',
-          Bairro: offCanva.querySelector('#bairro').value,
-          Cidade: offCanva.querySelector('#cidade').value,
-          Estado: offCanva.querySelector('#estado').value,
-        }
-        let response = await fetch('/api/address/create.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(addressData)
-        })
-        let result = await response.json()
-        if (result.success) {
-          alert('Endereço salvo com sucesso!')
-          window.location.reload();
-        } else {
-          alert('Erro ao salvar endereço.')
-        }
-      })
+    saveAddressBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      let addressData = {
+        CEP: offCanva.querySelector("#cep").value,
+        Logradouro: offCanva.querySelector("#logradouro").value,
+        Numero: offCanva.querySelector("#numero").value,
+        Complemento: offCanva.querySelector("#complemento").value || "",
+        Bairro: offCanva.querySelector("#bairro").value,
+        Cidade: offCanva.querySelector("#cidade").value,
+        Estado: offCanva.querySelector("#estado").value,
+      };
+      let response = await fetch("/api/address/create.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(addressData),
+      });
+      let result = await response.json();
+      if (result.success) {
+        alert("Endereço salvo com sucesso!");
+        window.location.reload();
+      } else {
+        alert("Erro ao salvar endereço.");
+      }
+    });
 
     enderecoDiv.appendChild(element);
     document.body.appendChild(offCanva);
   } else {
-    let item = document.createElement('div')
+    let item = document.createElement("div");
     item.innerHTML = `<hr>
             <p><strong>Endereço cadastrado:</strong></p>
-            <p>${response.Logradouro}, ${response.Numero} ${response.Complemento ? '- ' + response.Complemento : ''}</p>
+            <p>${response.Logradouro}, ${response.Numero} ${
+      response.Complemento ? "- " + response.Complemento : ""
+    }</p>
             <p>${response.Bairro} - ${response.Cidade}/${response.Estado}</p>
             <p>CEP: ${response.CEP}</p>
             <form id="delete-address">
               <button type="submit" form="delete-address" class="btn btn-outline-danger" style="background-color: red;" id="address-delete">Deletar</button>
             </form>
     `;
-    let addressDelete = item.querySelector('#delete-address');
-    addressDelete.addEventListener('submit', async (e) => {
+    let addressDelete = item.querySelector("#delete-address");
+    addressDelete.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      let request = await fetch('/api/address/delete.php');
+      let request = await fetch("/api/address/delete.php");
 
       let response = await request.json();
 
       if (response.success == true) {
-        alert('Endereço deletado.');
+        alert("Endereço deletado.");
         window.location.reload();
       } else {
-        alert('Falha ao tentar deletar o endereço.');
+        alert("Falha ao tentar deletar o endereço.");
       }
     });
-    
+
     enderecoDiv.appendChild(item);
   }
 }
@@ -541,50 +404,6 @@ function criarCampoDeValidarEmail() {
   } else {
     div.innerHTML = "<hr><p>Seu email já foi validado.</p>";
   }
-}
-
-/** Inicializa o SPA e módulos principais */
-initApp(router);
-initMobileMenu();
-initCarousel();
-initHomePage();
-initProductsList();
-
-/** Atualiza menu ao carregar a página e ao trocar rota */
-window.addEventListener("load", updateMenu);
-window.addEventListener("hashchange", updateMenu);
-
-/**
- * Inicializa o carrossel de produtos
- */
-function initCarousel() {
-  const track = document.querySelector(".carousel-track");
-  if (!track) return;
-
-  const slides = Array.from(track.children);
-  const nextButton = document.querySelector(".carousel-btn.next");
-  const prevButton = document.querySelector(".carousel-btn.prev");
-  const slideWidth = slides[0].getBoundingClientRect().width;
-
-  slides.forEach((slide, index) => {
-    slide.style.left = slideWidth * index + "px";
-  });
-
-  let currentIndex = 0;
-
-  nextButton.addEventListener("click", () => {
-    if (currentIndex < slides.length - 1) {
-      currentIndex++;
-      track.style.transform = `translateX(-${slides[currentIndex].style.left})`;
-    }
-  });
-
-  prevButton.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      track.style.transform = `translateX(-${slides[currentIndex].style.left})`;
-    }
-  });
 }
 
 /**
@@ -652,12 +471,12 @@ function initCart() {
       let li = document.createElement("li");
       li.classList.add("cart-item");
       li.innerHTML = `
-    ${thumbHTML}
+      ${thumbHTML}
     <div>
       <div class="cart-item-name">${productName} (x${quantidade})</div>
       <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
     </div>
-  `;
+    `;
       cartItemsElement.appendChild(li);
     });
 
@@ -754,12 +573,12 @@ function initCartLoggedOut() {
       let li = document.createElement("li");
       li.classList.add("cart-item");
       li.innerHTML = `
-    ${item.thumbHTML}
-    <div>
+      ${item.thumbHTML}
+      <div>
       <div class="cart-item-name">${item.name} (x${quantidade})</div>
       <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
-    </div>
-  `;
+      </div>
+      `;
       cartItemsElement.appendChild(li);
     });
 
@@ -839,3 +658,10 @@ if (checkoutBtn) {
     if (cartElement) cartElement.classList.remove("open");
   });
 }
+
+/** Inicializa o SPA e módulos principais */
+initApp(router);
+
+/** Atualiza menu ao carregar a página e ao trocar rota */
+window.addEventListener("load", updateMenu);
+window.addEventListener("hashchange", updateMenu);
