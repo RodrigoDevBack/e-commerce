@@ -134,10 +134,9 @@ async function updateMenu() {
   }
 
   if (userData) {
-    let request = await fetch("/api/address/get.php", {
-      credentials: "same-origin",
-    });
-    let response = await request.json();
+    let addressRequest = await fetch("/api/address/get.php");
+    let addressResponse = await addressRequest.json();
+
     const offcanvasHTML = `
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
         aria-labelledby="offcanvasTitlePerfil">
@@ -151,12 +150,22 @@ async function updateMenu() {
                 <p>Nome: ${userData.name}</p>
                 <p>Email: ${userData.email}</p>
                 <p>Função: ${userData.role}</p>
-            </div>
-            
+            </div> <br>
+            <hr>
+            <h3> Validação de Email </h3> <br>
             <div id="campo-validar-email"></div> <br>
-
-            <div id="hitorico-pedidos-perfil"> </div> <br>
-
+            <hr>
+            <h3> Histórico de Compras </h3> <br>
+            <div id="hitorico-pedidos-perfil"> 
+            <form id="ver-history">
+              <button type="sumbit" class="btn btn-primary" id="openHistory" data-bs-toggle="modal" data-bs-target="#modelHistory">
+                Ver Histórico
+              </button>
+            </form>
+              <br>
+            </div> <br>
+            <hr>
+            <h3> Endereço </h3> <br>
             <div id="endereco-perfil"> </div> <br>
 
         </div>
@@ -165,11 +174,86 @@ async function updateMenu() {
 
     document.body.insertAdjacentHTML("beforeend", offcanvasHTML);
     criarCampoDeValidarEmail();
-    carregarEnderecoPerfil(response);
+    carregarHistoricoPedidos();
+    carregarEnderecoPerfil(addressResponse);
   }
   // ensure mobile menu mirrors changes
   initMobileMenu();
   updateMobileMenu();
+}
+
+async function carregarHistoricoPedidos() {
+  const form = document.getElementById("ver-history");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    var historyRequest = await fetch("/api/history/get.php");
+    var historyResponse = await historyRequest.json();
+
+    const elementModal = document.createElement("div");
+    elementModal.innerHTML = `
+  <div class="modal fade" id="modelHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="4" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel1">Histórico</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="body">
+        ${
+          historyResponse.success === false
+            ? "<br><h2> Histórico vazio </h2><br>"
+            : gerarHistoricoHTML(historyResponse)
+        }
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+    function formatDateTime(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function gerarHistoricoHTML(json) {
+      let html = "";
+
+      json.orders.forEach((order) => {
+        const dataFormatada = formatDateTime(order.created_at);
+
+        html += `
+      <div class="order-block" style="border:1px solid #ddd; padding:10px; margin-bottom:15px; border-radius:8px;">
+        <h5>Compra em ${dataFormatada}</h5>
+    `;
+
+        order.items.forEach((item) => {
+          html += `
+        <div class="item" style="padding:8px; border-bottom:1px solid #eee;">
+          <p><strong>${item.product.name}</strong></p>
+          <p>Qtd: ${item.qtd}</p>
+          <p>Preço unitário: R$ ${item.unity_price.toFixed(2)}</p>
+        </div>
+      `;
+        });
+
+        html += `
+      <p class="order-total mt-2"><strong>Total: R$ ${order.total.toFixed(
+        2
+      )}</strong></p>
+    </div>`;
+      });
+
+      return html;
+    }
+
+    document.body.appendChild(elementModal);
+  });
 }
 
 async function carregarEnderecoPerfil(response) {
@@ -251,8 +335,10 @@ async function carregarEnderecoPerfil(response) {
       }
     }
 
+
     async function pesquisacep(valor) {
       //Nova variável "cep" somente com dígitos.
+      var cep = valor.replace(/\D/g, "");
       var cep = valor.replace(/\D/g, "");
 
       //Verifica se campo cep possui valor informado.
@@ -315,6 +401,32 @@ async function carregarEnderecoPerfil(response) {
         alert("Erro ao salvar endereço.");
       }
     });
+    saveAddressBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      let addressData = {
+        CEP: offCanva.querySelector("#cep").value,
+        Logradouro: offCanva.querySelector("#logradouro").value,
+        Numero: offCanva.querySelector("#numero").value,
+        Complemento: offCanva.querySelector("#complemento").value || "",
+        Bairro: offCanva.querySelector("#bairro").value,
+        Cidade: offCanva.querySelector("#cidade").value,
+        Estado: offCanva.querySelector("#estado").value,
+      };
+      let response = await fetch("/api/address/create.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(addressData),
+      });
+      let result = await response.json();
+      if (result.success) {
+        alert("Endereço salvo com sucesso!");
+        window.location.reload();
+      } else {
+        alert("Erro ao salvar endereço.");
+      }
+    });
 
     enderecoDiv.appendChild(element);
     document.body.appendChild(offCanva);
@@ -326,26 +438,32 @@ async function carregarEnderecoPerfil(response) {
       response.Complemento ? "- " + response.Complemento : ""
     }</p>
             <p>${response.Bairro} - ${response.Cidade}/${response.Estado}</p>
-            <p>CEP: ${response.CEP}</p>
+            <p>CEP: ${response.CEP}</p> <br>
             <form id="delete-address">
               <button type="submit" form="delete-address" class="btn btn-outline-danger" style="background-color: red;" id="address-delete">Deletar</button>
             </form>
     `;
     let addressDelete = item.querySelector("#delete-address");
     addressDelete.addEventListener("submit", async (e) => {
+    let addressDelete = item.querySelector("#delete-address");
+    addressDelete.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      let request = await fetch("/api/address/delete.php");
       let request = await fetch("/api/address/delete.php");
 
       let response = await request.json();
 
       if (response.success == true) {
         alert("Endereço deletado.");
+        alert("Endereço deletado.");
         window.location.reload();
       } else {
         alert("Falha ao tentar deletar o endereço.");
+        alert("Falha ao tentar deletar o endereço.");
       }
     });
+
 
     enderecoDiv.appendChild(item);
   }
@@ -358,8 +476,6 @@ function criarCampoDeValidarEmail() {
   if (userData.email_validate == false) {
     const campoHTML = document.createElement("div");
     campoHTML.innerHTML = `
-    <hr>
-    <h3>Validação de email</h3>
     <form id="validate-email-form">
       <label for="email" class="form-label">Email:</label> <br>
       <input type="email" class="form-control" id="email" required> <br>
@@ -367,7 +483,6 @@ function criarCampoDeValidarEmail() {
       <input type="text" class="form-control" id="code" required> <br>
       <button type="submit" class="btn btn-secondary">Validar</button> 
     </form>
-    <hr>
   `;
 
     const validateEmailForm = campoHTML.querySelector("#validate-email-form");
@@ -402,7 +517,7 @@ function criarCampoDeValidarEmail() {
     });
     div.appendChild(campoHTML);
   } else {
-    div.innerHTML = "<hr><p>Seu email já foi validado.</p>";
+    div.innerHTML = "<p>Seu email já foi validado.</p>";
   }
 }
 
@@ -463,7 +578,7 @@ function initCart() {
       let productName = item.product.name || item.name;
       let thumbHTML = "";
       if (item.product.images && item.product.images.length > 0) {
-        thumbHTML = `<img src="http://127.0.0.1:5000/images_products/${item.product.name}/${item.product.images[0]}" alt="${productName}" class="cart-thumb">`;
+        thumbHTML = `<img src="http://localhost:5000/images_products/${item.product.name}/${item.product.images[0]}" alt="${productName}" class="cart-thumb">`;
       } else {
         thumbHTML = `<img src="https://img.icons8.com/color/96/no-image.png" alt="${productName}" class="cart-thumb">`;
       }

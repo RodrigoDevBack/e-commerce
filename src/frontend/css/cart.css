@@ -26,7 +26,7 @@
   transform: translateX(100%);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 1001;
 }
 
 /* Linha divisória para separar seções internas (itens, total, etc.) */

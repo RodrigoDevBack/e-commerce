@@ -302,7 +302,7 @@ function createEditProductModal(product) {
                     <form id="editar-produto" method="post" enctype="multipart/form-data">
                         <label class="form-label">Imagens atuais do produto</label> <br> <br>
                         ${(product.images != null) ? (product.images || []).map((img, i) => `
-                            <img src="http://127.0.0.1:5000/images_products/${product.name}/${img}"
+                            <img src="http://localhost:5000/images_products/${product.name}/${img}"
                                 class="d-block w-100" alt="${product.name} - Imagem ${i + 1}"
                                 style="object-fit: contain; max-height: 400px;"> <br>
                             <div class="mb-3">
