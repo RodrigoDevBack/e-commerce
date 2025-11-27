@@ -1,6 +1,12 @@
-// cart.js
+// --------------------------- MÓDULO PRINCIPAL DO CARRINHO (LOGADO) ---------------------------
 // Módulo único do carrinho — export default exigido
 
+/**
+ * Inicializa o carrinho para usuários logados.
+ * Sincroniza itens com o backend e controla a interface do carrinho.
+ * @function initCart
+ * @returns {void}
+ */
 export default function initCart() {
   let cartElement = document.getElementById("cart");
   let cartItemsElement = document.getElementById("cart-items");
@@ -10,15 +16,24 @@ export default function initCart() {
   let closeCartBtn = document.getElementById("close-cart");
   let cart = localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
-    : [];
-  updateCart();
-  if (!cartElement || !openCartBtn || !closeCartBtn) return;
+    : []; // Recupera carrinho do servidor/localStorage
 
+  updateCart(); // Atualiza ao iniciar
+  if (!cartElement || !openCartBtn || !closeCartBtn) return; // Segurança
+
+  // --------------------------- ABRIR CARRINHO ---------------------------
+
+  /**
+   * Abre o carrinho e fecha o menu mobile caso esteja aberto.
+   * @function openCart
+   * @returns {void}
+   */
   function openCart() {
-    cartElement.classList.add("open");
-    // Close mobile menu if open when opening cart
+    cartElement.classList.add("open"); // Mostra o carrinho
     const mobileMenu = document.getElementById("mobile-menu");
     const navToggle = document.getElementById("nav-toggle");
+
+    // Fecha o menu mobile caso esteja aberto (bom comportamento UX)
     if (mobileMenu && mobileMenu.classList.contains("open")) {
       mobileMenu.classList.remove("open");
       mobileMenu.setAttribute("aria-hidden", "true");
@@ -32,28 +47,37 @@ export default function initCart() {
   }
   closeCartBtn.addEventListener("click", () =>
     cartElement.classList.remove("open")
-  );
+  ); // Fecha carrinho
+
+  // --------------------------- ATUALIZAR CARRINHO (LOGADO) ---------------------------
 
   /**
-   * Atualiza visualmente o carrinho
+   * Atualiza visualmente o carrinho e sincroniza com o backend.
+   * Re-renderiza lista de itens e recalcula total.
+   * @async
+   * @function updateCart
+   * @returns {Promise<void>}
    */
   async function updateCart() {
     let request = await fetch("/api/cart/get_products_cart.php");
     let response = await request.json();
-    let serverCart = JSON.parse(response).orders;
+    let serverCart = JSON.parse(response).orders; // Dados vindos do backend
     localStorage.setItem("cart", JSON.stringify(serverCart));
     cart = serverCart;
-    cartItemsElement.innerHTML = "";
+
+    cartItemsElement.innerHTML = ""; // Limpa lista
     let total = 0;
 
+    // Renderização dos itens
     cart.forEach((item) => {
       let quantidade = item.qtd || 1;
       let subtotal = item.unity_price * quantidade;
-      total += subtotal;
+      total += subtotal; // Soma total
 
-      // Extrai a imagem do produto
       let productName = item.product.name || item.name;
       let thumbHTML = "";
+
+      // Gera thumbnail do produto
       if (item.product.images && item.product.images.length > 0) {
         thumbHTML = `<img src="http://localhost:5000/images_products/${item.product.name}/${item.product.images[0]}" alt="${productName}" class="cart-thumb">`;
       } else {
@@ -69,14 +93,17 @@ export default function initCart() {
       <div class="cart-item-price">R$ ${subtotal.toFixed(2)}</div>
     </div>
     `;
-      cartItemsElement.appendChild(li);
+      cartItemsElement.appendChild(li); // Insere item no DOM
     });
 
-    cartTotalElement.textContent = total.toFixed(2);
+    cartTotalElement.textContent = total.toFixed(2); // Atualiza total
   }
 
+  // --------------------------- ADICIONAR ITEM VIA DELEGAÇÃO ---------------------------
+
   /**
-   * Delegação de clique para adicionar produtos ao carrinho
+   * Listener global para adicionar um item ao carrinho ao clicar no botão apropriado.
+   * @event document#click
    */
   document.addEventListener("click", async (e) => {
     if (
@@ -92,18 +119,24 @@ export default function initCart() {
         ? `<img src="${img.src}" alt="${name}" class="cart-thumb">`
         : card.querySelector(".thumb").innerHTML;
 
-      updateCart();
-      console.log(localStorage.getItem("cart"));
+      updateCart(); // Atualiza após adicionar
+      console.log(localStorage.getItem("cart")); // Debug
     }
   });
+
+  // --------------------------- LIMPAR CARRINHO (LOGADO) ---------------------------
+
   /**
-   * Limpa o carrinho completamente
+   * Botão que limpa completamente o carrinho (backend + localStorage).
+   * @event clearCartBtn#click
    */
   const clearCartBtn = document.getElementById("clear-cart");
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", async () => {
       cart.length = 0;
       localStorage.removeItem("cart");
+
+      // Solicita backend para limpar carrinho
       let request = await fetch("/api/cart/delete_cart.php");
       let response = await request.json();
       if (response.success) {
@@ -116,6 +149,14 @@ export default function initCart() {
   }
 }
 
+// --------------------------- MÓDULO DO CARRINHO (DESLOGADO) ---------------------------
+
+/**
+ * Inicializa o carrinho para usuários deslogados.
+ * Utiliza somente localStorage.
+ * @function initCartLoggedOut
+ * @returns {void}
+ */
 function initCartLoggedOut() {
   let cartElement = document.getElementById("cart");
   let cartItemsElement = document.getElementById("cart-items");
@@ -125,15 +166,24 @@ function initCartLoggedOut() {
   let closeCartBtn = document.getElementById("close-cart");
   let cart = localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
-    : [];
+    : []; // Carrinho somente local
+
   updateCart();
   if (!cartElement || !openCartBtn || !closeCartBtn) return;
 
+  // --------------------------- ABRIR CARRINHO ---------------------------
+
+  /**
+   * Abre o carrinho e fecha o menu mobile, quando necessário.
+   * @function openCart
+   * @returns {void}
+   */
   function openCart() {
     cartElement.classList.add("open");
-    // Close mobile menu if open when opening cart
     const mobileMenu = document.getElementById("mobile-menu");
     const navToggle = document.getElementById("nav-toggle");
+
+    // Fecha o menu mobile automaticamente
     if (mobileMenu && mobileMenu.classList.contains("open")) {
       mobileMenu.classList.remove("open");
       mobileMenu.setAttribute("aria-hidden", "true");
@@ -149,13 +199,16 @@ function initCartLoggedOut() {
     cartElement.classList.remove("open")
   );
 
+  // --------------------------- ATUALIZAR CARRINHO (DESLOGADO) ---------------------------
+
   /**
-   * Atualiza visualmente o carrinho
+   * Atualiza visualmente o carrinho (versão offline/deslogado).
+   * @function updateCart
+   * @returns {void}
    */
   function updateCart() {
-    cartItemsElement.innerHTML = "";
+    cartItemsElement.innerHTML = ""; // Limpa lista
     let total = 0;
-    cartItemsElement.innerHTML = "";
 
     cart.forEach((item) => {
       let quantidade = item.qtd || 1;
@@ -174,7 +227,7 @@ function initCartLoggedOut() {
       cartItemsElement.appendChild(li);
     });
 
-    cartTotalElement.textContent = total.toFixed(2);
+    cartTotalElement.textContent = total.toFixed(2); // Atualiza total
   }
 
   openCartBtn.addEventListener("click", () =>
@@ -184,8 +237,11 @@ function initCartLoggedOut() {
     cartElement.classList.remove("open")
   );
 
+  // --------------------------- ADICIONAR ITEM (DESLOGADO) ---------------------------
+
   /**
-   * Delegação de clique para adicionar produtos ao carrinho
+   * Delegação para adicionar itens ao carrinho no modo deslogado.
+   * @event document#click
    */
   document.addEventListener("click", (e) => {
     if (
@@ -198,34 +254,39 @@ function initCartLoggedOut() {
       let priceText = card.querySelector(".product-price").textContent;
       let price = parseFloat(priceText.replace("R$", "").replace(",", "."));
       let img = card.querySelector("img");
+
       let thumbHTML = img
         ? `<img src="${img.src}" alt="${name}" class="cart-thumb">`
         : card.querySelector(".thumb").innerHTML;
 
+      // Verifica se item já existe
       let existingItem = cart.find((item) => item.name === name);
 
       if (existingItem) {
-        existingItem.qtd = (existingItem.qtd || 1) + 1;
+        existingItem.qtd = (existingItem.qtd || 1) + 1; // Incrementa
       } else {
-        cart.push({ id, name, price, thumbHTML, qtd: 1 });
+        cart.push({ id, name, price, thumbHTML, qtd: 1 }); // Cria novo
       }
 
-      // Atualiza o localStorage
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(cart)); // Salva
       updateCart();
     }
   });
 
+  // --------------------------- LIMPAR CARRINHO (DESLOGADO) ---------------------------
+
   /**
-   * Limpa o carrinho completamente
+   * Limpa o carrinho (somente localStorage).
+   * @event clearCartBtn#click
    */
   let clearCartBtn = document.getElementById("clear-cart");
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", () => {
       cart.length = 0;
       localStorage.removeItem("cart");
-      updateCart();
+      updateCart(); // Re-renderiza carrinho
     });
   }
 }
+
 export { initCart, initCartLoggedOut };

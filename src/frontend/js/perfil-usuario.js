@@ -1,15 +1,28 @@
+/**
+ * Inicializa o offcanvas de perfil do usuário.
+ * Cria dinamicamente a interface do perfil apenas caso ainda não exista
+ * e carrega dados adicionais (endereços, histórico, validação de email).
+ * @async
+ * @function initPerfilUsuario
+ * @param {Object} userData - Dados do usuário logado.
+ * @returns {Promise<void>}
+ */
 export default async function initPerfilUsuario(userData) {
+  // Evita duplicar o offcanvas quando trocam de rota rapidamente
   if (document.getElementById("offcanvasPerfil")) return;
-  // Create offcanvas perfil outside of header to avoid height inflation
+
+  // Remove instâncias antigas caso algum fluxo tenha duplicado o componente
   let existingOffcanvas = document.getElementById("offcanvasPerfil");
   if (existingOffcanvas) {
     existingOffcanvas.remove();
   }
 
   if (userData) {
+    // Obtém endereço do usuário antes de renderizar UI
     let addressRequest = await fetch("/api/address/get.php");
     let addressResponse = await addressRequest.json();
 
+    // Monta o HTML do offcanvas — inserção direta no body evita conflito com layout do header
     const offcanvasHTML = `
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasPerfil"
         aria-labelledby="offcanvasTitlePerfil">
@@ -19,7 +32,7 @@ export default async function initPerfilUsuario(userData) {
         </div>
         <div class="offcanvas-body">
             <div id="info-perfil">
-                <!-- Informações do perfil serão carregadas aqui -->
+                <!-- Informações carregadas dinamicamente -->
                 <p>Nome: ${userData.name}</p>
                 <p>Email: ${userData.email}</p>
                 <p>Função: ${userData.role}</p>
@@ -46,20 +59,33 @@ export default async function initPerfilUsuario(userData) {
     `;
 
     document.body.insertAdjacentHTML("beforeend", offcanvasHTML);
-    criarCampoDeValidarEmail();
-    carregarHistoricoPedidos();
-    carregarEnderecoPerfil(addressResponse);
+
+    // Componentes dinâmicos do perfil
+    criarCampoDeValidarEmail(); // Campo depende do estado do usuário
+    carregarHistoricoPedidos(); // Aciona modal de histórico
+    carregarEnderecoPerfil(addressResponse); // Carrega endereço ou formulário
   }
 }
 
+/**
+ * Cria modal e interface para exibição do histórico de pedidos.
+ * Ativado ao clicar no botão "Ver Histórico".
+ * @async
+ * @function carregarHistoricoPedidos
+ * @returns {Promise<void>}
+ */
 async function carregarHistoricoPedidos() {
   const form = document.getElementById("ver-history");
+
+  // Listener preventDefault é essencial para evitar reload do formulário
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Obtém histórico atualizado a cada clique
     var historyRequest = await fetch("/api/history/get.php");
     var historyResponse = await historyRequest.json();
 
+    // Cria modal dinamicamente a cada abertura (estrutura reutilizável pelo Bootstrap)
     const elementModal = document.createElement("div");
     elementModal.innerHTML = `
   <div class="modal fade" id="modelHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="4" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
@@ -80,6 +106,11 @@ async function carregarHistoricoPedidos() {
     </div>
   </div>`;
 
+    /**
+     * Formata datas no padrão brasileiro.
+     * @param {string} dateStr - Data no formato timestamp/string.
+     * @returns {string}
+     */
     function formatDateTime(dateStr) {
       const d = new Date(dateStr);
       return d.toLocaleString("pt-BR", {
@@ -91,6 +122,11 @@ async function carregarHistoricoPedidos() {
       });
     }
 
+    /**
+     * Gera blocos HTML com pedidos e seus itens.
+     * @param {Object} json - JSON retornado da API.
+     * @returns {string} HTML pronto
+     */
     function gerarHistoricoHTML(json) {
       let html = "";
 
@@ -122,17 +158,24 @@ async function carregarHistoricoPedidos() {
       return html;
     }
 
+    // Modal é adicionado ao body pois o Bootstrap exige que modais fiquem no topo da hierarquia visual
     document.body.appendChild(elementModal);
   });
 }
 
+/**
+ * Gerencia toda a lógica de exibição/edição do endereço cadastrado.
+ * Cria o formulário de cadastro caso não exista um endereço.
+ * @async
+ * @function carregarEnderecoPerfil
+ * @param {Object} response - Resposta da API contendo endereço ou erro.
+ * @returns {Promise<void>}
+ */
 async function carregarEnderecoPerfil(response) {
   const enderecoDiv = document.getElementById("endereco-perfil");
 
-  // =====================================================
-  // CASO NÃO TENHA ENDEREÇO
-  // =====================================================
   if (response.success == false) {
+    // Bloco de aviso de ausência de endereço
     let element = document.createElement("div");
     element.innerHTML = `
       <hr>
@@ -140,7 +183,9 @@ async function carregarEnderecoPerfil(response) {
       <br>
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modelAddressRegister">Cadastrar Endereço</button>
     `;
+    enderecoDiv.appendChild(element);
 
+    // Cria modal no DOM imediatamente
     let offCanva = document.createElement("div");
     offCanva.innerHTML = `
       <div class="modal fade" id="modelAddressRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -157,22 +202,16 @@ async function carregarEnderecoPerfil(response) {
                   <form id="address-form">
                     <label class="form-label">CEP:</label>
                     <input type="text" class="form-control" id="cep" required> <br>
-
                     <label class="form-label">Rua:</label>
                     <input type="text" class="form-control" id="logradouro" required> <br>
-
                     <label class="form-label">Número:</label>
                     <input type="text" class="form-control" id="numero" required> <br>
-
                     <label class="form-label">Complemento:</label>
                     <input type="text" class="form-control" id="complemento"> <br>
-
                     <label class="form-label">Bairro:</label>
                     <input type="text" class="form-control" id="bairro" required> <br>
-
                     <label class="form-label">Cidade:</label>
                     <input type="text" class="form-control" id="cidade" required> <br>
-
                     <label class="form-label">Estado:</label>
                     <input type="text" class="form-control" id="estado" required> <br>
                   </form>
@@ -187,71 +226,56 @@ async function carregarEnderecoPerfil(response) {
       </div>
     `;
 
-    let addressForm = offCanva.querySelector("#address-form");
-    let saveAddressBtn = offCanva.querySelector("#save-address");
+    document.body.appendChild(offCanva);
 
-    // --------------------------- CEP ---------------------------
-    const cepInput = offCanva.querySelector("#cep");
+    // Seleciona elementos dentro do modal já inserido
+    const addressForm = document.getElementById("address-form");
+    const saveAddressBtn = document.getElementById("save-address");
+    const cepInput = document.getElementById("cep");
 
-    cepInput.addEventListener("change", () => {
-      pesquisacep(cepInput.value);
-    });
+    cepInput.addEventListener("change", async () => {
+      let cep = cepInput.value.replace(/\D/g, "");
+      if (cep !== "" && /^[0-9]{8}$/.test(cep)) {
+        document.getElementById("logradouro").value = "...";
+        document.getElementById("bairro").value = "...";
+        document.getElementById("cidade").value = "...";
+        document.getElementById("estado").value = "...";
 
-    function limpa_formulário_cep() {
-      offCanva.querySelector("#logradouro").value = "";
-      offCanva.querySelector("#bairro").value = "";
-      offCanva.querySelector("#cidade").value = "";
-      offCanva.querySelector("#estado").value = "";
-    }
+        let request = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        let resp = await request.json();
 
-    function meu_callback(conteudo) {
-      if (!("erro" in conteudo)) {
-        offCanva.querySelector("#logradouro").value = conteudo.logradouro;
-        offCanva.querySelector("#bairro").value = conteudo.bairro;
-        offCanva.querySelector("#cidade").value = conteudo.localidade;
-        offCanva.querySelector("#estado").value = conteudo.estado;
-      } else {
-        limpa_formulário_cep();
-        alert("CEP não encontrado.");
-      }
-    }
-
-    async function pesquisacep(valor) {
-      let cep = valor.replace(/\D/g, "");
-
-      if (cep !== "") {
-        const validacep = /^[0-9]{8}$/;
-
-        if (validacep.test(cep)) {
-          offCanva.querySelector("#logradouro").value = "...";
-          offCanva.querySelector("#bairro").value = "...";
-          offCanva.querySelector("#cidade").value = "...";
-          offCanva.querySelector("#estado").value = "...";
-
-          let request = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-          let resp = await request.json();
-          meu_callback(resp);
+        if (!("erro" in resp)) {
+          document.getElementById("logradouro").value = resp.logradouro;
+          document.getElementById("bairro").value = resp.bairro;
+          document.getElementById("cidade").value = resp.localidade;
+          document.getElementById("estado").value = resp.uf;
         } else {
-          limpa_formulário_cep();
-          alert("Formato de CEP inválido.");
+          document.getElementById("logradouro").value = "";
+          document.getElementById("bairro").value = "";
+          document.getElementById("cidade").value = "";
+          document.getElementById("estado").value = "";
+          alert("CEP não encontrado.");
         }
       } else {
-        limpa_formulário_cep();
+        document.getElementById("logradouro").value = "";
+        document.getElementById("bairro").value = "";
+        document.getElementById("cidade").value = "";
+        document.getElementById("estado").value = "";
+        if (cep !== "") alert("Formato de CEP inválido.");
       }
-    }
+    });
 
-    // --------------------------- SALVAR ENDEREÇO ---------------------------
     saveAddressBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
       let addressData = {
-        CEP: offCanva.querySelector("#cep").value,
-        Logradouro: offCanva.querySelector("#logradouro").value,
-        Numero: offCanva.querySelector("#numero").value,
-        Complemento: offCanva.querySelector("#complemento").value || "",
-        Bairro: offCanva.querySelector("#bairro").value,
-        Cidade: offCanva.querySelector("#cidade").value,
-        Estado: offCanva.querySelector("#estado").value,
+        CEP: document.getElementById("cep").value,
+        Logradouro: document.getElementById("logradouro").value,
+        Numero: document.getElementById("numero").value,
+        Complemento: document.getElementById("complemento").value || "",
+        Bairro: document.getElementById("bairro").value,
+        Cidade: document.getElementById("cidade").value,
+        Estado: document.getElementById("estado").value,
       };
 
       let request = await fetch("/api/address/create.php", {
@@ -269,13 +293,8 @@ async function carregarEnderecoPerfil(response) {
         alert("Erro ao salvar endereço.");
       }
     });
-
-    enderecoDiv.appendChild(element);
-    document.body.appendChild(offCanva);
   } else {
-    // =====================================================
-    // CASO JÁ TENHA ENDEREÇO
-    // =====================================================
+    // ENDEREÇO JÁ CADASTRADO
     let item = document.createElement("div");
     item.innerHTML = `
       <hr>
@@ -291,31 +310,39 @@ async function carregarEnderecoPerfil(response) {
       </form>
     `;
 
-    let addressDelete = item.querySelector("#delete-address");
+    item
+      .querySelector("#delete-address")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let request = await fetch("/api/address/delete.php");
+        let resp = await request.json();
 
-    addressDelete.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      let request = await fetch("/api/address/delete.php");
-      let resp = await request.json();
-
-      if (resp.success == true) {
-        alert("Endereço deletado.");
-        window.location.reload();
-      } else {
-        alert("Falha ao tentar deletar o endereço.");
-      }
-    });
+        if (resp.success) {
+          alert("Endereço deletado.");
+          window.location.reload();
+        } else {
+          alert("Falha ao tentar deletar o endereço.");
+        }
+      });
 
     enderecoDiv.appendChild(item);
   }
 }
 
+/**
+ * Cria o campo de validação de email caso o usuário ainda não esteja validado.
+ * Envia código + email para a API.
+ * @function criarCampoDeValidarEmail
+ * @returns {void}
+ */
 function criarCampoDeValidarEmail() {
   const div = document.getElementById("campo-validar-email");
 
+  // Obtém dados do usuário atual do localStorage
   let userData = JSON.parse(localStorage.getItem("user"));
+
   if (userData.email_validate == false) {
+    // Renderiza formulário somente quando realmente necessário
     const campoHTML = document.createElement("div");
     campoHTML.innerHTML = `
     <form id="validate-email-form">
@@ -328,35 +355,38 @@ function criarCampoDeValidarEmail() {
   `;
 
     const validateEmailForm = campoHTML.querySelector("#validate-email-form");
+
     validateEmailForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const email = campoHTML.querySelector("#email").value;
       const code = campoHTML.querySelector("#code").value;
-      const body = {
-        email: email,
-        code: code,
-      };
 
+      const body = { email, code };
+
+      // Envia para API de validação
       const request = await fetch("/api/login/validate_email.php", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
       const response = await request.json();
 
       if (response.success == true) {
         alert("Email verificado com sucesso!");
         window.location.hash = "#home";
         window.location.reload();
+
         userData.email_validate = true;
         localStorage.setItem("user", JSON.stringify(userData));
+
         div.innerHTML = "<hr><p>Seu email já foi validado.</p>";
       } else {
         alert("Código ou email inválidos.");
       }
     });
+
     div.appendChild(campoHTML);
   } else {
     div.innerHTML = "<p>Seu email já foi validado.</p>";

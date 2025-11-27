@@ -1,3 +1,4 @@
+// --------------------------- IMPORTS DE MÓDULOS ---------------------------
 import homePage, { initHomePage } from "./home.js";
 import produtosPage, { initProductsList } from "./produtos.js";
 import loginPage, { initLogin } from "./login.js";
@@ -9,15 +10,30 @@ import { updateMenu } from "./main.js";
 import { initCart, initCartLoggedOut } from "./cart.js";
 import initPerfilUsuario from "./perfil-usuario.js";
 
+// --------------------------- ELEMENTOS PRINCIPAIS ---------------------------
 const app = document.getElementById("app");
 const navLinks = document.querySelectorAll(".nav-link");
 
+// --------------------------- FUNÇÃO AUXILIAR ---------------------------
+/**
+ * Define o link de navegação ativo com base no hash atual.
+ * @param {string} hash - Hash da rota atual
+ */
 function setActiveLink(hash) {
   navLinks.forEach((link) => {
+    // Adiciona classe 'active' apenas ao link correspondente
     link.classList.toggle("active", link.getAttribute("href") === hash);
   });
 }
 
+// --------------------------- FUNÇÃO PRINCIPAL DE ROTEAMENTO ---------------------------
+/**
+ * Roteador da aplicação.
+ * Controla a renderização das páginas, inicializa scripts específicos
+ * e gerencia carrinho e perfil do usuário.
+ * @function router
+ * @returns {void}
+ */
 export function router() {
   const hash = window.location.hash || "#home";
   setActiveLink(hash);
@@ -25,6 +41,7 @@ export function router() {
   let pageContent = "";
   let initFunc = null;
 
+  // --------------------------- SWITCH DE ROTAS ---------------------------
   switch (hash) {
     case "#home":
       pageContent = homePage();
@@ -54,29 +71,30 @@ export function router() {
       pageContent = "<h2>Página não encontrada</h2>";
   }
 
-  // Renderiza conteúdo
+  // --------------------------- RENDERIZAÇÃO ---------------------------
   app.innerHTML = pageContent;
 
-  // Inicializa scripts específicos da página
+  // --------------------------- INICIALIZAÇÃO DE SCRIPT ESPECÍFICO ---------------------------
   if (initFunc) initFunc();
 
-  // Inicializa carrinho se existir
+  // --------------------------- CARRINHO ---------------------------
   const cartElement = document.getElementById("cart");
   if (cartElement) {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user) initCart();
-    else initCartLoggedOut();
+    if (user) initCart(); // Usuário logado
+    else initCartLoggedOut(); // Usuário não logado
   }
 
-  // **Chamando updateMenu aqui, após o DOM estar pronto**
-  updateMenu();
-  // Inicializa perfil do usuário (Offcanvas) apenas 1x
+  // --------------------------- MENU & PERFIL ---------------------------
+  updateMenu(); // Atualiza menu após DOM estar pronto
   const user = JSON.parse(localStorage.getItem("user"));
-  initPerfilUsuario(user);
+  initPerfilUsuario(user); // Inicializa Offcanvas do usuário
 }
 
-// Inicialização apenas do menu mobile
+// --------------------------- INICIALIZAÇÃO DO MENU MOBILE ---------------------------
 initMobileMenu();
 updateMobileMenu();
+
+// --------------------------- EVENTOS ---------------------------
 window.addEventListener("load", router);
 window.addEventListener("hashchange", router);
