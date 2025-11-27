@@ -87,9 +87,9 @@ async def disable_client_account(
 ...
     """
     
-    if await UserService.user_exists_gmail(user.gmail):
-        use = await UserService.get_user_gmail(user.gmail)
-        await UserService.desactivate_user(use)
+    if await UserService.user_exists_by_gmail(user.gmail):
+        use = await UserService.get_by_gmail(user.gmail)
+        await UserService.desactivate(use)
         
         return {status.HTTP_200_OK : 'Status updated'}
 

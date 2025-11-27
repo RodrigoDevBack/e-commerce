@@ -5,7 +5,7 @@ class Client:
     
     @staticmethod
     async def get_products():
-        products = await Product.all()
+        products = await Product.all().order_by('id')
         return products
     
     @staticmethod

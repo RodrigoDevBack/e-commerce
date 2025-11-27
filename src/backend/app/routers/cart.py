@@ -27,30 +27,30 @@ cart = APIRouter(
 
 @cart.get("/get", response_model=ResponseCart)
 async def get_product_cart(credential: Annotated[str, Depends(combine_verify)]):
-    cart = await CartService.get_cart()
+    cart = await CartService.get_cart(credential)
 
     return cart
 
 
 @cart.get("/history", response_model=ResponseHistorySchema)
 async def get_history(credential: Annotated[str, Depends(combine_verify)]):
-    history = await CartService.get_history()
+    history = await CartService.get_history(credential)
     
     # Retornar o histórico do pedido como um dicionário serializado
-    return CartService.serialize_get_history(history)
+    return await CartService.serialize_get_history(history)
 
 
 @cart.post("/order")
 async def request_order(credential: Annotated[str, Depends(combine_verify)]):
-    await UserService.user_exists_id(credential)
-    user = await UserService.get_user_id(credential)
+    await UserService.user_exists_by_id(credential)
+    user = await UserService.get_by_id(credential)
 
-    cart = await CartService.get_cart_with_product(user)
+    cart = await CartService.get_cart(user)
 
     # Converter a tabela de carrinho em um dado serializável para o histórico
     snapshot = await CartService._serialize_cart_snapshot(cart)
 
-    order_history = await CartService(user, snapshot)
+    order_history = await CartService.get_order_history(user)
     
     order_history = await CartService.effective_order(
         order_history,
@@ -75,17 +75,17 @@ async def add_product_cart(
 async def remove_product_cart(
     delete: DeleteProductCartSchema, credential: Annotated[str, Depends(combine_verify)]
 ):
-    await UserService.user_exists_id(credential)
+    await UserService.user_exists_by_id(credential)
     
-    cart = CartService.get_cart(credential)
+    cart = await CartService.get_cart(credential)
     
-    ProductService.get_product_id(delete.product_id)
+    await ProductService.get_product_id(delete.product_id)
     
-    await CartService.remove_product_cart(cart, delete)
+    return await CartService.remove_product_cart(cart, delete)
 
 @cart.delete("/delete-all")
 async def remove_all_products_cart(credential: Annotated[str, Depends(combine_verify)]):
-    await UserService.user_exists_id(credential)
+    await UserService.user_exists_by_id(credential)
     
     cart = await CartService.get_cart(credential)
     

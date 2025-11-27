@@ -72,23 +72,24 @@ class CartService:
         order_history = await OrderHistory.get_or_none(user=user)
         return order_history
     
+    
+    
     @staticmethod
-    async def get_cart_with_product(user):
+    async def get_cart(user):
         cart = await Cart.get_or_none(user=user)
 
         if not cart:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail='Cart not exists')
-
-        orders_list = await cart.orders.all().prefetch_related('product')
-    
-        if not orders_list:
-            raise HTTPException(status.HTTP_204_NO_CONTENT, detail='Cart dont have products')
         
-        return orders_list
+        return cart
+    
+    
     
     @staticmethod
     async def serialize_get_history(history):
         return {"id": history.id, "user": history.user_id, "orders": history.orders}
+    
+    
     
     @staticmethod
     async def get_history(credential):
@@ -99,14 +100,17 @@ class CartService:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No content in History")
         return history
     
+    
+    
     @staticmethod
-    async def get_cart(credential):
-        user = await User.get(id=credential)
+    async def get_cart(user):
         cart = await Cart.filter(user=user).first()
         if not cart:
             await Cart.create(user=user)
         cart = await Cart.get(user=user).prefetch_related("user", "orders__product")
         return cart
+    
+    
     
     @staticmethod
     async def _serialize_cart_snapshot(cart: Cart) -> dict:
@@ -115,6 +119,10 @@ class CartService:
         Retorna uma dict: {created_at, items: [{product:{...}, qtd, unity_price}], total}
         """
         orders = await cart.orders.all().prefetch_related('product')
+        
+        if not orders:
+            raise HTTPException(status.HTTP_204_NO_CONTENT, detail='Cart dont have products')
+        
         items = []
         total = 0.0
         for o in orders:
