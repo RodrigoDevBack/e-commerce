@@ -1,24 +1,24 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
 
-class AdminDisableUser(BaseModel):
+class AdminDisableUserSchema(BaseModel):
     gmail: str
     
 
-class AdminCreateProduct(BaseModel):
+class AdminCreateProductSchema(BaseModel):
     name: str
     description: str
     qtd: int
     price: float
 
-class AdminResponseProduct(BaseModel):
+class AdminResponseProductSchema(BaseModel):
     id: int
     name: str
     description: str
     qtd: int
     price: float
 
-class AdminUpdateProduct(BaseModel):
+class AdminUpdateProductSchema(BaseModel):
     id: int
     name: Optional[str]
     description: Optional[str]
@@ -32,5 +32,5 @@ class AdminUpdateProduct(BaseModel):
             return None
         return v
 
-class AdminDeleteProduct(BaseModel):
+class AdminDeleteProductSchema(BaseModel):
     id: int

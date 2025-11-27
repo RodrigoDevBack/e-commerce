@@ -17,8 +17,12 @@ class Email_Client():
             txt.write(str(randint(100000, 999999)))
 
     def get_code(self, gmail: str) -> int:
-        with open(f"/app/integrations/code_validate_email/{gmail}/{gmail}.txt", "r") as txt:
-            return int(txt.read())
+        try:
+            with open(f"/app/integrations/code_validate_email/{gmail}/{gmail}.txt", "r") as txt:
+                return int(txt.read())
+        except Exception:
+            return 0
+            
 
     def send_email(self, name: str, gmail: str, code: int):
         email = MIMEText(

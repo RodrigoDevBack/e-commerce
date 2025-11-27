@@ -1,21 +1,39 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated
-from pydantic_models import user_dto
-from tortoise_models.model_user_db import User
-from security.encrypter_password import to_hash_password, hash_token_user, hash_token_admin
-from security.user_depends import combine_verify
 import re
+from typing import Annotated
+
+from fastapi import ( APIRouter,
+    Depends,
+    HTTPException,
+    status,
+)
+from fastapi.security import OAuth2PasswordRequestForm
+
+from schemas.user import UserSchemas
+
+from models.user import User
+
+from security.encrypter_password import ( 
+    to_hash_password,
+    hash_token_user,
+    hash_token_admin,
+)
+
+from security.user_depends import combine_verify
+
 from integrations.email_client import Email_Client
-from integrations.recover_password_client import Password_Recover_Email
+from integrations.recover_password import Password_Recover_Email
+
 
 email = Email_Client()
+
 recover_password_email = Password_Recover_Email()
 
-router_user = APIRouter(
+
+user = APIRouter(
     tags = ['User'],
     responses = {404: {'Description': 'Not found'}}
 )
+
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9._]+\.[A-Z|a-z]{2,7}\b'
 def validate_email(email):
     if not email:
@@ -25,16 +43,19 @@ def validate_email(email):
     else:
         return False
 
-@router_user.get('/me', response_model=user_dto.UserResponseDTO)
+
+@user.get('/me', response_model=UserSchemas.UserResponseSchema)
 async def get_profile_user(bearer: Annotated[str, Depends(combine_verify)]):
     user = await User.get_or_none(id=bearer)
+
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+
     return user
 
 
-@router_user.post('/register', response_model = user_dto.UserResponseDTO)
-async def register_user(user: user_dto.RegisterUserDTO):
+@user.post('/register', response_model = UserSchemas.UserResponseSchema)
+async def register_user(user: UserSchemas.RegisterUserSchema):
     if validate_email(user.email):
         pass
     else:
@@ -65,7 +86,7 @@ async def register_user(user: user_dto.RegisterUserDTO):
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail = "Gmail is already registred")
 
 
-@router_user.post('/login')
+@user.post('/login')
 async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()]):    
     user = await User.get_or_none(gmail = credentials.username)
     
@@ -99,14 +120,18 @@ async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()
             )
 
 
-@router_user.post('/validate_email')
-async def validate_emai(user: user_dto.UserValidateEmail):
+@user.post('/validate_email')
+async def validate_emai(user: UserSchemas.UserValidateEmailSchema):
     if validate_email(user.email):
         pass
     else:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="O email é inválido.")
     
     use = await User.get_or_none(gmail = user.email)
+    
+    if not use:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='User not exists')
+    
     code = email.get_code(user.email)
     if use.status != False:
         if int(user.secret_code) == code:
@@ -120,8 +145,8 @@ async def validate_emai(user: user_dto.UserValidateEmail):
         return HTTPException(status.HTTP_404_NOT_FOUND, detail = 'User not exists')
 
 
-@router_user.post('/request_recover_password')
-async def request_recover_password(user: user_dto.UserRequestRecoverPassword):
+@user.post('/request_recover_password')
+async def request_recover_password(user: UserSchemas.UserRequestRecoverPasswordSchema):
     if validate_email(user.email):
         pass
     else:
@@ -136,8 +161,8 @@ async def request_recover_password(user: user_dto.UserRequestRecoverPassword):
     recover_password_email.send_email(use.name, user.email, recover_password_email.get_code(user.email))
 
 
-@router_user.post('/recover_password')
-async def recover_password(user: user_dto.UserRecoverPassword):
+@user.post('/recover_password')
+async def recover_password(user: UserSchemas.UserRecoverPasswordSchema):
     if validate_email(user.email):
         pass
     else:

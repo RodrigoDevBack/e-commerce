@@ -1,7 +1,10 @@
 from tortoise.models import Model
 from tortoise import fields
-from .model_cart_db import Cart
-from .model_product_db import Product
+
+from .cart import Cart
+from .product import Product
+
+
 class Order(Model):
     id = fields.IntField(primary_key = True)
     
