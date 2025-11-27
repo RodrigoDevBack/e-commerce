@@ -28,6 +28,8 @@ docker compose up --build
 
 > As tabelas do banco de dados são criadas automaticamente na primeira execução.
 
+> Para mais detalhes sobre configuração, reinício de containers e outros ajustes, consulte 📄 [`docs/installation.md`](docs/installation.md).
+
 ---
 
 ## 📦 Estrutura do Projeto
@@ -92,8 +94,8 @@ e-commerce/
 
 ## 👥 Equipe
 
-- [**@Rodrigo Moraes**]() — Backend, API, GitHub
-- [**@Lucas Paiva**]() — Frontend, Documentação, Roadmap, GitHub
+- [**@Rodrigo Moraes**](https://github.com/RodrigoDevBack) — Backend, API, GitHub
+- [**@Lucas Paiva**](https://github.com/lucaspaiva-lp) — Frontend, Documentação, Roadmap, GitHub
 
 ---
 
@@ -101,8 +103,8 @@ e-commerce/
 
 Toda documentação do projeto está organizada dentro da pasta **/docs/**.
 
-- 📄 [`docs/installation.md`]() – Instalação detalhada
+- 📄 [`docs/installation.md`](docs/installation.md) – Instalação detalhada
 - 📄 [`docs/architecture.md`](docs/architecture.md) – Arquitetura do sistema
-- 📄 [`docs/api-reference.md`]() – Endpoints da API
-- 📄 [`docs/team.md`]() – Equipe e contribuições
-- 📄 [`docs/changelog.md`]() – Histórico de versões
+- 📄 [`docs/api-reference.md`](docs/api-reference.md) – Endpoints da API
+- 📄 [`docs/team.md`](docs/team.md) – Equipe e contribuições
+- 📄 [`docs/changelog.md`](docs/changelog.md) – Histórico de versões
