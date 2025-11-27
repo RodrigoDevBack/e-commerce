@@ -1,4 +1,5 @@
 export default async function initPerfilUsuario(userData) {
+  if (document.getElementById("offcanvasPerfil")) return;
   // Create offcanvas perfil outside of header to avoid height inflation
   let existingOffcanvas = document.getElementById("offcanvasPerfil");
   if (existingOffcanvas) {

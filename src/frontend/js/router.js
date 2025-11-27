@@ -70,11 +70,13 @@ export function router() {
 
   // **Chamando updateMenu aqui, após o DOM estar pronto**
   updateMenu();
+  // Inicializa perfil do usuário (Offcanvas) apenas 1x
+  const user = JSON.parse(localStorage.getItem("user"));
+  initPerfilUsuario(user);
 }
 
 // Inicialização apenas do menu mobile
 initMobileMenu();
 updateMobileMenu();
-initPerfilUsuario(JSON.parse(localStorage.getItem("user")));
 window.addEventListener("load", router);
 window.addEventListener("hashchange", router);
