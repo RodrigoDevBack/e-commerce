@@ -1,93 +1,10 @@
-import homePage, { initHomePage } from "./home.js";
-import produtosPage, { initProductsList } from "./produtos.js";
-import loginPage, { initLogin } from "./login.js";
-import checkoutPage from "./checkout.js";
-import cadastroPage, { initRegister } from "./register.js";
-import adminProductsPage, { initAdminProducts } from "./adminProducts.js";
-import { initApp } from "./appInit.js";
-import { initCheckout } from "./checkout.js";
-import { initMobileMenu, updateMobileMenu } from "./menu.js";
-import { initCart, initCartLoggedOut } from "./cart.js";
-
-/** Elementos principais da aplicação SPA */
-const app = document.getElementById("app");
-const navLinks = document.querySelectorAll(".nav-link");
-
-/**
- * Define o link de navegação ativo baseado no hash da URL
- * @param {string} hash - Hash atual da URL
- */
-function setActiveLink(hash) {
-  navLinks.forEach((link) => {
-    if (link.getAttribute("href") === hash) {
-      link.classList.add("active");
-    } else {
-      link.classList.remove("active");
-    }
-  });
-}
-
-/**
- * Router simples baseado em hash
- * Renderiza a página correspondente e inicializa scripts específicos
- */
-function router() {
-  const hash = window.location.hash || "#home";
-  setActiveLink(hash);
-  let pageContent = "";
-
-  switch (hash) {
-    case "#home":
-      pageContent = homePage();
-      app.innerHTML = pageContent;
-      initHomePage();
-      break;
-
-    case "#produtos":
-      pageContent = produtosPage();
-      app.innerHTML = pageContent;
-      initProductsList();
-      break;
-
-    case "#login":
-      pageContent = loginPage();
-      app.innerHTML = pageContent;
-      initLogin();
-      break;
-
-    case "#checkout":
-      pageContent = checkoutPage();
-      app.innerHTML = pageContent;
-      initCheckout();
-      break;
-
-    case "#admin":
-      pageContent = adminProductsPage();
-      app.innerHTML = pageContent;
-      initAdminProducts(app);
-      break;
-
-    case "#register":
-      pageContent = cadastroPage();
-      app.innerHTML = pageContent;
-      initRegister();
-      break;
-
-    default:
-      pageContent = "<h2>Página não encontrada</h2>";
-  }
-}
-
-/**
- * Atualiza o menu de navegação com base no usuário logado
- */
-async function updateMenu() {
+export async function updateMenu() {
   const userData = JSON.parse(localStorage.getItem("user"));
   const navRight = document.querySelector(".main-nav-right");
+  if (!navRight) return;
   const registerLink = document.querySelector(".nav-link-cadastrar");
 
   if (userData) {
-    initCart();
     // Usuário logado → mostra Ver Perfil e botão Sair
     navRight.innerHTML = `
       ${
@@ -102,7 +19,6 @@ async function updateMenu() {
     // Garante que o botão de cadastro some completamente
     if (registerLink) registerLink.style.display = "none";
   } else {
-    initCartLoggedOut();
     // Usuário deslogado → mostra login e garante que o cadastro reaparece
     navRight.innerHTML = `<a href="#login" class="nav-link">Login</a>`;
     if (registerLink) registerLink.style.display = "";
@@ -124,7 +40,6 @@ async function updateMenu() {
 
       window.location.hash = "#home";
       window.location.reload();
-      updateMenu(); // Atualiza o menu após logout
     });
   }
 
@@ -178,9 +93,6 @@ async function updateMenu() {
     carregarHistoricoPedidos();
     carregarEnderecoPerfil(addressResponse);
   }
-  // ensure mobile menu mirrors changes
-  initMobileMenu();
-  updateMobileMenu();
 }
 
 async function carregarHistoricoPedidos() {
@@ -516,9 +428,8 @@ if (checkoutBtn) {
   });
 }
 
-// INICIALIZAÇÃO DA APLICAÇÃO
-initApp(router);
-
-// ATUALIZA O MENU NA CARGA INICIAL E MUDANÇA DE HASH
-window.addEventListener("load", updateMenu);
-window.addEventListener("hashchange", updateMenu);
+export {
+  criarCampoDeValidarEmail,
+  carregarHistoricoPedidos,
+  carregarEnderecoPerfil,
+};
