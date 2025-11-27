@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class ProductResponse(BaseModel):
+class ProductResponseSchema(BaseModel):
     id: int
     name: str
     description: str

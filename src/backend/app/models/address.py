@@ -1,7 +1,8 @@
 from tortoise.models import Model
 from tortoise import fields
 
-from .model_user_db import User
+from .user import User
+
 
 class Address(Model):
     id = fields.IntField(pk=True)

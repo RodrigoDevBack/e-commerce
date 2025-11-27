@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class AddressResponse(BaseModel):
+class AddressResponseSchema(BaseModel):
     CEP: str
     Logradouro: str
     Numero: int
@@ -11,7 +11,7 @@ class AddressResponse(BaseModel):
     Estado: str
 
 
-class CreateAddress(BaseModel):
+class CreateAddressSchema(BaseModel):
     CEP: str
     Logradouro: str
     Numero: int
@@ -21,7 +21,7 @@ class CreateAddress(BaseModel):
     Estado: str
 
 
-class EditAddress(BaseModel):
+class EditAddressSchema(BaseModel):
     CEP: Optional[str]
     Logradouro: Optional[str]
     Numero: Optional[int]
