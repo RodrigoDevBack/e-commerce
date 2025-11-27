@@ -33,7 +33,7 @@ async def register_user(user: UserSchemas.RegisterUserSchema):
 
 @user.post('/login')
 async def login_user(credentials: Annotated[OAuth2PasswordRequestForm, Depends()]):    
-    user = await UserService.get_or_none(credentials.username)
+    user = await UserService.get_or_none(credentials)
     
     return await UserService.login(user, credentials)
 

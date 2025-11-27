@@ -103,8 +103,9 @@ class UserService:
     
     
     @staticmethod
-    async def get_or_none(gmail, credentials: OAuth2PasswordRequestForm):
+    async def get_or_none(credentials: OAuth2PasswordRequestForm):
         user = await User.get_or_none(gmail = credentials.username)
+        return user
     
     @staticmethod
     async def login(user: User, credentials: OAuth2PasswordRequestForm):
