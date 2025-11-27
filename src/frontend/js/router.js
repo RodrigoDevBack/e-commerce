@@ -7,6 +7,7 @@ import adminProductsPage, { initAdminProducts } from "./adminProducts.js";
 import { initMobileMenu, updateMobileMenu } from "./menu.js";
 import { updateMenu } from "./main.js";
 import { initCart, initCartLoggedOut } from "./cart.js";
+import initPerfilUsuario from "./perfil-usuario.js";
 
 const app = document.getElementById("app");
 const navLinks = document.querySelectorAll(".nav-link");
@@ -74,5 +75,6 @@ export function router() {
 // Inicialização apenas do menu mobile
 initMobileMenu();
 updateMobileMenu();
+initPerfilUsuario(JSON.parse(localStorage.getItem("user")));
 window.addEventListener("load", router);
 window.addEventListener("hashchange", router);
