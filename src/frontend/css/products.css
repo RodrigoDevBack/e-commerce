@@ -13,7 +13,8 @@
    --------------------------------------------------------------------------- */
 .products-section {
   padding: 2rem 0;
-  background: #f9f9f9; /* leve fundo cinza para contraste */
+  background: #f9f9f9;
+  /* leve fundo cinza para contraste */
 }
 
 .products-section .container {
@@ -128,7 +129,8 @@
   align-items: center;
   text-align: center;
   gap: 6px;
-  flex: 1; /* ocupa espaço antes dos botões */
+  flex: 1;
+  /* ocupa espaço antes dos botões */
 }
 
 .product-item-content h3 {
@@ -170,7 +172,7 @@
   transform: scale(1.02);
 }
 
-.product-item .btn + .btn {
+.product-item .btn+.btn {
   margin-top: 6px;
 }
 

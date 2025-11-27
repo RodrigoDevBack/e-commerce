@@ -27,9 +27,9 @@
 html,
 body {
    height: 100%;
-   font-family: var(--font-base); 
-      /* Cor de fundo base */
-      background: var(--base-bg);
+   font-family: var(--font-base);
+   /* Cor de fundo base */
+   background: var(--base-bg);
    /* #fafafa */
 }
 
@@ -46,7 +46,3 @@ body {
    margin: 0 auto;
    /* Centraliza horizontalmente */
 }
-
-/* ============================================================================
-   FIM DO base.css
-   ============================================================================ */

@@ -137,6 +137,7 @@
     gap: 1rem;
     font-size: 0.95rem;
   }
+
   .brand .logo {
     font-size: 1.15rem;
   }
@@ -176,7 +177,7 @@
     display: none;
   }
 
-  
+
   /* Ver Perfil + Sair: coluna 3-4, alinhados à direita */
   .main-nav-right {
     display: flex;
@@ -285,9 +286,11 @@
       padding: 0.15rem 0.3rem;
       font-size: 0.75rem;
     }
-    .sair-btn{
+
+    .sair-btn {
       display: none
     }
+
     .cart-nav-btn {
       font-size: 1rem;
       padding: 0.15rem 0.3rem;
@@ -329,7 +332,8 @@
 }
 
 .mobile-menu {
-  display: none; /* toggled via JS */
+  display: none;
+  /* toggled via JS */
   position: fixed;
   top: 0;
   right: 0;
@@ -424,7 +428,7 @@
   padding: 0.6rem 0.8rem;
   background: var(--offcanvas-block-bg);
   border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Responsividade */
@@ -442,6 +446,7 @@
     gap: 0.75rem;
   }
 }
+
 /* ---------------------------------------------------------------------------
    REGRAS ESPECÍFICAS DE VISIBILIDADE
    --------------------------------------------------------------------------- */
@@ -451,9 +456,11 @@
   .main-nav-right .admin-only {
     display: none !important;
   }
+
   .main-nav {
     display: none;
   }
+
   .main-nav-right-right {
     display: none;
   }
@@ -469,7 +476,3 @@
     display: inline-block !important;
   }
 }
-
-/* =============================================================================
-   FIM DO HEADER MODERNO
-   ============================================================================= */

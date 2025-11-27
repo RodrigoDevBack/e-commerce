@@ -108,8 +108,10 @@
   gap: 8px;
   height: 100%;
   box-shadow: 0 2px 6px var(--carousel-card-shadow);
-  align-items: center;   /* centraliza todos os elementos horizontalmente */
-  text-align: center;    /* centraliza texto de h3 e p */
+  align-items: center;
+  /* centraliza todos os elementos horizontalmente */
+  text-align: center;
+  /* centraliza texto de h3 e p */
 }
 
 /* ---------------------------------------------------------------------------
@@ -129,25 +131,26 @@
    TÍTULO DO PRODUTO
    --------------------------------------------------------------------------- */
 .product-card h3 {
-  font-size: 1.2rem;    /* tamanho adequado */
+  font-size: 1.2rem;
+  /* tamanho adequado */
   font-weight: 600;
   color: var(--carousel-card-title-color);
-  margin: 0;            /* remove margem padrão */
+  margin: 0;
+  /* remove margem padrão */
 }
 
 /* ---------------------------------------------------------------------------
    QUANTIDADE E PREÇO
    --------------------------------------------------------------------------- */
 .product-card p {
-  margin: 0;            /* remove margem padrão para alinhamento */
+  margin: 0;
+  /* remove margem padrão para alinhamento */
   font-size: 0.95rem;
   color: var(--carousel-card-text-color);
 }
 
 .product-price {
   font-weight: 600;
-  color: var(--carousel-card-price-color);       /* verde do preço */
+  color: var(--carousel-card-price-color);
+  /* verde do preço */
 }
-/* ============================================================================
-   FIM DO ARQUIVO: carousel.css
-   ============================================================================

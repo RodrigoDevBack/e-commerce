@@ -293,6 +293,7 @@
    RESPONSIVIDADE
    --------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+
   .modal-body form#editar-produto img,
   #imagem-preview {
     max-height: 180px;
