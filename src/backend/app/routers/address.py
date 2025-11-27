@@ -28,7 +28,7 @@ async def get_address(credential: Annotated[int, Depends(combine_verify)]):
     
     user = await UserService.get_by_id(credential)
     
-    return await AddressService.get_address(user)
+    return await AddressService.get(user)
 
 
 @address.post('/create')
@@ -50,7 +50,7 @@ async def create_address(
 async def edit_address(data: EditAddressSchema, credential: Annotated[int, Depends(combine_verify)]):
     user = await UserService.get_by_id(credential)
     
-    address = await AddressService.get_address(user)
+    address = await AddressService.get(user)
 
     return await AddressService.edit(data, address, user)
 
@@ -59,6 +59,6 @@ async def edit_address(data: EditAddressSchema, credential: Annotated[int, Depen
 async def delete_address(credential: Annotated[int, Depends(combine_verify)]):
     user = await UserService.get_by_id(credential)
     
-    address = await AddressService.get_address(user)
+    address = await AddressService.get(user)
     
     return await AddressService.delete(address)

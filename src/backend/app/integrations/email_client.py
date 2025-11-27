@@ -9,22 +9,25 @@ load_dotenv()
 sender_email = os.getenv("SENDER_EMAIL")
 password_email = os.getenv("PASSWORD")
 
+
 class Email_Client():
 
-    def create_code(self, gmail: str):
+    @staticmethod
+    def create_code(gmail: str):
         os.makedirs(f"/app/integrations/code_validate_email/{gmail}", exist_ok=True)
         with open(f"/app/integrations/code_validate_email/{gmail}/{gmail}.txt", "w") as txt:
             txt.write(str(randint(100000, 999999)))
 
-    def get_code(self, gmail: str) -> int:
+    @staticmethod
+    def get_code(gmail: str) -> int:
         try:
             with open(f"/app/integrations/code_validate_email/{gmail}/{gmail}.txt", "r") as txt:
                 return int(txt.read())
         except Exception:
             return 0
             
-
-    def send_email(self, name: str, gmail: str, code: int):
+    @staticmethod
+    def send_email(name: str, gmail: str, code: int):
         email = MIMEText(
 f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -53,8 +56,8 @@ f"""<!DOCTYPE html>
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail={"Fail": str(e)}
             )
-
-    def send_email_admin(self, name: str, gmail: str, code: int):
+    @staticmethod
+    def send_email_admin(name: str, gmail: str, code: int):
         email = MIMEText(
 f"""<!DOCTYPE html>
 <html lang="pt-BR">

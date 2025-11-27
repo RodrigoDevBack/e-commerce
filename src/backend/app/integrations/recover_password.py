@@ -9,22 +9,24 @@ load_dotenv()
 sender_email = os.getenv('SENDER_EMAIL')
 password_email = os.getenv('PASSWORD')
 
-class Password_Recover_Email():
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
+
+class PasswordRecoverEmail():
     
-    def create_code(self, gmail: str):
+    @staticmethod
+    def create_code(gmail: str):
         os.makedirs(f'/app/integrations/code_recover_password/{gmail}', exist_ok=True)
         with open(f'/app/integrations/code_recover_password/{gmail}/{gmail}.txt', 'w') as txt:
             txt.write(str(randint(100000, 999999)))
             txt.close
 
-    def get_code(self, gmail: str) -> int:
+    @staticmethod
+    def get_code(gmail: str) -> int:
         with open(f'/app/integrations/code_recover_password/{gmail}/{gmail}.txt', 'r') as txt:
             code = txt.read()
             return int(code)
     
-    def send_email(self, name: str, gmail: str, code: int):
+    @staticmethod
+    def send_email(name: str, gmail: str, code: int):
         email = MIMEText(
 f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -39,9 +41,11 @@ f"""<!DOCTYPE html>
         email['Subject'] = 'Código de recuperação de senha'
         email['From'] = sender_email
         email['To'] = gmail
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
         try:
-            self.server.login(email['From'], password_email)
-            self.server.sendmail(email['From'], email['To'], email.as_string())
+            server.login(email['From'], password_email)
+            server.sendmail(email['From'], email['To'], email.as_string())
             return {'Response': 200}
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, {'Fail': e})
