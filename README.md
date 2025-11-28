@@ -4,11 +4,11 @@
 
 Este é um **e-commerce completo**, desenvolvido com:
 
--**Backend:** FastAPI + Tortoise ORM
+- **Backend:** FastAPI + Tortoise ORM
 
--**Frontend:** HTML, CSS e JavaScript
+- **Frontend:** HTML, CSS e JavaScript
 
--**Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
+- **Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
 
 O objetivo é entregar uma solução limpa, escalável e pronta para evolução.
 
@@ -28,9 +28,9 @@ docker compose up --build
 
 > ⚠️ Use `<span>--build</span>` apenas na primeira vez ou quando houver alterações nos Dockerfiles.
 
--**Frontend:**[http://localhost:8000]()
+- **Frontend:**[http://localhost:8000]()
 
--**API Backend (Swagger):**[http://localhost:5000/docs]()
+- **API Backend (Swagger):**[http://localhost:5000/docs]()
 
 > As tabelas do banco de dados são criadas automaticamente na primeira execução.
 
