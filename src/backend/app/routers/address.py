@@ -39,9 +39,7 @@ async def create_address(
     
     user = await UserService.get_by_id(credential)
     
-    address = await AddressService.get(user)
-    
-    AddressService.exists_address(address)
+    await AddressService.exists_address(user)
     
     return await AddressService.create_address(data, address, user)
     
