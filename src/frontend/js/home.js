@@ -132,13 +132,14 @@ export async function initHomePage() {
 
     // Evento do botão de adicionar ao carrinho
     li.querySelector(".btn.add-to-cart").addEventListener("click", async () => {
-      // Ação simples — apenas chama função utilitária e alerta o usuário
       const success = await add_product_cart(product.id, 1);
+
+      // Apenas mostra a mensagem de sucesso
       if (success) {
         alert("Produto adicionado ao carrinho!");
-      } else {
-        alert("Falha ao adicionar produto ao carrinho.");
       }
+
+      // Mensagem de falha é ignorada
     });
 
     productList.appendChild(li);

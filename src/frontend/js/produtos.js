@@ -158,8 +158,6 @@ function createProductCard(product) {
     const success = await add_product_cart(product.id, 1); // Adiciona 1 unidade ao carrinho
     if (success) {
       alert("Produto adicionado ao carrinho!");
-    } else {
-      alert("Falha ao adicionar produto ao carrinho.");
     }
   });
 
@@ -271,8 +269,6 @@ function createProductModal(product) {
       const success = await add_product_cart(product.id, 1);
       if (success) {
         alert("Produto adicionado ao carrinho!");
-      } else {
-        alert("Falha ao adicionar produto ao carrinho.");
       }
     });
 
