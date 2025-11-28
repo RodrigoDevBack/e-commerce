@@ -47,10 +47,11 @@ class AddressService:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail='Address not found')
         
         return address
-
+    
 
     @staticmethod
-    async def exists_address(address):
+    async def exists_address(user):
+        address = await Address.get_or_none(user=user)
         if address:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail='Address already created')
         
