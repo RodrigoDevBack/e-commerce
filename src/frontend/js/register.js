@@ -54,7 +54,7 @@ export async function initRegister() {
     const password = document.getElementById("password").value.trim();
 
     const registerDiv = document.getElementById("register");
-    registerDiv.style.display = "none";
+    registerDiv.style.display = "block";
 
     const spinner = document.getElementById("spinner");
     spinner.style.display = "block";
