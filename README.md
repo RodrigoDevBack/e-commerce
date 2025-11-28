@@ -4,9 +4,11 @@
 
 Este é um **e-commerce completo**, desenvolvido com:
 
-- **Backend:** FastAPI + Tortoise ORM
-- **Frontend:** HTML, CSS e JavaScript
-- **Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
+-**Backend:** FastAPI + Tortoise ORM
+
+-**Frontend:** HTML, CSS e JavaScript
+
+-**Serviços adicionais:** Envio de e-mail, autenticação JWT, carrinho de compras, pedidos, CRUD de produtos, gerenciamento administrativo.
 
 O objetivo é entregar uma solução limpa, escalável e pronta para evolução.
 
@@ -17,14 +19,18 @@ O objetivo é entregar uma solução limpa, escalável e pronta para evolução.
 Certifique-se de ter **Docker + Docker Compose** instalados.
 
 ```
+
 cd e-commerce
+
 docker compose up --build
+
 ```
 
 > ⚠️ Use `<span>--build</span>` apenas na primeira vez ou quando houver alterações nos Dockerfiles.
 
-- **Frontend:**[http://localhost:8000]()
-- **API Backend (Swagger):**[http://localhost:5000/docs]()
+-**Frontend:**[http://localhost:8000]()
+
+-**API Backend (Swagger):**[http://localhost:5000/docs]()
 
 > As tabelas do banco de dados são criadas automaticamente na primeira execução.
 
@@ -35,22 +41,39 @@ docker compose up --build
 ## 📦 Estrutura do Projeto
 
 ```
+
 e-commerce/
+
 ├── docs/
+
 │   ├── installation.md
+
 │   ├── architecture.md
+
 │   ├── backend.md
+
 │   ├── frontend.md
+
 │   ├── api-reference.md
+
 │   ├── team.md
+
 │   └── changelog.md
+
 ├── examples/
+
 ├── src/
+
 │   ├── backend/
+
 │   └── frontend/
+
 ├── docker-compose.yml
+
 ├── LICENSE
+
 └── README.md
+
 ```
 
 > A estrutura completa detalhada está disponível dentro de cada pasta.
@@ -96,6 +119,12 @@ e-commerce/
 
 - [**@Rodrigo Moraes**](https://github.com/RodrigoDevBack) — Backend, API, GitHub
 - [**@Lucas Paiva**](https://github.com/lucaspaiva-lp) — Frontend, Documentação, Roadmap, GitHub
+
+---
+
+## 🎥 Demonstração do Projeto
+
+[![Veja o vídeo](https://img.youtube.com/vi/J-Y9upLbNOg/hqdefault.jpg)](https://youtu.be/J-Y9upLbNOg?si=eYO2dOyPYPsRDDmc)
 
 ---
 
