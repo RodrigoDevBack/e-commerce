@@ -15,22 +15,34 @@
    • color e font-size: aplicam tipografia sutil e harmonizada com o tema.  
    --------------------------------------------------------------------------- */
 .site-footer {
-    background: rgba(20, 20, 20, 0.85); /* fundo escuro translúcido um pouco mais opaco */
-    padding: 20px 15px;                 /* mais espaçamento vertical */
-    border-top: 1px solid rgba(255, 255, 255, 0.15); /* linha sutil e levemente mais visível */
-    text-align: center;                  /* centraliza o texto */
-    color: #e0e0e0;                      /* cor de texto suave, melhor contraste */
-    font-size: 0.95rem;                  /* levemente maior para legibilidade */
-    font-family: var(--font-footer);   /* fonte moderna */
-    position: relative;                  /* permite elementos posicionados dentro */
+    background: rgba(20, 20, 20, 0.85);
+    /* fundo escuro translúcido um pouco mais opaco */
+    padding: 20px 15px;
+    /* mais espaçamento vertical */
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    /* linha sutil e levemente mais visível */
+    text-align: center;
+    /* centraliza o texto */
+    color: #e0e0e0;
+    /* cor de texto suave, melhor contraste */
+    font-size: 0.95rem;
+    /* levemente maior para legibilidade */
+    font-family: var(--font-footer);
+    /* fonte moderna */
+    position: relative;
+    /* permite elementos posicionados dentro */
 }
 
 /* Destaque para promoções ou mensagens */
 .site-footer .highlight {
-    color: #259dff;           /* dourado chamativo */
-    font-weight: 600;         /* semi-bold, mais elegante que bold puro */
-    margin-left: 12px;        /* separa do texto do copyright */
-    background: rgba(255, 215, 0, 0.1); /* leve fundo dourado translúcido */
+    color: #259dff;
+    /* dourado chamativo */
+    font-weight: 600;
+    /* semi-bold, mais elegante que bold puro */
+    margin-left: 12px;
+    /* separa do texto do copyright */
+    background: rgba(255, 215, 0, 0.1);
+    /* leve fundo dourado translúcido */
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.95rem;
@@ -38,11 +50,15 @@
 
 /* Links no rodapé */
 .site-footer a {
-    color: #007bff;            /* links em dourado */
-    text-decoration: underline; /* sublinhado leve para acessibilidade */
-    transition: color 0.3s;    /* efeito suave ao passar o mouse */
+    color: #007bff;
+    /* links em dourado */
+    text-decoration: underline;
+    /* sublinhado leve para acessibilidade */
+    transition: color 0.3s;
+    /* efeito suave ao passar o mouse */
 }
 
 .site-footer a:hover {
-    color: #fff;               /* muda a cor ao passar o mouse */
+    color: #fff;
+    /* muda a cor ao passar o mouse */
 }

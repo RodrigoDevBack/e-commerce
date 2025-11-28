@@ -15,7 +15,6 @@
  * - Placeholder loading / skeleton UI
  * - Mensagem visual no lugar de alert()
  */
-
 export default function homePage() {
   return (
     `
@@ -74,77 +73,85 @@ export default function homePage() {
  * - Executa apenas se o elemento do carrossel existir
  * - Depende da API: /api/product/get_featured_products.php
  *
- * Melhorias futuras:
- * - Tratamento de erro e loading
- *
  * @async
- * @returns {Promise<void>} Não retorna valor
+ * @returns {Promise<void>}
  */
 export async function initHomePage() {
   const productList = document.getElementById(`product-list`);
-  // Se o elemento não existe, significa que não estamos na Home
+  // Evita processamento quando a Home não está montada no DOM
   if (!productList) return;
 
   let response = await fetch(`/api/product/get_featured_products.php`);
   let products = await response.json();
 
-  // API sinaliza falha
+  // Caso o backend sinalize falha
   if (products.success === false) {
     alert("Sem produtos");
     return;
   }
 
-  // Backend aparentemente retorna JSON dentro de JSON
-  // (pode ser ajustado depois para uma resposta já parseada)
+  // Backend retorna JSON como string — precisa parsear
+  // (ponto de atenção para refatorar backend futuramente)
   let data = JSON.parse(products);
 
-  // Para cada produto, cria um card dentro do carrossel
+  // --------------------------- CRIAÇÃO DOS CARDS ---------------------------
   data.forEach((product) => {
     let li = document.createElement("li");
-    li.classList.add("carousel-slide");
-    // R: Slide do carrossel na Home
+    li.classList.add("carousel-slide"); // item do carrossel
+
     li.innerHTML = `
       <div class="product-card">
       
-        ${(product.images != null) ? `
+        ${
+          product.images != null
+            ? `
         <div class="thumb">
           <img 
             src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
             width="100%" height="100%" 
             alt="${product.name}" 
             style="object-fit: contain; border-radius: 8px;">
-        </div>` : 
-        `<div class="thumb">
+        </div>`
+            : `<div class="thumb">
           <img 
             src="https://img.icons8.com/color/96/no-image.png" 
             width="100%" height="100%" 
             alt="${product.name} sem imagens" 
             style="object-fit: contain; border-radius: 8px;">
-        </div>`}
+        </div>`
+        }
 
         <h3>${product.name}</h3>
         <p>Disponivel: ${product.qtd}</p>
         <p class="product-price">R$ ${product.price}</p>
-        <button class="btn add-to-cart" value="${product.id}">Adicionar ao carrinho</button>
+        <button class="btn add-to-cart" value="${
+          product.id
+        }">Adicionar ao carrinho</button>
       </div>
     `;
+
+    // Evento do botão de adicionar ao carrinho
     li.querySelector(".btn.add-to-cart").addEventListener("click", async () => {
+      // Ação simples — apenas chama função utilitária e alerta o usuário
       const success = await add_product_cart(product.id, 1);
       if (success) {
-        alert('Produto adicionado ao carrinho!');
+        alert("Produto adicionado ao carrinho!");
       } else {
-        alert('Falha ao adicionar produto ao carrinho.');
+        alert("Falha ao adicionar produto ao carrinho.");
       }
     });
+
     productList.appendChild(li);
   });
+
+  // Ajuste visual para slides do hero
   document.querySelectorAll(".hero-slide").forEach((slide) => {
     slide.style.backgroundImage = "url('https://picsum.photos/800/400')";
   });
 
-  // inicia o swiper
+  // --------------------------- INICIALIZAÇÃO DO SWIPER ---------------------------
   new Swiper(".hero-swiper", {
-    loop: true,
+    loop: true, // deixa o slide infinito
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
@@ -156,19 +163,20 @@ export async function initHomePage() {
   });
 }
 
-
+// --------------------------- UTIL: ADICIONAR AO CARRINHO ---------------------------
 async function add_product_cart(id, qtd) {
-  let request = await fetch('/api/cart/add_product_cart.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, qtd })
+  // envia item ao carrinho para o backend
+  let request = await fetch("/api/cart/add_product_cart.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, qtd }),
   });
 
   let response = await request.json();
 
+  // Retorna booleano simples para facilitar uso
   if (response.success == true) {
     return true;
   }
   return false;
 }
-

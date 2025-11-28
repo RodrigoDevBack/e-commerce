@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List, Any
 
 
-class HistoryItemProduct(BaseModel):
+class HistoryItemProductSchema(BaseModel):
     id: int
     name: str
     description: str
@@ -10,22 +10,22 @@ class HistoryItemProduct(BaseModel):
     images: Any
 
 
-class HistoryItem(BaseModel):
-    product: HistoryItemProduct
+class HistoryItemSchema(BaseModel):
+    product: HistoryItemProductSchema
     qtd: int
     unity_price: float
 
 
-class OrderSnapshot(BaseModel):
+class OrderSnapshotSchema(BaseModel):
     created_at: str
-    items: List[HistoryItem]
+    items: List[HistoryItemSchema]
     total: float
 
 
-class ResponseHistory(BaseModel):
+class ResponseHistorySchema(BaseModel):
     id: int
     user: int
-    orders: List[OrderSnapshot]
+    orders: List[OrderSnapshotSchema]
 
     class Config:
         from_attributes = True

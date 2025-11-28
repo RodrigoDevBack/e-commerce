@@ -2,16 +2,16 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 
-class GmailUser(BaseModel):
+class GmailUserSchema(BaseModel):
     gmail: str
 
 
-class AddProductCart(BaseModel):
+class AddProductCartSchema(BaseModel):
     product_id: int
     qtd: int
 
 
-class DeleteProductCart(BaseModel):
+class DeleteProductCartSchema(BaseModel):
     product_id: int
 
 
@@ -22,7 +22,7 @@ class UserBase(BaseModel):
     admin: bool
 
 
-class ProductBase(BaseModel):
+class ProductBaseSchema(BaseModel):
     id: int
     name: str
     description: str
@@ -30,14 +30,14 @@ class ProductBase(BaseModel):
     images: Optional[List[str]] = None
 
 
-class OrderBase(BaseModel):
+class OrderBaseSchema(BaseModel):
     id: int
     qtd: int
     unity_price: float
-    product: ProductBase
+    product: ProductBaseSchema
 
 
 class ResponseCart(BaseModel):
     id: int
     user: UserBase
-    orders: List[OrderBase]
+    orders: List[OrderBaseSchema]

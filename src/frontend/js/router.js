@@ -1,65 +1,100 @@
-let element = document.createElement('div');
-    element.innerHTML = `
-      <p>Nenhum endereço cadastrado.</p>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modelAddressRegister">
-        Cadastrar Endereço
-      </button>
-    `;
+// --------------------------- IMPORTS DE MÓDULOS ---------------------------
+import homePage, { initHomePage } from "./home.js";
+import produtosPage, { initProductsList } from "./produtos.js";
+import loginPage, { initLogin } from "./login.js";
+import checkoutPage, { initCheckout } from "./checkout.js";
+import cadastroPage, { initRegister } from "./register.js";
+import adminProductsPage, { initAdminProducts } from "./adminProducts.js";
+import { initMobileMenu, updateMobileMenu } from "./menu.js";
+import { updateMenu } from "./main.js";
+import { initCart, initCartLoggedOut } from "./cart.js";
+import initPerfilUsuario from "./perfil-usuario.js";
 
-    // Modal HTML
-    element.querySelector('button').addEventListener('click', () => {
-      setTimeout(() => {
-        const modalBody = document.querySelector('#modelAddressRegister .modal-body');
-        const modalFooter = document.querySelector('#modelAddressRegister .modal-footer');
-        modalBody.innerHTML = `
-          <form id="address-form">
-            <label for="street">Rua:</label><br>
-            <input type="text" id="street" name="street" required><br>
-            <label for="number">Número:</label><br>
-            <input type="text" id="number" name="number" required><br>
-            <label for="city">Cidade:</label><br>
-            <input type="text" id="city" name="city" required><br>
-            <label for="state">Estado:</label><br>
-            <input type="text" id="state" name="state" required><br>
-            <label for="zip">CEP:</label><br>
-            <input type="text" id="zip" name="zip" required><br><br>
-          </form>
-        `;
-        modalFooter.innerHTML = `
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="submit" form="address-form" class="btn btn-primary">Salvar Endereço</button>
-        `;
+// --------------------------- ELEMENTOS PRINCIPAIS ---------------------------
+const app = document.getElementById("app");
+const navLinks = document.querySelectorAll(".nav-link");
 
-        const addressForm = document.getElementById('address-form');
-        addressForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const formData = new FormData(addressForm);
-          const addressData = {
-            street: formData.get('street'),
-            number: formData.get('number'),
-            city: formData.get('city'),
-            state: formData.get('state'),
-            zip: formData.get('zip'),
-          };
-          const response = await fetch('/api/address/create.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(addressData),
-          });
-          const result = await response.json();
+// --------------------------- FUNÇÃO AUXILIAR ---------------------------
+/**
+ * Define o link de navegação ativo com base no hash atual.
+ * @param {string} hash - Hash da rota atual
+ */
+function setActiveLink(hash) {
+  navLinks.forEach((link) => {
+    // Adiciona classe 'active' apenas ao link correspondente
+    link.classList.toggle("active", link.getAttribute("href") === hash);
+  });
+}
 
-          if (result.success) {
-            alert('Endereço cadastrado com sucesso!');
-            userData.address = addressData;
-            localStorage.setItem('user', JSON.stringify(userData));
-            window.location.reload();
-          } else {
-            alert('Erro ao cadastrar endereço. Tente novamente.');
-          }
-        });
-      }, 100);
-    });
-    bootstrap.Modal.getOrCreateInstance(modalHTML).show();
-    enderecoDiv.appendChild(element);
+// --------------------------- FUNÇÃO PRINCIPAL DE ROTEAMENTO ---------------------------
+/**
+ * Roteador da aplicação.
+ * Controla a renderização das páginas, inicializa scripts específicos
+ * e gerencia carrinho e perfil do usuário.
+ * @function router
+ * @returns {void}
+ */
+export function router() {
+  const hash = window.location.hash || "#home";
+  setActiveLink(hash);
+
+  let pageContent = "";
+  let initFunc = null;
+
+  // --------------------------- SWITCH DE ROTAS ---------------------------
+  switch (hash) {
+    case "#home":
+      pageContent = homePage();
+      initFunc = initHomePage;
+      break;
+    case "#produtos":
+      pageContent = produtosPage();
+      initFunc = initProductsList;
+      break;
+    case "#login":
+      pageContent = loginPage();
+      initFunc = initLogin;
+      break;
+    case "#checkout":
+      pageContent = checkoutPage();
+      initFunc = initCheckout;
+      break;
+    case "#admin":
+      pageContent = adminProductsPage();
+      initFunc = () => initAdminProducts(app);
+      break;
+    case "#register":
+      pageContent = cadastroPage();
+      initFunc = initRegister;
+      break;
+    default:
+      pageContent = "<h2>Página não encontrada</h2>";
+  }
+
+  // --------------------------- RENDERIZAÇÃO ---------------------------
+  app.innerHTML = pageContent;
+
+  // --------------------------- INICIALIZAÇÃO DE SCRIPT ESPECÍFICO ---------------------------
+  if (initFunc) initFunc();
+
+  // --------------------------- CARRINHO ---------------------------
+  const cartElement = document.getElementById("cart");
+  if (cartElement) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) initCart(); // Usuário logado
+    else initCartLoggedOut(); // Usuário não logado
+  }
+
+  // --------------------------- MENU & PERFIL ---------------------------
+  updateMenu(); // Atualiza menu após DOM estar pronto
+  const user = JSON.parse(localStorage.getItem("user"));
+  initPerfilUsuario(user); // Inicializa Offcanvas do usuário
+}
+
+// --------------------------- INICIALIZAÇÃO DO MENU MOBILE ---------------------------
+initMobileMenu();
+updateMobileMenu();
+
+// --------------------------- EVENTOS ---------------------------
+window.addEventListener("load", router);
+window.addEventListener("hashchange", router);

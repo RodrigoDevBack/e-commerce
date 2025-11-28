@@ -5,7 +5,7 @@ from fastapi import Depends, status, HTTPException
 from jose import jwt, JWTError
 from pydantic import BaseModel, ValidationError
 
-from tortoise_models.model_user_db import User
+from models.user import User
 import os, dotenv
 
 dotenv.load_dotenv()

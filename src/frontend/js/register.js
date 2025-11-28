@@ -1,3 +1,5 @@
+// --------------------------- RENDERIZAÇÃO DA PÁGINA DE CADASTRO ---------------------------
+
 /**
  * Retorna o HTML da página de cadastro.
  * @returns {string} Estrutura HTML da seção de registro
@@ -6,10 +8,10 @@ export default function registerPage() {
   return `
     <section class="register">
       <div id="spinner" style="display: none; margin: 150px">
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
       <div id="register">
@@ -31,6 +33,8 @@ export default function registerPage() {
   `;
 }
 
+// --------------------------- INICIALIZAÇÃO DO FORMULÁRIO DE CADASTRO ---------------------------
+
 /**
  * Inicializa a lógica de cadastro de usuário.
  * - Captura valores do formulário
@@ -44,44 +48,41 @@ export async function initRegister() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault(); // Prevê recarregamento padrão
 
-    // Captura dados do formulário e remove espaços extras
+    // --------------------------- CAPTURA DE DADOS ---------------------------
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    const registerDiv = document.getElementById('register')
-    
-    registerDiv.style.display = 'none';
+    const registerDiv = document.getElementById("register");
+    registerDiv.style.display = "block";
 
-    const spinner = document.getElementById('spinner')
+    const spinner = document.getElementById("spinner");
+    spinner.style.display = "block";
 
-    spinner.style.display = 'block';
-    
     const data = {
       name: name,
       email: email,
       password: password,
     };
 
-    console.log("data");
+    console.log("data"); // Debug
 
+    // --------------------------- REQUISIÇÃO DE CADASTRO ---------------------------
     const request = await fetch("/api/login/register.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    
-    
-    const response = await request.json();
-    
-    spinner.style.display = 'none';
 
-    // Verifica resposta da API
+    const response = await request.json();
+    spinner.style.display = "none";
+
+    // --------------------------- TRATAMENTO DA RESPOSTA ---------------------------
     if (response.success === true) {
       let div = document.getElementById("register");
       let confirm = window.confirm("Você deseja validar seu email?");
       if (confirm == true) {
-        criarCampoDeValidarEmail(div);
+        criarCampoDeValidarEmail(div); // Mostra formulário de validação
       } else {
         alert(
           "Você não poderá recuperar a senha se esquecer ela, mas poderá validar em outro momento."
@@ -90,11 +91,12 @@ export async function initRegister() {
         window.location.reload();
       }
     } else {
-      // Mostra alerta caso email já exista
+      // Email já cadastrado
       alert("Email já cadastrado.");
     }
   });
 
+  // --------------------------- FUNÇÃO DE VALIDAÇÃO DE EMAIL ---------------------------
   function criarCampoDeValidarEmail(div) {
     div.innerHTML = "";
     div.innerHTML = `
@@ -112,6 +114,8 @@ export async function initRegister() {
     let validateEmailForm = document.getElementById("validate-email-form");
     validateEmailForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // --------------------------- CAPTURA DE DADOS DO FORMULARIO DE VALIDAÇÃO ---------------------------
       let email = document.getElementById("email").value;
       let code = document.getElementById("code").value;
 
@@ -120,16 +124,16 @@ export async function initRegister() {
         code: code,
       };
 
+      // --------------------------- REQUISIÇÃO DE VALIDAÇÃO ---------------------------
       let request = await fetch("/api/login/validate_email.php", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
       let response = await request.json();
 
+      // --------------------------- TRATAMENTO DA RESPOSTA DE VALIDAÇÃO ---------------------------
       if (response.success == true) {
         alert("Email verificado com sucesso!");
         window.location.hash = "#home";

@@ -63,10 +63,15 @@ body {
   /* Solução para scroll fantasma */
 }
 
-/* ---------------------------------------------------------------------------
-   SEÇÃO RESERVADA PARA ESTILOS ESPECÍFICOS DE PÁGINA
-   ---------------------------------------------------------------------------
-   • Use este bloco para pequenas customizações que não justificam
-     um novo módulo CSS separado.
-   • Recomenda-se manter alterações locais e bem documentadas.
-   --------------------------------------------------------------------------- */
+/* Layout principal em coluna para empurrar o footer */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Mantém o footer no final da tela */
+}
+
+/* O main cresce e empurra o rodapé para o fim */
+main {
+  flex: 1;
+}
