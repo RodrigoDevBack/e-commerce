@@ -26,11 +26,11 @@ docker compose up --build
 
 ```
 
-> ⚠️ Use `<span>--build</span>` apenas na primeira vez ou quando houver alterações nos Dockerfiles.
+> ⚠️ Use `--build` apenas na primeira vez ou quando houver alterações nos Dockerfiles.
 
-- **Frontend:**[http://localhost:8000]()
+- **Frontend:** [http://localhost:8000]()
 
-- **API Backend (Swagger):**[http://localhost:5000/docs]()
+- **API Backend (Swagger):** [http://localhost:5000/docs]()
 
 > As tabelas do banco de dados são criadas automaticamente na primeira execução.
 
