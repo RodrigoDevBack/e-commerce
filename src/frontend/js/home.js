@@ -107,7 +107,7 @@ export async function initHomePage() {
             ? `
         <div class="thumb">
           <img 
-            src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
+            src="http://api.singlotown.com.br/images_products/${product.name}/${product.images[0]}" 
             width="100%" height="100%" 
             alt="${product.name}" 
             style="object-fit: contain; border-radius: 8px;">

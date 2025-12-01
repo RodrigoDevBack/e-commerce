@@ -313,7 +313,7 @@ function createEditProductModal(product) {
                             ? (product.images || [])
                                 .map(
                                   (img, i) => `
-                            <img src="http://localhost:5000/images_products/${
+                            <img src="http://api.singlotown.com.br/images_products/${
                               product.name
                             }/${img}"
                                 class="d-block w-100" alt="${

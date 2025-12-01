@@ -117,7 +117,7 @@ function createProductCard(product) {
       product.images != null
         ? `<div class="thumb">
       <img 
-        src="http://localhost:5000/images_products/${product.name}/${product.images[0]}" 
+        src="http://api.singlotown.com.br/images_products/${product.name}/${product.images[0]}" 
         width="100%" height="100%" 
         alt="${product.name}" 
         style="object-fit: contain; border-radius: 8px;">
@@ -203,7 +203,7 @@ function createProductModal(product) {
                             (img, i) => `
                     <div class="carousel-item ${i === 0 ? "active" : ""}">
                       <img 
-                        src="http://localhost:5000/images_products/${
+                        src="http://api.singlotown.com.br/images_products/${
                           product.name
                         }/${img}"
                         class="d-block w-100"
